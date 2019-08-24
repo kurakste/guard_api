@@ -1,18 +1,20 @@
-const Sequelize = require('sequ')
-const Model = Sequelize.Model;
-class User extends Model {}
+const Sequelize = require('sequelize');
+
+const { Model } = Sequelize;
+class User extends Model { }
 User.init({
   // attributes
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   lastName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
     // allowNull defaults to true
-  }
-}, {
-  sequelize,
-  modelName: 'user'
+  },
+},
+{
+  Sequelize,
+  modelName: 'user',
   // options
 });

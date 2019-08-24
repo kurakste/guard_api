@@ -1,3 +1,3 @@
-module.exports = function(success, message, payload) {
-  return { success, message, payload}
-}
+module.exports = function getApiResponseObject(success, message, payload) {
+  return { success, message, payload };
+};

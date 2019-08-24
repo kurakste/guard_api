@@ -1,10 +1,10 @@
 const controller = {
-  root: async (ctx, next) => {
-    ctx.body = `Root route`
+  root: async (ctx) => {
+    ctx.body = 'Root route';
   },
-  root_a: async (ctx, next) => {
-    ctx.body = `Root route /a.`
-  }
-}
+  root_a: async (ctx) => {
+    ctx.body = 'Root route /a.';
+  },
+};
 
 module.exports = controller;

@@ -9,7 +9,7 @@ const userController = {
     const { user } = body;
     if (!user) {
       ctx.body = JSON.stringify(
-        apiResponseObject(false, "user object must be in request's body")
+        apiResponseObject(false, "user object must be in request's body"),
       );
       return;
     }

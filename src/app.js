@@ -18,6 +18,7 @@ app.use(async (ctx) => {
   ctx.body = apiResponseObject(false, '404 Not found', null);
 });
 
-app.listen(3030, () => {
+const port = process.env.PORT || 4040;
+app.listen(port, () => {
   console.log('http://localhost:3030');
 });

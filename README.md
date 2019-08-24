@@ -1,10 +1,12 @@
-For all request API has to reply is like that: 
+This it API for GuarApp & GuardControlPanel.
+
+For all request API has to reply like that: 
   {
     success: true,
     message: "If success false, here we have an error a message",
     payload: { payload object...} // if success is false client must ignore payload
   }
-=============================================================================
+
   Users
 {
 	"uid": 1223441,
