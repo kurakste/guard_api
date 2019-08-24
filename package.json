@@ -1,0 +1,31 @@
+{
+  "name": "guard_api",
+  "version": "1.0.0",
+  "description": "api for guardapp",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kurakste",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "koa": "^2.8.1",
+    "koa-body": "^4.1.1",
+    "koa-json": "^2.0.2",
+    "koa-router": "^7.4.0",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.16.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-standard": "^14.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
