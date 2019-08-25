@@ -12,24 +12,33 @@ const userController = {
     const { body } = ctx.request;
     // TODO: What about validation? Use sequelize? Write new function for it?
     const { user } = body;
-    if (user) {
-      User.create(user)
-        .then(usr => {
-          // TODO: replace all console.log with loger system.
-          console.log(usr);
-          const resp = apiResponseObject(true, 'user object must be in request\'s body', { message: 'hellow!' });
-          ctx.body = JSON.stringify(resp);
-        })
-        .catch(err => {
-          console.log(err);
-          const resp = apiResponseObject(false, err.mesage);
-          ctx.body = JSON.stringify(resp);
-        });
-    } else {
-      ctx.body = JSON.stringify(
-        apiResponseObject(false, "user object must be in request's body"),
-      );
-    }
+    try {
+      const result = await User.create(user);
+      const newUser = result.dataValues;
+      const output = apiResponseObject(true, '', newUser);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      console.log(err.message);
+    };
+
+    // if (user) {
+    //   User.create(user)
+    //     .then(usr => {
+    //       // TODO: replace all console.log with loger system.
+    //       console.log(usr.dataValues);
+    //       const resp = apiResponseObject(true, 'user object must be in request\'s body', { message: 'hellow!' });
+    //       ctx.body = JSON.stringify(resp);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       const resp = apiResponseObject(false, err.mesage);
+    //       ctx.body = JSON.stringify(resp);
+    //     });
+    // } else {
+    //   ctx.body = JSON.stringify(
+    //     apiResponseObject(false, "user object must be in request's body"),
+    //   );
+    // }
   },
 
   getAll: async (ctx) => {

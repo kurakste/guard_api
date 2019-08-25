@@ -23,6 +23,9 @@ module.exports = {
       active: {
         type: Sequelize.BOOLEAN
       },
+      role: {
+        type: Sequelize.INTEGER
+      },
       img: {
         type: Sequelize.STRING
       },
