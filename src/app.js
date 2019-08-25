@@ -5,7 +5,7 @@ const router = require('./router');
 
 const app = new Koa();
 
-require('./bootstrap/index');
+require('./bootstrap');
 
 app.use(koaBody());
 app.use(json());
