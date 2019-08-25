@@ -27,11 +27,9 @@ const userController = {
     const { user } = body;
     // TODO: What about validation? Use sequelize? Write new function for it?
     try {
-      const updateble = getUserUpdatebleObject(user);
-      const [updated] = await User.update(updateble, { where: { id: user.id } });
-      console.log(updated);
+      const updatable = getUserUpdatebleObject(user);
+      const [updated] = await User.update(updatable, { where: { id: user.id } });
       if (updated === 0) throw new Error('Record not found in DB.');
-      console.log('Updated: :', updated);
       const updatedUser = await User.findByPk(user.id);
       const newUser = updatedUser.dataValues;
       const output = apiResponseObject(true, '', newUser);
@@ -42,7 +40,24 @@ const userController = {
       console.log(err.message);
     }
   },
+  deleteUser: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
 
+    console.log(id);
+    try {
+      if (!id) throw new Error('User id requred.');
+      const userFromDb = await User.findByPk(id);
+      if (!userFromDb) throw new Error('User not found');
+      await userFromDb.destroy();
+      const output = apiResponseObject(true, '', { message: 'User was deleted.' });
+      ctx.body = output;
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
+  },
   getAll: async (ctx) => {
     ctx.body = 'Get all users';
   },
