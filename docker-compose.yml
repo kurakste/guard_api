@@ -10,11 +10,3 @@ services:
       POSTGRES_DB: guard
     ports: 
       - "5432:5432"
-  # db_gui:
-  #   image: dpage/pgadmin4
-  #   ports:
-  #     - "8090:8090"
-  #   environment:
-  #     - PGADMIN_LISTEN_PORT=8090
-  #     - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
-  #     - PGADMIN_DEFAULT_PASSWORD=a1234
