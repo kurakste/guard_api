@@ -5,7 +5,19 @@ const { User } = models;
 
 const userController = {
   getUser: async (ctx) => {
-    ctx.body = `User controller, User vs ID id: ${ctx.params.id}`;
+    const { params } = ctx;
+    const { id } = params;
+    try {
+      const userFromDb = await User.findByPk(id);
+      if (!userFromDb) throw new Error('User not found');
+      const user = userFromDb.dataValues;
+      const output = apiResponseObject(true, '', user);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
   },
   postUser: async (ctx) => {
     const { body } = ctx.request;
