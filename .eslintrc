@@ -6,5 +6,6 @@
     "no-console":"off",
     "arrow-parens":"off",
     "camelcase": "off",
+    "no-use-before-define": "off",
   }
 }
