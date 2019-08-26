@@ -19,6 +19,10 @@ const userController = {
       console.log(err.message);
     }
   },
+
+  // TODO: add image downloading process
+  // TODO: Add new user created event. Send it fo operators.
+  // TODO: There is two type of new user - appuser & control panel user.
   postUser: async (ctx) => {
     const { body } = ctx.request;
     // TODO: What about validation? Use sequelize? Write new function for it?
@@ -87,10 +91,10 @@ const userController = {
 // TODO: What if we will recive user object w/o some fields? Will it erace curent value in DB?
 function getUserUpdatebleObject(usr) {
   const {
-    firstName, lastName, email, notes, tel, active, role, img, pas_img_1, pas_img_2, password,
+    firstName, lastName, email, notes, tel, active, role, img, pasImg1, pasImg2, password,
   } = usr;
   return {
-    firstName, lastName, email, notes, tel, active, role, img, pas_img_1, pas_img_2, password,
+    firstName, lastName, email, notes, tel, active, role, img, pasImg1, pasImg2, password,
   };
 }
 module.exports = userController;

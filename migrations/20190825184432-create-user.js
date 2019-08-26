@@ -29,10 +29,10 @@ module.exports = {
       img: {
         type: Sequelize.STRING
       },
-      pas_img_1: {
+      pasImg1: {
         type: Sequelize.STRING
       },
-      pas_img_2: {
+      pasImg2: {
         type: Sequelize.STRING
       },
       password: {

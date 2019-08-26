@@ -17,7 +17,8 @@ For all request API has to reply like that:
 	"img": "uid.jpg",
 	"pas1": "uid_pas1.jpg",
 	"pas2": "uid_pas2.jpg"
-  "created_at": "",
+  "createdAt": "",
+  "updatedAt": "",
   "active": ""
   "password":"sadfdfasdf"
 }
@@ -26,4 +27,5 @@ role:
 0 admin
 10 operator
 20 user
-30 candidate
+31 app candidate
+32 control panel candidate
