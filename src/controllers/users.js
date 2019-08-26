@@ -56,7 +56,6 @@ const userController = {
     const { params } = ctx;
     const { id } = params;
 
-    console.log(id);
     try {
       if (!id) throw new Error('User id requred.');
       const userFromDb = await User.findByPk(id);
@@ -72,9 +71,20 @@ const userController = {
   },
   getAll: async (ctx) => {
     ctx.body = 'Get all users';
+    try {
+      const dataObj = await User.findAll();
+      const data = dataObj.map(el => el.dataValues);
+      const output = apiResponseObject(true, '', data);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
   },
 };
 
+// TODO: What if we will recive user object w/o some fields? Will it erace curent value in DB?
 function getUserUpdatebleObject(usr) {
   const {
     firstName, lastName, email, notes, tel, active, role, img, pas_img_1, pas_img_2, password,
