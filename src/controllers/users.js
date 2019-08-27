@@ -41,13 +41,16 @@ const userController = {
       const result = await User.create(user);
       newUser = result.dataValues;
       const pathObj = await checkAndStoreFiles(newUser.id, files);
-      User.update({
+      await User.update({
         img: pathObj.img,
         pasImg1: pathObj.pasImg1,
         pasImg2: pathObj.pasImg2,
       }, { where: { id: newUser.id } });
-      const output = apiResponseObject(true, '', newUser);
-      ctx.body = JSON.stringify(output, null, '\t');
+      const finalUserObj = await User.findByPk(newUser.id);
+      const finalUser = finalUserObj.dataValues;
+      finalUser.password = null;
+
+      ctx.body = JSON.stringify(finalUser, null, '\t');
     } catch (err) {
       if (newUser) await User.destroy({ where: { id: newUser.id } });
 
