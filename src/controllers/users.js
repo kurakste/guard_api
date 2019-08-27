@@ -36,11 +36,10 @@ const userController = {
     };
 
     const { files } = ctx.request;
+    let newUser;
     try {
       const result = await User.create(user);
-      const newUser = result.dataValues;
-      console.log('user:', newUser);
-      console.log('---------', files);
+      newUser = result.dataValues;
       const pathObj = await checkAndStoreFiles(newUser.id, files);
       User.update({
         img: pathObj.img,
@@ -50,6 +49,8 @@ const userController = {
       const output = apiResponseObject(true, '', newUser);
       ctx.body = JSON.stringify(output, null, '\t');
     } catch (err) {
+      if (newUser) await User.destroy({ where: { id: newUser.id } });
+
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
       console.log(err);
@@ -72,7 +73,6 @@ const userController = {
     try {
       const result = await User.create(user);
       const newUser = result.dataValues;
-      console.log('user:', newUser);
       const output = apiResponseObject(true, '', newUser);
       ctx.body = JSON.stringify(output, null, '\t');
     } catch (err) {
