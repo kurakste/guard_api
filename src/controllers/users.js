@@ -1,3 +1,4 @@
+const bycrypt = require('bcryptjs');
 const apiResponseObject = require('../helpers/getApiResponseObject');
 const models = require('../../models');
 const checkAndStoreFiles = require('../helpers/checkAndStore');
@@ -29,8 +30,9 @@ const userController = {
     const {
       firstName, lastName, email, tel, password,
     } = body;
+    const criptPassword = await bycrypt.hash(password, 10);
     const user = {
-      firstName, lastName, email, tel, password, role: 31, active: false, notes: '',
+      firstName, lastName, email, tel, password: criptPassword, role: 31, active: false, notes: '',
     };
 
     const { files } = ctx.request;
