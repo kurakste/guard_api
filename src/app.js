@@ -7,7 +7,14 @@ const app = new Koa();
 
 require('./bootstrap');
 
-app.use(koaBody());
+app.use(koaBody({
+  formidable: {
+    keepExtensions: true,
+    uploadDir: './uploads',
+  }, // This is where the files would come
+  multipart: true,
+  urlencoded: true,
+}));
 app.use(json());
 app.use(router.routes());
 app.use(router.allowedMethods());

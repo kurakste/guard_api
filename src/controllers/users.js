@@ -1,5 +1,6 @@
 const apiResponseObject = require('../helpers/getApiResponseObject');
 const models = require('../../models');
+const checkAndStoreFiles = require('../helpers/checkAndStore');
 
 const { User } = models;
 
@@ -23,13 +24,22 @@ const userController = {
   // TODO: add image downloading process
   // TODO: Add new user created event. Send it fo operators.
   // TODO: There is two type of new user - appuser & control panel user.
-  postUser: async (ctx) => {
+  postNewAppUser: async (ctx) => {
     const { body } = ctx.request;
     // TODO: What about validation? Use sequelize? Write new function for it?
-    const { user } = body;
+    const {
+      firstName, lastName, email, tel, password,
+    } = body;
+    const user = {
+      firstName, lastName, email, tel, password, role: 31, active: false, notes: '',
+    };
+
+    const { files } = ctx.request;
     try {
       const result = await User.create(user);
       const newUser = result.dataValues;
+      console.log('user:', newUser);
+      await checkAndStoreFiles(newUser.id, files);
       const output = apiResponseObject(true, '', newUser);
       ctx.body = JSON.stringify(output, null, '\t');
     } catch (err) {
@@ -61,6 +71,7 @@ const userController = {
     const { id } = params;
 
     try {
+      // TODO: Add helper for delete users file. 
       if (!id) throw new Error('User id requred.');
       const userFromDb = await User.findByPk(id);
       if (!userFromDb) throw new Error('User not found');
