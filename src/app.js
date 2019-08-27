@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const json = require('koa-json');
+const statServ = require('koa-static-server');
 const router = require('./router');
 
 const app = new Koa();
@@ -14,6 +15,11 @@ app.use(koaBody({
   }, // This is where the files would come
   multipart: true,
   urlencoded: true,
+}));
+console.log('dir:', __dirname);
+app.use(statServ({
+  rootDir: 'public/img',
+  rootPath: '/img',
 }));
 app.use(json());
 app.use(router.routes());
