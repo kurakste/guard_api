@@ -54,6 +54,34 @@ const userController = {
       console.log(err.message);
     }
   },
+
+  // TODO: There is two type of new user - appuser & control panel user.
+  postNewCPUser: async (ctx) => {
+    const { body } = ctx.request;
+    // TODO: What about validation? Use sequelize? Write new function for it?
+    // TODO: Add email validation is user with that email exist or no.
+    const {
+      firstName, lastName, email, tel, password,
+    } = body;
+    const criptPassword = await bycrypt.hash(password, 10);
+    const user = {
+      firstName, lastName, email, tel, password: criptPassword, role: 32, active: false, notes: '',
+    };
+
+    try {
+      const result = await User.create(user);
+      const newUser = result.dataValues;
+      console.log('user:', newUser);
+      const output = apiResponseObject(true, '', newUser);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
+  },
+
+
   patchUser: async (ctx) => {
     const { body } = ctx.request;
     const { user } = body;
