@@ -35,5 +35,5 @@ app.use(async (ctx) => {
 
 const port = process.env.PORT || 4040;
 app.listen(port, () => {
-  console.log('http://localhost:3030');
+  console.log(`http://localhost:${port}`);
 });
