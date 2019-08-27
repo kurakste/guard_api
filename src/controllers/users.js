@@ -64,9 +64,9 @@ const userController = {
     const {
       firstName, lastName, email, tel, password,
     } = body;
-    const criptPassword = await bycrypt.hash(password, 10);
+    const cryptPassword = await bycrypt.hash(password, 10);
     const user = {
-      firstName, lastName, email, tel, password: criptPassword, role: 32, active: false, notes: '',
+      firstName, lastName, email, tel, password: cryptPassword, role: 32, active: false, notes: '',
     };
 
     try {
@@ -107,7 +107,7 @@ const userController = {
 
     try {
       // TODO: Add helper for delete users file.
-      if (!id) throw new Error('User id requred.');
+      if (!id) throw new Error('User id required.');
       const userFromDb = await User.findByPk(id);
       if (!userFromDb) throw new Error('User not found');
       await userFromDb.destroy();
@@ -134,7 +134,7 @@ const userController = {
   },
 };
 
-// TODO: What if we will recive user object w/o some fields? Will it erace curent value in DB?
+// TODO: What if we will receive user object w/o some fields? Will it erase current value in DB?
 function getUserUpdatebleObject(usr) {
   const {
     firstName, lastName, email, notes, tel, active, role, img, pasImg1, pasImg2, password,
