@@ -43,8 +43,8 @@ const userController = {
       const pathObj = await checkAndStoreFiles(newUser.id, files);
       User.update({
         img: pathObj.img,
-        pasImg1: pathObj.passImg1,
-        pasImg2: pathObj.passImg2,
+        pasImg1: pathObj.pasImg1,
+        pasImg2: pathObj.pasImg2,
       }, { where: { id: newUser.id } });
       const output = apiResponseObject(true, '', newUser);
       ctx.body = JSON.stringify(output, null, '\t');
