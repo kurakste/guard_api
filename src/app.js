@@ -2,6 +2,7 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const json = require('koa-json');
 const statServ = require('koa-static-server');
+const cors = require('koa-cors');
 const router = require('./router');
 
 const app = new Koa();
@@ -21,6 +22,7 @@ app.use(statServ({
   rootDir: 'public/img',
   rootPath: '/img',
 }));
+app.use(cors());
 app.use(json());
 app.use(router.routes());
 app.use(router.allowedMethods());

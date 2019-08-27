@@ -15,6 +15,7 @@
     "koa": "^2.8.1",
     "koa-body": "^4.1.1",
     "koa-busboy": "^1.2.0",
+    "koa-cors": "0.0.16",
     "koa-json": "^2.0.2",
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
