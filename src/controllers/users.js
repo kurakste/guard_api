@@ -30,9 +30,9 @@ const userController = {
     const {
       firstName, lastName, email, tel, password,
     } = body;
-    const criptPassword = await bycrypt.hash(password, 10);
+    const cryptPassword = await bycrypt.hash(password, 10);
     const user = {
-      firstName, lastName, email, tel, password: criptPassword, role: 31, active: false, notes: '',
+      firstName, lastName, email, tel, password: cryptPassword, role: 31, active: false, notes: '',
     };
 
     const { files } = ctx.request;
@@ -40,6 +40,7 @@ const userController = {
       const result = await User.create(user);
       const newUser = result.dataValues;
       console.log('user:', newUser);
+      console.log('---------', files);
       const pathObj = await checkAndStoreFiles(newUser.id, files);
       User.update({
         img: pathObj.img,
@@ -51,7 +52,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      console.log(err);
     }
   },
 
@@ -105,7 +106,7 @@ const userController = {
     const { id } = params;
 
     try {
-      // TODO: Add helper for delete users file. 
+      // TODO: Add helper for delete users file.
       if (!id) throw new Error('User id requred.');
       const userFromDb = await User.findByPk(id);
       if (!userFromDb) throw new Error('User not found');

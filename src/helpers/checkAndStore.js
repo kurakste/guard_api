@@ -5,10 +5,13 @@ function getExt(path) {
   return ext;
 }
 async function checkAndStoreFiles(uid, files) {
+  if (!files.img) throw new Error('Personal photo is required.');
+  if (!files.pasImg1) throw new Error('2 photo of user ID is required.');
+  if (!files.pasImg2) throw new Error('2 photo of user ID is required.');
   const returnObject = {
     img: `${uid}_img.${getExt(files.img.path)}`,
-    passImg1: `${uid}_passImg1.${getExt(files.img.path)}`,
-    passImg2: `${uid}_passImg2.${getExt(files.pasImg2.path)}`,
+    pasImg1: `${uid}_pasImg1.${getExt(files.pasImg1.path)}`,
+    pasImg2: `${uid}_pasImg2.${getExt(files.pasImg2.path)}`,
   };
   // TODO: add check for file type & drop non image file with error.
   fs.copyFileSync(files.img.path, `public/img/${uid}_img.${getExt(files.img.path)}`);
