@@ -21,12 +21,11 @@ const userController = {
     }
   },
 
-  // TODO: add image downloading process
-  // TODO: Add new user created event. Send it fo operators.
   // TODO: There is two type of new user - appuser & control panel user.
   postNewAppUser: async (ctx) => {
     const { body } = ctx.request;
     // TODO: What about validation? Use sequelize? Write new function for it?
+    // TODO: Add email validation is user with that email exist or no.
     const {
       firstName, lastName, email, tel, password,
     } = body;
@@ -39,7 +38,12 @@ const userController = {
       const result = await User.create(user);
       const newUser = result.dataValues;
       console.log('user:', newUser);
-      await checkAndStoreFiles(newUser.id, files);
+      const pathObj = await checkAndStoreFiles(newUser.id, files);
+      User.update({
+        img: pathObj.img,
+        pasImg1: pathObj.passImg1,
+        pasImg2: pathObj.passImg2,
+      }, { where: { id: newUser.id } });
       const output = apiResponseObject(true, '', newUser);
       ctx.body = JSON.stringify(output, null, '\t');
     } catch (err) {
