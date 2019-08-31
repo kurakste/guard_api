@@ -1,7 +1,8 @@
 const Koa = require('koa');
+const IO = require('koa-socket-2');
 const koaBody = require('koa-body');
 const json = require('koa-json');
-const statServ = require('koa-static-server');
+const statServer = require('koa-static-server');
 const cors = require('koa-cors');
 const router = require('./router');
 
@@ -17,8 +18,7 @@ app.use(koaBody({
   multipart: true,
   urlencoded: true,
 }));
-console.log('dir:', __dirname);
-app.use(statServ({
+app.use(statServer({
   rootDir: 'public/img',
   rootPath: '/img',
 }));
@@ -36,4 +36,19 @@ app.use(async (ctx) => {
 const port = process.env.PORT || 4040;
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
+});
+
+
+const appSock = new Koa();
+const io = new IO();
+
+appSock.use();
+io.attach(appSock);
+
+io.on('message', (ctx, data) => {
+  console.log('client sent data to message endpoint', data);
+});
+
+app.listen(3333, () => {
+  console.log('Sockets starts in 3333 post');
 });
