@@ -61,7 +61,6 @@ const userController = {
   },
 
   getNewAppUsers: async (ctx) => {
-    ctx.body = 'Get all new users app';
     try {
       const dataObj = await User.findAll({ where: { role: 31 } });
       const data = dataObj.map(el => el.dataValues);
@@ -91,6 +90,19 @@ const userController = {
       const result = await User.create(user);
       const newUser = result.dataValues;
       const output = apiResponseObject(true, '', newUser);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
+  },
+
+  getNewCppUsers: async (ctx) => {
+    try {
+      const dataObj = await User.findAll({ where: { role: 32 } });
+      const data = dataObj.map(el => el.dataValues);
+      const output = apiResponseObject(true, '', data);
       ctx.body = JSON.stringify(output, null, '\t');
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
