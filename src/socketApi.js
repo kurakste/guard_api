@@ -12,6 +12,7 @@ io.attach(appSock);
 
 io.on('connection', (socket) => {
   socket.use(async (sk, next) => {
+    // here will be RBAC 
     console.log('====>', sk);
     await next();
   });
