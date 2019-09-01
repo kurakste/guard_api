@@ -60,6 +60,20 @@ const userController = {
     }
   },
 
+  getNewAppUsers: async (ctx) => {
+    ctx.body = 'Get all new users app';
+    try {
+      const dataObj = await User.findAll({ where: { role: 31 } });
+      const data = dataObj.map(el => el.dataValues);
+      const output = apiResponseObject(true, '', data);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
+  },
+
   // TODO: There is two type of new user - appuser & control panel user.
   postNewCPUser: async (ctx) => {
     const { body } = ctx.request;
@@ -84,7 +98,6 @@ const userController = {
       console.log(err.message);
     }
   },
-
 
   patchUser: async (ctx) => {
     const { body } = ctx.request;
