@@ -2,6 +2,7 @@
 const Koa = require('koa');
 const IO = require('koa-socket-2');
 const cors = require('koa-cors');
+const controller = require('./socketControllers');
 
 const appSock = new Koa();
 const io = new IO();
@@ -16,24 +17,18 @@ io.on('connection', (socket) => {
     console.log('====>', sk);
     await next();
   });
-  socket.on('username', (data) => {
-    socket.username = data;
-    console.log(`🔵 ${socket.username} join the chat..`);
-    socket.broadcast.emit('message', { username: 'sys', message: `🔵 ${socket.username} join the chat..` });
-  });
-  console.log('new connection');
-  socket.on('message', (data) => {
-    console.log('client sent data to message endpoint: \n', data);
-    io.socket.emit('message', { username: socket.username, message: data });
-  });
-  socket.on('disconnect', () => {
-    console.log(`🔴 ${socket.username} disconnected...`);
-    socket.broadcast.emit('message', { username: 'sys', message: `🔴 ${socket.username} disconnected...` });
-  });
+
+  socket.on('newAlert', controller.newAlert);
+  socket.on('trackUpdate', controller.trackUpdate);
+  socket.on('alertInWork', controller.alertInWork);
+  socket.on('gbrSent', controller.gbrSent);
+  socket.on('alertDecline', controller.alertDecline);
+  socket.on('alertClose', controller.alertClose);
+  
+  socket.on('disconnect', controller.disconnect);
 });
 
 
 appSock.listen(3333, () => {
   console.log('Sockets starts at ws://localhost:3333');
 });
-// 🔴, 🔵, ❤ , 😉
