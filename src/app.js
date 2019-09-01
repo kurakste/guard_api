@@ -1,5 +1,4 @@
 const Koa = require('koa');
-const IO = require('koa-socket-2');
 const koaBody = require('koa-body');
 const json = require('koa-json');
 const statServer = require('koa-static-server');
@@ -38,17 +37,4 @@ app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
 
-
-const appSock = new Koa();
-const io = new IO();
-
-appSock.use();
-io.attach(appSock);
-
-io.on('message', (ctx, data) => {
-  console.log('client sent data to message endpoint', data);
-});
-
-app.listen(3333, () => {
-  console.log('Sockets starts in 3333 post');
-});
+require('./socketApi');
