@@ -13,10 +13,11 @@ io.attach(appSock);
 
 io.on('connection', (socket) => {
   socket.use(async (sk, next) => {
-    // here will be RBAC 
-    console.log('====>', sk);
+    // here will be RBAC
+    // console.log('====>', sk);
     await next();
   });
+  console.log('new user connected');
 
   socket.on('newAlert', controller.newAlert);
   socket.on('trackUpdate', controller.trackUpdate);
@@ -24,7 +25,6 @@ io.on('connection', (socket) => {
   socket.on('gbrSent', controller.gbrSent);
   socket.on('alertDecline', controller.alertDecline);
   socket.on('alertClose', controller.alertClose);
-  
   socket.on('disconnect', controller.disconnect);
 });
 

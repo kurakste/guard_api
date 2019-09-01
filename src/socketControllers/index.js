@@ -8,8 +8,8 @@ const socketController = {
   },
 
   alertInWork: (data) => {
-    console.log('allert in work: ', data);
-  }, 
+    console.log('alert in work: ', data);
+  },
 
   gbrSent: (data) => {
     console.log('gbr sent: ', data);
@@ -21,7 +21,7 @@ const socketController = {
 
   alertClose: (data) => {
     console.log('alert Close : ', data);
-  }, 
+  },
 
   disconnect: (data) => {
     console.log('disconected: ', data);
