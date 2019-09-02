@@ -91,6 +91,23 @@ const userController = {
     }
   },
 
+  postVerifyAppUser: async (ctx) => {
+    const { body } = ctx.request;
+    const { id } = body;
+    try {
+      const [updated] = await User.update({ role: 35 }, { where: { id } });
+      if (updated === 0) throw new Error('Record not found in DB.');
+      const updatedUser = await User.findByPk(id);
+      const newUser = updatedUser.dataValues;
+      const output = apiResponseObject(true, '', newUser);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
+  },
+
   // TODO: There is two type of new user - appuser & control panel user.
   postNewCPUser: async (ctx) => {
     const { body } = ctx.request;
@@ -116,7 +133,7 @@ const userController = {
     }
   },
 
-  postDeclineCppUser: async (ctx) => {
+  postDeclineCpUser: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
     console.log('id: ', id);
@@ -134,7 +151,24 @@ const userController = {
     }
   },
 
-  getNewCppUsers: async (ctx) => {
+  postVerifyCpUser: async (ctx) => {
+    const { body } = ctx.request;
+    const { id } = body;
+    try {
+      const [updated] = await User.update({ role: 36 }, { where: { id } });
+      if (updated === 0) throw new Error('Record not found in DB.');
+      const updatedUser = await User.findByPk(id);
+      const newUser = updatedUser.dataValues;
+      const output = apiResponseObject(true, '', newUser);
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      console.log(err.message);
+    }
+  },
+
+  getNewCpUsers: async (ctx) => {
     try {
       const dataObj = await User.findAll({ where: { role: 32 } });
       const data = dataObj.map(el => el.dataValues);
