@@ -38,9 +38,9 @@
     lastName: string,
     email:string,
     tel:string,
-==================================================
-api: GET: _server_/new-users-ap
-do: returns all
+✔==================================================
+api: GET: _server_/users/new-app-users
+do: returns all new app users
 permissions: // status code range
 data: -
 returns: 
@@ -56,7 +56,97 @@ returns:
    },
    ...
  ]
-====================================================
+✔==================================================
+api: GET: _server_/users/new-cp-users
+do: returns all new control panel users
+permissions: // status code range
+data: -
+returns: 
+ [
+   {
+    firstName: string,
+    lastName: string,
+    email:string,
+    tel:string,
+    img: file,
+    pasImg1: file,
+    pasImg2: file,  
+   },
+   ...
+ ]
+ ✔==================================================
+api: POST: _server_/users/decline-cp-user
+do: decline the new control panel user
+permissions: // status code range
+data: { id: number }
+returns: 
+ [
+   {
+    firstName: string,
+    lastName: string,
+    email:string,
+    tel:string,
+    img: file,
+    pasImg1: file,
+    pasImg2: file,  
+   },
+   ...
+ ]
+ ✔==================================================
+api: POST: _server_/users/decline-app-user
+do: decline the new app user
+permissions: // status code range
+data: { id: number }
+returns: 
+ [
+   {
+    firstName: string,
+    lastName: string,
+    email:string,
+    tel:string,
+    img: file,
+    pasImg1: file,
+    pasImg2: file,  
+   },
+   ...
+ ]
+ ✔==================================================
+api: POST: _server_/users/verify-cp-user
+do: Verify the new control panel user
+permissions: // status code range
+data: { id: number }
+returns: 
+ [
+   {
+    firstName: string,
+    lastName: string,
+    email:string,
+    tel:string,
+    img: file,
+    pasImg1: file,
+    pasImg2: file,  
+   },
+   ...
+ ]
+ ✔==================================================
+api: POST: _server_/users/verify-app-user
+do: Verify the new app user
+permissions: // status code range
+data: { id: number }
+returns: 
+ [
+   {
+    firstName: string,
+    lastName: string,
+    email:string,
+    tel:string,
+    img: file,
+    pasImg1: file,
+    pasImg2: file,  
+   },
+   ...
+ ]
+✔====================================================
 api: GET: _server_/user/_id_
 do: returns all
 permissions: // status code range
@@ -71,7 +161,7 @@ returns:
     pasImg1: file,
     pasImg2: file,  
    }
-====================================================
+✔====================================================
 api: PATCH: _server_/user
 do: patch user in database. 
 permissions: // status code range
@@ -100,7 +190,7 @@ returns:
   img: file,
   pasImg1: file,
   pasImg2: file, 
-====================================================
+✔====================================================
 api: DELETE: _server_/user/_id_
 do: delete user in database. 
 permissions: // status code range
