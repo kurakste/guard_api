@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
 
-  const socket = io('http://localhost:3333');
+//  const socket = io('http://localhost:3333');
+  const socket = io('http://kurakste1.fvds.ru:3333');
   socket.on('open', function () {
     console.log('socket connection succesfull');
   });
