@@ -1,66 +1,70 @@
-✔====================================================
-  api: POST: _server_/user-new-ap
+✔===
+  ###api: POST: _server_/user-new-ap
+  
   do: add new application user in database. It has to be approved. 
   permissions: // status code range
+  
   data: form/data
+  
   Content-type: multipart/form-data
-  params: 
-    firstName: string,
-    lastName: string,
-    email: string,
-    tel: string,
-    password: string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,
-  returns:
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file, 
-✔==================================================
-  api: POST: _server_/users/new-app-users
-  do: add new control panel user in database. It has to be approved.
-  permissions: // status code range
-  data: form/data
-  Content-type: multipart/form-data
-  params: 
-    firstName: string,
-    lastName: string,
-    email: string,
-    tel: string,
-    password: string,
-  returns:
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-✔==================================================
-api: GET: _server_/users/new-app-users
-do: returns all new app users
-permissions: // status code range
-data: -
-returns: 
- [
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
+  
+  params:  
+    firstName: string,  
+    lastName: string,  
+    email: string,  
+    tel: string,  
+    password: string,  
+    img: file,  
+    pasImg1: file,  
     pasImg2: file,  
-   },
-   ...
- ]
-✔==================================================
-api: GET: _server_/users/new-cp-users
-do: returns all new control panel users
-permissions: // status code range
-data: -
+  returns:  
+    firstName: string,  
+    lastName: string,  
+    email:string,  
+    tel:string,  
+    img: file,  
+    pasImg1: file,  
+    pasImg2: file,  
+✔===  
+  api: POST: _server_/users/new-app-users  
+  do: add new control panel user in database. It has to be approved.  
+  permissions: // status code range  
+  data: form/data  
+  Content-type: multipart/form-data  
+  params:  
+    firstName: string,  
+    lastName: string,  
+    email: string,  
+    tel: string,  
+    password: string,  
+  returns:  
+    firstName: string,  
+    lastName: string,  
+    email:string,  
+    tel:string,  
+✔==================================================  
+api: GET: _server_/users/new-app-users  
+do: returns all new app users  
+permissions: // status code range  
+data: -  
+returns:   
+ [  
+   {  
+    firstName: string,  
+    lastName: string,  
+    email:string,  
+    tel:string,  
+    img: file,  
+    pasImg1: file,  
+    pasImg2: file,    
+   },  
+   ...  
+ ]  
+✔==================================================  
+api: GET: _server_/users/new-cp-users  
+do: returns all new control panel users  
+permissions: // status code range  
+data: -  
 returns: 
  [
    {
