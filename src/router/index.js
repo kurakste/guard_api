@@ -12,6 +12,8 @@ router.post('/user-new-ap', userController.postNewAppUser);
 router.post('/user-new-cp', userController.postNewCPUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.get('/users/new-cpp-users', userController.getNewCppUsers);
+router.post('/users/decline-cpp-user', userController.postDeclineCppUser);
+router.post('/users/decline-app-user', userController.postDeclineAppUser);
 router.patch('/user', userController.patchUser);
 router.delete('/user/:id', userController.deleteUser);
 router.get('/users', userController.getAll);
