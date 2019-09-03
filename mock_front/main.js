@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
 
-//  const socket = io('http://localhost:3333');
-  const socket = io('http://kurakste1.fvds.ru:3333');
+  const socket = io('http://localhost:3333');
+  //const socket = io('http://kurakste1.fvds.ru:3333');
   socket.on('open', function () {
     console.log('socket connection succesfull');
   });
@@ -25,9 +25,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   newAlert.onclick = () => {
     console.log('newAlert');
-    socket.emit('newAlert', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
+    socket.emit('newAlert', {
+      auth: 'string',
+      payload: {
+        id: null,
+        uid: 75,
+        track: [[55.749054, 52.457500], ],
+        regionId: null, // определяем по координатам
+        gbrs: [
+          {name: 'Гарант', tel1: '89177233373', tel2: '89177233374', tel3: '89177233374'},
+          {name: 'Гранит', tel1: '89187233373', tel2: '89187233374', tel3: '89187233374'}, 
+        ], // на основании его получаем субъект РФ. К нему цепляем массив ЧОПов
+        status: 0,
+        oid: 12, // operator id,
+        pickedUpAt: null,
+        groupSendAt: null,
+        alertDeclineAt: null,
+        alertClosedAt: null,
+        notes: null
+      }
+    });
   }
-  
+
   trackUpdate.onclick = () => {
     console.log('trackUpdate');
     socket.emit('trackUpdate', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
