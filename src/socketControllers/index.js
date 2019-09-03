@@ -1,6 +1,15 @@
+const models = require('../../models');
+
+const { Alert } = models;
+
 const socketController = {
-  newAlert: (data) => {
-    console.log('new alert: ', data);
+  newAlert: async (data) => {
+    const { payload } = data;
+    console.log('new alert: ', JSON.stringify(payload, null, 2));
+    const result = await Alert.create(payload);
+    const newAlert = result.dataValues;
+    
+
   },
 
   trackUpdate: (data) => {
