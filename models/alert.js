@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Alert = sequelize.define('Alert', {
-    uid: DataTypes.INTEGER,
+    UserId: DataTypes.INTEGER,
     track: DataTypes.JSON,
     regionId: DataTypes.INTEGER,
     status: DataTypes.INTEGER,
@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Alert.associate = function(models) {
     // associations can be defined here
+    
+    Alert.belongsTo(models.User);
+  
   };
   return Alert;
 };

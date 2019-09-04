@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       auth: 'string',
       payload: {
         id: null,
-        uid: 75,
+        UserId: 1,
         track: [[55.749054, 52.457500], ],
         regionId: null, // определяем по координатам
         gbrs: [

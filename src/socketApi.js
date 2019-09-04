@@ -5,27 +5,36 @@ const cors = require('koa-cors');
 const controller = require('./socketControllers');
 
 const appSock = new Koa();
-const io = new IO();
+
+const appIo = new IO({
+  namespace: 'app-clients',
+});
+
+const cpIo = new IO({
+  namespace: 'cp-clients',
+});
+
 
 appSock.use(cors());
 
-io.attach(appSock);
+appIo.attach(appSock);
+cpIo.attach(appSock);
 
-io.on('connection', (socket) => {
-  socket.use(async (sk, next) => {
-    // here will be RBAC
-    // console.log('====>', sk);
-    await next();
-  });
-  console.log('new user connected');
+const newAlert = controller.newAlert.bind(controller, cpIo);
 
-  socket.on('newAlert', controller.newAlert);
+appIo.on('connection', (socket) => {
+  console.log('New user connected.');
+  socket.on('newAlert', newAlert);
   socket.on('trackUpdate', controller.trackUpdate);
   socket.on('alertInWork', controller.alertInWork);
   socket.on('gbrSent', controller.gbrSent);
   socket.on('alertDecline', controller.alertDecline);
   socket.on('alertClose', controller.alertClose);
   socket.on('disconnect', controller.disconnect);
+});
+
+cpIo.on('connection', (socket) => {
+  console.log('New operator connected.');
 });
 
 

@@ -1,15 +1,21 @@
 const models = require('../../models');
 
-const { Alert } = models;
+const { Alert, User } = models;
 
 const socketController = {
-  newAlert: async (data) => {
+  newAlert: async (cpIo, data) => {
+    // console.log('cpIo: ', cpIo);
     const { payload } = data;
     console.log('new alert: ', JSON.stringify(payload, null, 2));
     const result = await Alert.create(payload);
     const newAlert = result.dataValues;
-    
+    // await Alert.hasOne(User, { foreignKey: 'uid' });
 
+
+    const dataObj = await Alert.findAll({ where: { status: 0 }, include: ['User'] });
+    // console.log('getUser: ', dataObj);
+    const alarms = dataObj.map(el => el.dataValues);
+    cpIo.socket.emit('alertsUpdated', alarms);
   },
 
   trackUpdate: (data) => {
@@ -33,7 +39,7 @@ const socketController = {
   },
 
   disconnect: (data) => {
-    console.log('disconected: ', data);
+    console.log('disconnected: ', data);
   },
 };
 

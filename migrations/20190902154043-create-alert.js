@@ -9,8 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      uid: {
-        type: Sequelize.INTEGER
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users', 
+          key: 'id'
+        }
       },
 
       track: {
