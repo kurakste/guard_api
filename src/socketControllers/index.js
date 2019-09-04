@@ -1,19 +1,29 @@
 const models = require('../../models');
 
-const { Alert, User } = models;
+const { Alert, Gbr } = models;
 
 const socketController = {
   newAlert: async (cpIo, data) => {
     // console.log('cpIo: ', cpIo);
     const { payload } = data;
+    payload.GbrId = 1;
     console.log('new alert: ', JSON.stringify(payload, null, 2));
     const result = await Alert.create(payload);
     const newAlert = result.dataValues;
-    // await Alert.hasOne(User, { foreignKey: 'uid' });
 
+    const gbr = await Gbr.findAll({ where: { regionId: 1 } });
 
-    const dataObj = await Alert.findAll({ where: { status: 0 }, include: ['User'] });
-    // console.log('getUser: ', dataObj);
+    await result.addGbr(gbr);
+
+    const dataObj = await Alert
+      .findAll({
+        where: { status: 0 },
+        include: [
+          'User',
+          { model: Gbr, through: 'GbrsToAlerts' },
+        ],
+      });
+    console.log('getUser: ', dataObj.dataValues);
     const alarms = dataObj.map(el => el.dataValues);
     cpIo.socket.emit('alertsUpdated', alarms);
   },

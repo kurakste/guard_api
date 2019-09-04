@@ -10,14 +10,15 @@ module.exports = (sequelize, DataTypes) => {
     groupSendAt: DataTypes.DATE,
     alertDeclineAt: DataTypes.DATE,
     alertClosedAt: DataTypes.DATE,
-    createdAt: DataTypes.DATE, 
+    createdAt: DataTypes.DATE,
     notes: DataTypes.TEXT,
   }, {});
-  Alert.associate = function(models) {
+  Alert.associate = function (models) {
     // associations can be defined here
-    
+
+    Alert.belongsToMany(models.Gbr, { through: 'GbrsToAlerts' });
     Alert.belongsTo(models.User);
-  
+
   };
   return Alert;
 };

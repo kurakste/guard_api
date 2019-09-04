@@ -30,13 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
       auth: 'string',
       payload: {
         id: null,
-        UserId: 1,
+        UserId: 2,
         track: [[55.749054, 52.457500], ],
         regionId: null, // определяем по координатам
-        gbrs: [
-          {name: 'Гарант', tel1: '89177233373', tel2: '89177233374', tel3: '89177233374'},
-          {name: 'Гранит', tel1: '89187233373', tel2: '89187233374', tel3: '89187233374'}, 
-        ], // на основании его получаем субъект РФ. К нему цепляем массив ЧОПов
         status: 0,
         oid: null, // operator id,
         pickedUpAt: null,
