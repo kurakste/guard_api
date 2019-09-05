@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   socket.on('alertsUpdated', (data) => {
-    console.log('Alert updated!: ', data);
+    console.log('Alert updated: ', data);
   })
 
 

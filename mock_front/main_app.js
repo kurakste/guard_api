@@ -68,7 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('alertClose');
     socket.emit('alertClose', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
+
+  socket.on('alertWasRegistered', function (data) {
+    console.log('alertWasRegistered: ', data )
+  });
+
 });
+
 
 
 // window.onload = function () {
