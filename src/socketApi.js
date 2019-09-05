@@ -3,6 +3,7 @@ const Koa = require('koa');
 const IO = require('koa-socket-2');
 const cors = require('koa-cors');
 const controller = require('./socketControllers');
+const cpEventEmitter = require('./cpSocketEventEmitter');
 
 const appSock = new Koa();
 
@@ -20,9 +21,9 @@ appSock.use(cors());
 appIo.attach(appSock);
 cpIo.attach(appSock);
 
-const newAlert = controller.newAlert.bind(controller, cpIo);
 
 appIo.on('connection', (socket) => {
+  const newAlert = controller.newAlert.bind(controller, cpIo, socket);
   console.log('New user connected.');
   socket.on('newAlert', newAlert);
   socket.on('trackUpdate', controller.trackUpdate);
@@ -35,6 +36,8 @@ appIo.on('connection', (socket) => {
 
 cpIo.on('connection', (socket) => {
   console.log('New operator connected.');
+  cpEventEmitter.getFreeAlertList(socket);
+
 });
 
 

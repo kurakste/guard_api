@@ -1,31 +1,22 @@
 const models = require('../../models');
 
 const { Alert, Gbr } = models;
+const cpSocketEventEmitter = require('../cpSocketEventEmitter');
+const appSocketEventEmitter = require('../appSocketEventEmitter');
+
+const getGbrId = () => 1;
 
 const socketController = {
-  newAlert: async (cpIo, data) => {
-    // console.log('cpIo: ', cpIo);
+  newAlert: async (cpIo, socket, data) => {
     const { payload } = data;
-    payload.GbrId = 1;
+    payload.GbrId = getGbrId(payload);
     console.log('new alert: ', JSON.stringify(payload, null, 2));
     const result = await Alert.create(payload);
     const newAlert = result.dataValues;
-
-    const gbr = await Gbr.findAll({ where: { regionId: 1 } });
-
+    const gbr = await Gbr.findAll({ where: { regionId: payload.GbrId } });
     await result.addGbr(gbr);
-
-    const dataObj = await Alert
-      .findAll({
-        where: { status: 0 },
-        include: [
-          'User',
-          { model: Gbr, through: 'GbrsToAlerts' },
-        ],
-      });
-    console.log('getUser: ', dataObj.dataValues);
-    const alarms = dataObj.map(el => el.dataValues);
-    cpIo.socket.emit('alertsUpdated', alarms);
+    appSocketEventEmitter.alertWasRegistered(socket, newAlert);
+    cpSocketEventEmitter.alertListUpdated(cpIo);
   },
 
   trackUpdate: (data) => {
