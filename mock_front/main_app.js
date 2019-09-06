@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
+  let lastAlert;
 
   const socket = io('http://localhost:3333/app-clients');
   // socket = io('/app-clients');
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const newAlert = document.getElementById('newAlert');
+  const alertId = document.getElementById('alertId');
   const trackUpdate = document.getElementById('trackUpdate');
   const alertInWork = document.getElementById('alertInWork');
   const gbrSent = document.getElementById('gbrSent');
@@ -31,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       payload: {
         id: null,
         UserId: 2,
-        track: [[55.749054, 52.457500], ],
+        track: [[55.749054, 52.457500],],
         regionId: null, // определяем по координатам
         status: 0,
         oid: null, // operator id,
@@ -45,8 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   trackUpdate.onclick = () => {
-    console.log('trackUpdate');
-    socket.emit('trackUpdate', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
+    const alertIdInput = document.getElementById('alertId');
+    console.log('appNewPointInTrack', lastAlert);
+    const track = lastAlert.track;
+    if (track.length > 0) {
+      const [lon, lat] = track[track.length - 1];
+      lastAlert.track.push([lon + 1, lat + 1]);
+      socket.emit('appNewPointInTrack', {
+        auth: 'string',
+        payload: {
+          alert: lastAlert,
+        }
+      });
+    }
+    //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
   alertInWork.onclick = () => {
@@ -58,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('gbrSent');
     socket.emit('gbrSent', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
-  
+
   alertDecline.onclick = () => {
     console.log('alertDecline');
     socket.emit('alertDecline', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
@@ -69,8 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit('alertClose', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
-  socket.on('alertWasRegistered', function (data) {
-    console.log('alertWasRegistered: ', data )
+  socket.on('appAlertWasRegistered', function (data) {
+    console.log(data);
+    const { alert } = data;
+    lastAlert = alert;
+    const alertIdInput = document.getElementById('alertId');
+    alertIdInput.value = alert.id;
+    console.log('alertWasRegistered: ', alert)
   });
 
 });
