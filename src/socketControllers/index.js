@@ -15,12 +15,29 @@ const socketController = {
     const newAlert = result.dataValues;
     const gbr = await Gbr.findAll({ where: { regionId: payload.GbrId } });
     await result.addGbr(gbr);
-    appSocketEventEmitter.alertWasRegistered(socket, newAlert);
+    appSocketEventEmitter.appAlertWasRegistered(socket, newAlert);
     cpSocketEventEmitter.alertListUpdated(cpIo);
   },
 
-  trackUpdate: (data) => {
+  appNewPointInTrack: async (cpIo, data) => {
     console.log('track update: ', data);
+    const { payload } = data;
+    const { alert } = payload;
+    try {
+      const res = await Alert.update(
+        { track: alert.track },
+        {
+          where: { id: alert.id },
+        },
+      );
+      console.log('res: ', res);
+      const AlertFromDb = await Alert.findByPk(alert.id);
+      console.log('AlertFromDb.status: ', AlertFromDb.status);
+      if (AlertFromDb.status === 0) cpSocketEventEmitter.alertListUpdated(cpIo);
+      if (AlertFromDb.status === 1) console.log('update track in alert with status 1');
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   alertInWork: (data) => {

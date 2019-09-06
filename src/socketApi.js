@@ -24,9 +24,10 @@ cpIo.attach(appSock);
 
 appIo.on('connection', (socket) => {
   const newAlert = controller.newAlert.bind(controller, cpIo, socket);
+  const appNewPointInTrack = controller.appNewPointInTrack.bind(controller, cpIo);
   console.log('New user connected.');
   socket.on('newAlert', newAlert);
-  socket.on('trackUpdate', controller.trackUpdate);
+  socket.on('appNewPointInTrack', appNewPointInTrack);
   socket.on('alertInWork', controller.alertInWork);
   socket.on('gbrSent', controller.gbrSent);
   socket.on('alertDecline', controller.alertDecline);
