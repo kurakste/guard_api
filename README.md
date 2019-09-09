@@ -23,13 +23,4 @@ For all request API has to reply like that:
   "password":"sadfdfasdf"
 }
 
-role:
-0 admin
-10 operator
-20 user
-35 app user
-36 cpp user
-31 app candidate
-32 control panel candidate
-33 app decline
-34 cpp decline
+

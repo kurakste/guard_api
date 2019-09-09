@@ -1,0 +1,59 @@
+User:
+  {
+    "id": 22,
+    "firstName": "Diman",
+    "lastName": "Petrov",
+    "email": "petrov@gmail.com",
+    "tel": "+79176550039",
+    "active": false,
+    "role": 34,
+    "img": "22_img.jpg",
+    "pasImg1": "22_pasImg1.jpg",
+    "pasImg2": "22_pasImg2.jpg",
+    "password": "$2a$10$yBLLWdKg5iqe5CsHKuCzjusS82vRuPZ9JP1Weljezp8iV7scOQEVW",
+    "notes": "",
+    "createdAt": "2019-09-04T13:08:04.400Z",
+    "updatedAt": "2019-09-04T13:14:11.869Z"
+  },
+
+Alarm:
+{
+  id: number,
+  uid: number, // user id
+  created_at: timeStump, 
+  state: number, // current alarm state
+  track: json, // json string : [ ... ]
+  gbrs: json, // [ gbr1, gbr2}]
+  oid: number, // operator's id
+  picketUp: timeStump, // pickup time
+  grbSent: timeStump,
+  notes: string, // 
+}
+track:
+[{ lat: number, lon: number }, ...]
+Gbr:
+{
+  id,
+  rid, // Код региона
+  tel0, // телефон
+  tel1,
+  notes, // примечания 
+}
+
+// ==== Alarm's state ====: 
+  0   - new alert;
+  10  - picked up;
+  20  - group sent
+  30  - alert decline
+  40  - alert closed
+
+//==== user roles ====== 
+  0 admin
+  10 operator
+  20 user
+  35 app user
+  36 cpp user
+  31 app candidate
+  32 control panel candidate
+  33 app decline
+  34 cpp decline
