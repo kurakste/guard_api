@@ -41,11 +41,11 @@ Gbr:
 }
 
 // ==== Alarm's state ====: 
-  0   - new alert;
+  0   - new alarm;
   10  - picked up;
   20  - group sent
-  30  - alert decline
-  40  - alert closed
+  30  - alarm decline
+  40  - alarm closed
 
 //==== user roles ====== 
   0 admin

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
-  let lastAlert;
+  let lastalarm;
 
   const socket = io('http://localhost:3333/app-clients');
   // socket = io('/app-clients');
@@ -18,17 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  const newAlert = document.getElementById('newAlert');
-  const alertId = document.getElementById('alertId');
+  const newalarm = document.getElementById('newalarm');
+  const alarmId = document.getElementById('alarmId');
   const trackUpdate = document.getElementById('trackUpdate');
-  const alertInWork = document.getElementById('alertInWork');
+  const alarmInWork = document.getElementById('alarmInWork');
   const gbrSent = document.getElementById('gbrSent');
-  const alertDecline = document.getElementById('alertDecline');
-  const alertClose = document.getElementById('alertClose');
+  const alarmDecline = document.getElementById('alarmDecline');
+  const alarmClose = document.getElementById('alarmClose');
 
-  newAlert.onclick = () => {
-    console.log('newAlert');
-    socket.emit('newAlert', {
+  newalarm.onclick = () => {
+    console.log('appNewalarm');
+    socket.emit('appNewalarm', {
       auth: 'string',
       payload: {
         id: null,
@@ -39,33 +39,33 @@ document.addEventListener('DOMContentLoaded', () => {
         oid: null, // operator id,
         pickedUpAt: null,
         groupSendAt: null,
-        alertDeclineAt: null,
-        alertClosedAt: null,
+        alarmDeclineAt: null,
+        alarmClosedAt: null,
         notes: null
       }
     });
   }
 
   trackUpdate.onclick = () => {
-    const alertIdInput = document.getElementById('alertId');
-    console.log('appNewPointInTrack', lastAlert);
-    const track = lastAlert.track;
+    const alarmIdInput = document.getElementById('alarmId');
+    console.log('appNewPointInTrack', lastalarm);
+    const track = lastalarm.track;
     if (track.length > 0) {
       const [lon, lat] = track[track.length - 1];
-      lastAlert.track.push([lon + 1, lat + 1]);
+      lastalarm.track.push([lon + 1, lat + 1]);
       socket.emit('appNewPointInTrack', {
         auth: 'string',
         payload: {
-          alert: lastAlert,
+          alarm: lastalarm,
         }
       });
     }
     //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
-  alertInWork.onclick = () => {
-    console.log('alertInWork');
-    socket.emit('alertInWork', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
+  alarmInWork.onclick = () => {
+    console.log('alarmInWork');
+    socket.emit('alarmInWork', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
   gbrSent.onclick = () => {
@@ -73,23 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit('gbrSent', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
-  alertDecline.onclick = () => {
-    console.log('alertDecline');
-    socket.emit('alertDecline', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
+  alarmDecline.onclick = () => {
+    console.log('alarmDecline');
+    socket.emit('alarmDecline', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
-  alertClose.onclick = () => {
-    console.log('alertClose');
-    socket.emit('alertClose', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
+  alarmClose.onclick = () => {
+    console.log('alarmClose');
+    socket.emit('alarmClose', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
   }
 
-  socket.on('appAlertWasRegistered', function (data) {
+  socket.on('appalarmWasRegistered', function (data) {
     console.log(data);
-    const { alert } = data;
-    lastAlert = alert;
-    const alertIdInput = document.getElementById('alertId');
-    alertIdInput.value = alert.id;
-    console.log('alertWasRegistered: ', alert)
+    const { alarm } = data;
+    lastalarm = alarm;
+    const alarmIdInput = document.getElementById('alarmId');
+    alarmIdInput.value = alarm.id;
+    console.log('alarmWasRegistered: ', alarm)
   });
 
 });

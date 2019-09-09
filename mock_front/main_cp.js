@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('connection loose');
   });
 
-  socket.on('alertsUpdated', (data) => {
-    console.log('Alert updated: ', data);
+  socket.on('alarmsUpdated', (data) => {
+    console.log('alarm updated: ', data);
   })
 
 

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Alerts', {
+    return queryInterface.createTable('Alarms', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -45,12 +45,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       
-      alertDeclineAt: {
+      declineAt: {
         allowNull: true,
         type: Sequelize.DATE
       },
       
-      alertClosedAt: {
+      closedAt: {
         allowNull: true,
         type: Sequelize.DATE
       },
@@ -71,6 +71,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Alerts');
+    return queryInterface.dropTable('Alarms');
   }
 };

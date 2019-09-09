@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('GbrsToAlerts', {
+    return queryInterface.createTable('GbrsToAlarms', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,10 +17,10 @@ module.exports = {
         } 
       },
 
-      AlertId: {
+      alarmId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Alerts', 
+          model: 'Alarms', 
           key: 'id'
         }
       },
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('GbrsToAlerts');
+    return queryInterface.dropTable('GbrsToalArms');
   }
 };

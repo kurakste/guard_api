@@ -1,35 +1,35 @@
 const models = require('../../models');
 
-const { Alert, Gbr } = models;
+const { alarm, Gbr } = models;
 
 const socketEventEmitter = {
-  alertListUpdated: async (cpIo) => {
-    const dataObj = await Alert
+  alarmListUpdated: async (cpIo) => {
+    const dataObj = await alarm
       .findAll({
         where: { status: 0 },
         include: [
           'User',
-          { model: Gbr, through: 'GbrsToAlerts' },
+          { model: Gbr, through: 'GbrsToAlarms' },
         ],
       });
     console.log('getUser: ', dataObj.dataValues);
     const alarms = dataObj.map(el => el.dataValues);
 
-    cpIo.socket.emit('alertsUpdated', alarms);
+    cpIo.socket.emit('alarmsUpdated', alarms);
   },
 
-  getFreeAlertList: async (socket) => {
-    const dataObj = await Alert
+  getFreealarmList: async (socket) => {
+    const dataObj = await alarm
       .findAll({
         where: { status: 0 },
         include: [
           'User',
-          { model: Gbr, through: 'GbrsToAlerts' },
+          { model: Gbr, through: 'GbrsToAlarms' },
         ],
       });
     console.log('getUser: ', dataObj.dataValues);
     const alarms = dataObj.map(el => el.dataValues);
-    socket.emit('alertsUpdated', alarms);
+    socket.emit('alarmsUpdated', alarms);
   },
 };
 

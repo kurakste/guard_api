@@ -1,7 +1,7 @@
 
 const appSocketEventEmitter = {
-  appAlertWasRegistered: async (socket, alert) => {
-    socket.emit('appAlertWasRegistered', { alert });
+  appalarmWasRegistered: async (socket, alarm) => {
+    socket.emit('appalarmWasRegistered', { alarm });
   },
 };
 

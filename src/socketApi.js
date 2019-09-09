@@ -23,15 +23,11 @@ cpIo.attach(appSock);
 const openCpIoSockets = [];
 
 appIo.on('connection', (socket) => {
-  const newAlert = controller.newAlert.bind(controller, cpIo, socket);
+  const appNewAlarm = controller.appNewAlarm.bind(controller, cpIo, socket);
   const appNewPointInTrack = controller.appNewPointInTrack.bind(controller, cpIo);
   console.log('New user connected.');
-  socket.on('newAlert', newAlert);
+  socket.on('appNewAlarm', appNewAlarm);
   socket.on('appNewPointInTrack', appNewPointInTrack);
-  socket.on('alertInWork', controller.alertInWork);
-  socket.on('gbrSent', controller.gbrSent);
-  socket.on('alertDecline', controller.alertDecline);
-  socket.on('alertClose', controller.alertClose);
   socket.on('disconnect', controller.disconnect);
 });
 
@@ -39,7 +35,7 @@ cpIo.on('connection', (socket) => {
   const { uid } = socket.handshake.query;
   const conObject = { uid, socket };
   openCpIoSockets.push(conObject);
-  cpEventEmitter.getFreeAlertList(socket);
+  cpEventEmitter.getFreeAlarmList(socket);
   console.log(`New ID: ${uid} operator connected.`);
 
   socket.on('disconnect', () => {

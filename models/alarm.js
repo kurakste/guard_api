@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Alert = sequelize.define('Alert', {
+  const alarm = sequelize.define('Alarm', {
     UserId: DataTypes.INTEGER,
     track: DataTypes.JSON,
     regionId: DataTypes.INTEGER,
@@ -8,17 +8,17 @@ module.exports = (sequelize, DataTypes) => {
     oid: DataTypes.INTEGER,
     pickedUpAt: DataTypes.DATE,
     groupSendAt: DataTypes.DATE,
-    alertDeclineAt: DataTypes.DATE,
-    alertClosedAt: DataTypes.DATE,
+    alarmDeclineAt: DataTypes.DATE,
+    alarmClosedAt: DataTypes.DATE,
     createdAt: DataTypes.DATE,
     notes: DataTypes.TEXT,
   }, {});
-  Alert.associate = function (models) {
+  alarm.associate = function (models) {
     // associations can be defined here
 
-    Alert.belongsToMany(models.Gbr, { through: 'GbrsToAlerts' });
-    Alert.belongsTo(models.User);
+    alarm.belongsToMany(models.Gbr, { through: 'GbrsToAlarms' });
+    alarm.belongsTo(models.User);
 
   };
-  return Alert;
+  return alarm;
 };

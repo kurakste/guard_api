@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     notes: DataTypes.TEXT,
   }, {});
   User.associate = function(models) {
-    User.hasMany(models.Alert);
+    User.hasMany(models.Alarm);
   };
   return User;
 };

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     notes: DataTypes.TEXT,
   }, {});
   Gbr.associate = function (models) {
-    Gbr.belongsToMany(models.Alert, { through: 'GbrsToAlerts' });
+    Gbr.belongsToMany(models.Alarm, { through: 'GbrsToAlarms' });
   };
   return Gbr;
 };

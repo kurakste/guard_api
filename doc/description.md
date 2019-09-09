@@ -76,7 +76,7 @@
           }
           operatorId: number;
           pickedUp: timestamp, // Оператор взял в обработку
-          fakeAlert: boolean, // Оператор признал вызов ошибочным, деньги не списывались группа не ездила. 
+          fakealarm: boolean, // Оператор признал вызов ошибочным, деньги не списывались группа не ездила. 
           approved: timestamp, .. Оператор проверил и выставил fakeAllert false,
           sentTeam: timestamp, // Выслана группа 
           workDone: timestamp, // Группа отработала, тревога закрыта.
@@ -92,9 +92,9 @@
         uid: number,
         lat: number,
         lon: number,
-      } во ответ получить  idAlert тревоги
+      } во ответ получить  idalarm тревоги
       начать писать трек. Обновлять его на сервере: 
-      [ { idAlert, lon, lat }, ]
+      [ { idalarm, lon, lat }, ]
 
   -----
 
