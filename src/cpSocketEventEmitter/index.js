@@ -1,10 +1,10 @@
 const models = require('../../models');
 
-const { alarm, Gbr } = models;
+const { Alarm, Gbr } = models;
 
 const socketEventEmitter = {
   alarmListUpdated: async (cpIo) => {
-    const dataObj = await alarm
+    const dataObj = await Alarm
       .findAll({
         where: { status: 0 },
         include: [
@@ -18,8 +18,8 @@ const socketEventEmitter = {
     cpIo.socket.emit('alarmsUpdated', alarms);
   },
 
-  getFreealarmList: async (socket) => {
-    const dataObj = await alarm
+  getFreeAlarmList: async (socket) => {
+    const dataObj = await Alarm
       .findAll({
         where: { status: 0 },
         include: [

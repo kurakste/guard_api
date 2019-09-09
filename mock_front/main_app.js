@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  const newalarm = document.getElementById('newalarm');
+  const newAlarm = document.getElementById('newalarm');
   const alarmId = document.getElementById('alarmId');
   const trackUpdate = document.getElementById('trackUpdate');
   const alarmInWork = document.getElementById('alarmInWork');
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const alarmDecline = document.getElementById('alarmDecline');
   const alarmClose = document.getElementById('alarmClose');
 
-  newalarm.onclick = () => {
-    console.log('appNewalarm');
-    socket.emit('appNewalarm', {
+  newAlarm.onclick = () => {
+    console.log('appNewAlarm');
+    socket.emit('appNewAlarm', {
       auth: 'string',
       payload: {
         id: null,
@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
         oid: null, // operator id,
         pickedUpAt: null,
         groupSendAt: null,
-        alarmDeclineAt: null,
-        alarmClosedAt: null,
+        declineAt: null,
+        closedAt: null,
         notes: null
       }
     });

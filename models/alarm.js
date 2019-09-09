@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     oid: DataTypes.INTEGER,
     pickedUpAt: DataTypes.DATE,
     groupSendAt: DataTypes.DATE,
-    alarmDeclineAt: DataTypes.DATE,
-    alarmClosedAt: DataTypes.DATE,
+    declineAt: DataTypes.DATE,
+    closedAt: DataTypes.DATE,
     createdAt: DataTypes.DATE,
     notes: DataTypes.TEXT,
   }, {});
