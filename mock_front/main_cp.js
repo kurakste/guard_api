@@ -1,7 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
+  const getParams = (function () {
+    const a = window.location.search;
+    const b = new Object();
+    const aa = a.substring(1).split("&");
+    for (let i = 0; i < aa.length; i++) {
+      let c = aa[i].split("=");
+      b[c[0]] = c[1];
+    }
+    return b;
+  })();
 
-  const socket = io('http://localhost:3333/cp-clients');
+  const uid = getParams.uid;
+
+  const socket = io('http://localhost:3333/cp-clients', { query: `uid=${uid}` });
   // socket = io('/app-clients');
   // const socket = io('http://kurakste1.fvds.ru:3333');
   socket.on('open', function () {

@@ -20,7 +20,7 @@ appSock.use(cors());
 
 appIo.attach(appSock);
 cpIo.attach(appSock);
-
+const openCpIoSockets = [];
 
 appIo.on('connection', (socket) => {
   const newAlert = controller.newAlert.bind(controller, cpIo, socket);
@@ -36,12 +36,18 @@ appIo.on('connection', (socket) => {
 });
 
 cpIo.on('connection', (socket) => {
-  console.log('New operator connected.');
+  const { uid } = socket.handshake.query;
+  const conObject = { uid, socket };
+  openCpIoSockets.push(conObject);
   cpEventEmitter.getFreeAlertList(socket);
+  console.log(`New ID: ${uid} operator connected.`);
 
+  socket.on('disconnect', () => {
+    openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
+    console.log(`Cp disconnected operator with ID:${conObject.uid}`);
+  });
 });
 
-
 appSock.listen(3333, () => {
-  console.log('Sockets starts at ws://localhost:3333');
+  console.log('Sockets starts at localhost:3333');
 });
