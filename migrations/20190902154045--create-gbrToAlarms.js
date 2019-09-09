@@ -17,7 +17,7 @@ module.exports = {
         } 
       },
 
-      alarmId: {
+      AlarmId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Alarms', 

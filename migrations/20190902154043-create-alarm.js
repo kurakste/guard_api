@@ -71,6 +71,9 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Alarms');
+    return queryInterface.dropTable('Alarms', {
+      force: true,
+      cascade: true,
+    });
   }
 };

@@ -45,6 +45,9 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Gbrs');
+    return queryInterface.dropTable('Gbrs',{
+      force: true,
+      cascade: true,
+    });
   }
 };
