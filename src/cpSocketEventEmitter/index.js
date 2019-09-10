@@ -2,39 +2,28 @@ const models = require('../../models');
 
 const { Alarm, Gbr } = models;
 
-const socketEventEmitter = {
+const cpSocketEventEmitter = {
   srvCreateNewAlarm: async (cpIo, alarms) => {
     cpIo.socket.emit('srvCreateNewAlarm', alarms);
   },
 
-  alarmListUpdated: async (cpIo) => {
+  srvUpdateAlarmListAll: async (socket) => {
     const dataObj = await Alarm
       .findAll({
-        where: { status: 0 },
+        where: { status: [0, 10, 20] },
         include: [
           'User',
           { model: Gbr, through: 'GbrsToAlarms' },
         ],
       });
-    console.log('getUser: ', dataObj.dataValues);
     const alarms = dataObj.map(el => el.dataValues);
-
-    cpIo.socket.emit('alarmsUpdated', alarms);
-  },
-
-  getFreeAlarmList: async (socket) => {
-    const dataObj = await Alarm
-      .findAll({
-        where: { status: 0 },
-        include: [
-          'User',
-          { model: Gbr, through: 'GbrsToAlarms' },
-        ],
-      });
-    console.log('getUser: ', dataObj.dataValues);
-    const alarms = dataObj.map(el => el.dataValues);
-    socket.emit('alarmsUpdated', alarms);
+    const alarmsForSend = alarms.map(el => {
+      const ell = { ...el };
+      ell.User.password = null;
+      return el;
+    });
+    socket.emit('srvUpdateAlarmListAll', alarmsForSend);
   },
 };
 
-module.exports = socketEventEmitter;
+module.exports = cpSocketEventEmitter;

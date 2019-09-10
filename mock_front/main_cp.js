@@ -28,9 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('connection loose');
   });
 
+  socket.on('srvUpdateAlarmListAll', (data) => {
+    console.log('srvUpdateAlarmListAll: ', data);
+
+  });
+  
   socket.on('srvCreateNewAlarm', (data) => {
     console.log('srvCreateNewAlarm: ', data);
   })
+
 
 
 });
