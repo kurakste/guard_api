@@ -21,6 +21,7 @@ const socketController = {
         { model: Gbr, through: 'GbrsToAlarms' },
       ],
     });
+    newAlarmWithGbr.User.password = null;
     // appSocketEventEmitter.appAlarmWasRegistered(socket, newAlarm);
     cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
   },
