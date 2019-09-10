@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   newAlarm.onclick = () => {
     console.log('appNewAlarm');
     socket.emit('appNewAlarm', {
-      auth: 'string',
+      token: 'string',
       payload: {
         id: null,
         UserId: 2,
@@ -48,20 +48,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   trackUpdate.onclick = () => {
     const alarmIdInput = document.getElementById('alarmId');
-    console.log('appNewPointInTrack', lastalarm);
-    const track = lastalarm.track;
-    if (track.length > 0) {
-      const [lon, lat] = track[track.length - 1];
-      lastalarm.track.push([lon + 1, lat + 1]);
-      socket.emit('appNewPointInTrack', {
-        auth: 'string',
-        payload: {
-          alarm: lastalarm,
-        }
-      });
-    }
-    //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
+    console.log('appNewPointInTrack');
+    socket.emit('appNewPointInTrack', {
+      token: 'string',
+      payload: {
+        aid: alarmIdInput.value,
+        point: [22.3333, 45.22334]
+      }
+    });
   }
+  //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
 
   alarmInWork.onclick = () => {
     console.log('alarmInWork');

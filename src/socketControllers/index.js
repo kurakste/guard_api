@@ -26,21 +26,25 @@ const socketController = {
   },
 
   appNewPointInTrack: async (cpIo, data) => {
-    console.log('track update: ', data);
-    const { payload } = data;
-    const { alarm } = payload;
     try {
-      const res = await Alarm.update(
-        { track: alarm.track },
-        {
-          where: { id: alarm.id },
-        },
-      );
-      console.log('res: ', res);
-      const AlarmFromDb = await Alarm.findByPk(Alarm.id);
-      console.log('AlarmFromDb.status: ', AlarmFromDb.status);
-      if (AlarmFromDb.status === 0) cpSocketEventEmitter.AlarmListUpdated(cpIo);
-      if (AlarmFromDb.status === 1) console.log('update track in Alarm with status 1');
+      console.log('track update: ', data);
+      const { payload } = data;
+      const { aid, point } = payload;
+      const alarm = await Alarm.findByPk(aid);
+      alarm.track = [...alarm.track, point];
+      await alarm.save();
+    
+      console.log(alarm.dataValues);
+      //   { track: alarm.track },
+      //   {
+      //     where: { id: alarm.id },
+      //   },
+      // );
+      //   console.log('res: ', res);
+      //   const AlarmFromDb = await Alarm.findByPk(Alarm.id);
+      //   console.log('AlarmFromDb.status: ', AlarmFromDb.status);
+      //   if (AlarmFromDb.status === 0) cpSocketEventEmitter.AlarmListUpdated(cpIo);
+      //   if (AlarmFromDb.status === 1) console.log('update track in Alarm with status 1');
     } catch (err) {
       console.log(err);
     }
