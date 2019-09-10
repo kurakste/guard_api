@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
   let lastalarm;
 
-  const socket = io('http://localhost:3333/app-clients');
+//  const socket = io('http://localhost:3333/app-clients');
+  const socket = io('http://kurakste1.fvds.ru:3333/app-clients');
   // socket = io('/app-clients');
   // const socket = io('http://kurakste1.fvds.ru:3333');
   socket.on('open', function () {

@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const uid = getParams.uid;
 
-  const socket = io('http://localhost:3333/cp-clients', { query: `uid=${uid}` });
+//  const socket = io('http://localhost:3333/cp-clients', { query: `uid=${uid}` });
+  const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
   // socket = io('/app-clients');
   btnCpPickedUpAlarm.onclick = () => {
     socket.emit('cpPickedUpAlarm', { alaram: 'alarm' });
