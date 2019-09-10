@@ -10,7 +10,6 @@ const socketController = {
   appNewAlarm: async (cpIo, socket, data) => {
     const { payload } = data;
     payload.GbrId = getGbrId(payload);
-    console.log('new Alarm: ', JSON.stringify(payload, null, 2));
     const alarm = await Alarm.create(payload);
     const gbr = await Gbr.findAll({ where: { regionId: getGbrId() } });
     await alarm.addGbr(gbr);

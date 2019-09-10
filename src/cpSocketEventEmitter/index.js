@@ -1,10 +1,11 @@
 const models = require('../../models');
+const getSocketObject = require('../helpers/socketObject');
 
 const { Alarm, Gbr } = models;
 
 const cpSocketEventEmitter = {
   srvCreateNewAlarm: async (cpIo, alarms) => {
-    cpIo.socket.emit('srvCreateNewAlarm', alarms);
+    cpIo.socket.emit('srvCreateNewAlarm', getSocketObject(alarms));
   },
 
   srvUpdateAlarmListAll: async (socket) => {
@@ -22,7 +23,11 @@ const cpSocketEventEmitter = {
       ell.User.password = null;
       return el;
     });
-    socket.emit('srvUpdateAlarmListAll', alarmsForSend);
+    socket.emit('srvUpdateAlarmListAll', getSocketObject(alarmsForSend));
+  },
+
+  cpPickedUpAlarm: async (cpIo, alarm) => {
+
   },
 };
 

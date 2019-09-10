@@ -1,9 +1,9 @@
-
 const Koa = require('koa');
 const IO = require('koa-socket-2');
 const cors = require('koa-cors');
 const controller = require('./socketControllers');
 const cpEventEmitter = require('./cpSocketEventEmitter');
+const cpSocketController = require('./socketControllers/spSocketController');
 
 const appSock = new Koa();
 
@@ -24,15 +24,13 @@ const openCpIoSockets = [];
 
 appIo.on('connection', (socket) => {
   const appNewAlarm = controller.appNewAlarm.bind(controller, cpIo, socket);
-  const appNewPointInTrack = controller.appNewPointInTrack.bind(controller, cpIo);
-  
   console.log('New user connected.');
   socket.on('appNewAlarm', appNewAlarm);
-  socket.on('appNewPointInTrack', appNewPointInTrack);
   socket.on('disconnect', controller.disconnect);
 });
 
 cpIo.on('connection', (socket) => {
+  const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
   const { uid } = socket.handshake.query;
   const conObject = { uid, socket };
   
@@ -40,6 +38,8 @@ cpIo.on('connection', (socket) => {
 
   openCpIoSockets.push(conObject);
   console.log(`New ID: ${uid} operator connected.`);
+
+  socket.on('cpPickedUpAlarm', cpPickedUpAlarm);
 
   socket.on('disconnect', () => {
     openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
