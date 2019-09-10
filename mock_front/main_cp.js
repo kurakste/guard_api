@@ -11,10 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return b;
   })();
 
+  const btnCpPickedUpAlarm = document.getElementById('cpPickedUpAlarm');
+
+
   const uid = getParams.uid;
 
   const socket = io('http://localhost:3333/cp-clients', { query: `uid=${uid}` });
   // socket = io('/app-clients');
+  btnCpPickedUpAlarm.onclick = () => {
+    socket.emit('cpPickedUpAlarm', { alaram: 'alarm' });
+  }
   // const socket = io('http://kurakste1.fvds.ru:3333');
   socket.on('open', function () {
     console.log('socket connection succesfull');
@@ -32,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('srvUpdateAlarmListAll: ', data);
 
   });
-  
+
   socket.on('srvCreateNewAlarm', (data) => {
     console.log('srvCreateNewAlarm: ', data);
   })
