@@ -35,6 +35,8 @@ const socketController = {
       await alarm.save();
     
       console.log(alarm.dataValues);
+      cpSocketEventEmitter.srvUpdateAlarm(cpIo, alarm.dataValues);
+
       //   { track: alarm.track },
       //   {
       //     where: { id: alarm.id },

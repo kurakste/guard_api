@@ -26,6 +26,10 @@ const cpSocketEventEmitter = {
     socket.emit('srvUpdateAlarmListAll', getSocketObject(alarmsForSend));
   },
 
+  srvUpdateAlarm: async (cpIo, alarm) => {
+    cpIo.socket.emit('srvUpdateAlarm', alarm);
+  },
+
   cpPickedUpAlarm: async (cpIo, alarm) => {
 
   },

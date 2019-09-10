@@ -41,9 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   socket.on('srvCreateNewAlarm', (data) => {
     console.log('srvCreateNewAlarm: ', data);
+  });
+  
+  socket.on('srvUpdateAlarm', (data) => {
+    console.log('srvUpdateAlarm: ', data);
   })
-
-
 
 });
 
