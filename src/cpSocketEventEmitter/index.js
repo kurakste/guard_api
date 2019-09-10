@@ -3,6 +3,10 @@ const models = require('../../models');
 const { Alarm, Gbr } = models;
 
 const socketEventEmitter = {
+  srvCreateNewAlarm: async (cpIo, alarms) => {
+    cpIo.socket.emit('srvCreateNewAlarm', alarms);
+  },
+
   alarmListUpdated: async (cpIo) => {
     const dataObj = await Alarm
       .findAll({

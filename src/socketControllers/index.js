@@ -2,7 +2,7 @@ const models = require('../../models');
 
 const { Alarm, Gbr } = models;
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
-const appSocketEventEmitter = require('../appSocketEventEmitter');
+// const appSocketEventEmitter = require('../appSocketEventEmitter');
 
 const getGbrId = () => 32;
 
@@ -11,12 +11,18 @@ const socketController = {
     const { payload } = data;
     payload.GbrId = getGbrId(payload);
     console.log('new Alarm: ', JSON.stringify(payload, null, 2));
-    const result = await Alarm.create(payload);
-    const newAlarm = result.dataValues;
+    const alarm = await Alarm.create(payload);
     const gbr = await Gbr.findAll({ where: { regionId: getGbrId() } });
-    await result.addGbr(gbr);
-    appSocketEventEmitter.appAlarmWasRegistered(socket, newAlarm);
-    cpSocketEventEmitter.alarmListUpdated(cpIo);
+    await alarm.addGbr(gbr);
+    const newAlarmWithGbr = await Alarm.findOne({
+      where: { id: alarm.id },
+      include: [
+        'User',
+        { model: Gbr, through: 'GbrsToAlarms' },
+      ],
+    });
+    // appSocketEventEmitter.appAlarmWasRegistered(socket, newAlarm);
+    cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
   },
 
   appNewPointInTrack: async (cpIo, data) => {

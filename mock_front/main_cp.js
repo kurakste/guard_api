@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('connection loose');
   });
 
-  socket.on('alarmsUpdated', (data) => {
-    console.log('alarm updated: ', data);
+  socket.on('srvCreateNewAlarm', (data) => {
+    console.log('srvCreateNewAlarm: ', data);
   })
 
 
