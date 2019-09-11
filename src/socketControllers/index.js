@@ -8,21 +8,25 @@ const getGbrId = () => 32;
 
 const socketController = {
   appNewAlarm: async (cpIo, socket, data) => {
-    const { payload } = data;
-    payload.GbrId = getGbrId(payload);
-    const alarm = await Alarm.create(payload);
-    const gbr = await Gbr.findAll({ where: { regionId: getGbrId() } });
-    await alarm.addGbr(gbr);
-    const newAlarmWithGbr = await Alarm.findOne({
-      where: { id: alarm.id },
-      include: [
-        'User',
-        { model: Gbr, through: 'GbrsToAlarms' },
-      ],
-    });
-    newAlarmWithGbr.User.password = null;
-    // appSocketEventEmitter.appAlarmWasRegistered(socket, newAlarm);
-    cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
+    try {
+      const { payload } = data;
+      payload.GbrId = getGbrId(payload);
+      const alarm = await Alarm.create(payload);
+      const gbr = await Gbr.findAll({ where: { regionId: getGbrId() } });
+      await alarm.addGbr(gbr);
+      const newAlarmWithGbr = await Alarm.findOne({
+        where: { id: alarm.id },
+        include: [
+          'User',
+          { model: Gbr, through: 'GbrsToAlarms' },
+        ],
+      });
+      newAlarmWithGbr.User.password = null;
+      // appSocketEventEmitter.appAlarmWasRegistered(socket, newAlarm);
+      cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   appNewPointInTrack: async (cpIo, data) => {
@@ -39,21 +43,6 @@ const socketController = {
     }
   },
 
-  AlarmInWork: (data) => {
-    console.log('Alarm in work: ', data);
-  },
-
-  gbrSent: (data) => {
-    console.log('gbr sent: ', data);
-  },
-
-  AlarmDecline: (data) => {
-    console.log('AlarmDecline: ', data);
-  },
-
-  AlarmClose: (data) => {
-    console.log('Alarm Close : ', data);
-  },
 
   disconnect: (data) => {
     console.log('disconnected: ', data);
