@@ -1,9 +1,9 @@
 const Koa = require('koa');
 const IO = require('koa-socket-2');
 const cors = require('koa-cors');
-const controller = require('./socketControllers');
 const cpEventEmitter = require('./cpSocketEventEmitter');
 const cpSocketController = require('./socketControllers/spSocketController');
+const appSocketController = require('./socketControllers/appSocketController');
 
 const appSock = new Koa();
 
@@ -23,12 +23,12 @@ cpIo.attach(appSock);
 const openCpIoSockets = [];
 
 appIo.on('connection', (socket) => {
-  const appNewAlarm = controller.appNewAlarm.bind(controller, cpIo, socket);
-  const appNewPointInTrack = controller.appNewPointInTrack.bind(controller, cpIo);
+  const appNewAlarm = appSocketController.appNewAlarm.bind(appSocketController, cpIo, socket);
+  const appNewPointInTrack = appSocketController.appNewPointInTrack.bind(appSocketController, cpIo);
   console.log('New user connected.');
   socket.on('appNewAlarm', appNewAlarm);
   socket.on('appNewPointInTrack', appNewPointInTrack);
-  socket.on('disconnect', controller.disconnect);
+  socket.on('disconnect', appSocketController.disconnect);
 });
 
 cpIo.on('connection', (socket) => {

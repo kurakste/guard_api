@@ -22,7 +22,6 @@ const socketController = {
         ],
       });
       newAlarmWithGbr.User.password = null;
-      // appSocketEventEmitter.appAlarmWasRegistered(socket, newAlarm);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
       console.log(err);
