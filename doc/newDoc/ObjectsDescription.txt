@@ -28,7 +28,7 @@ Alarm:
   oid: number, // operator's id
   pickedUpAt: date string, // pickup time
   groupSendAt: date string,
-  closedA: date string,
+  closedAt: date string,
   declineAt: date string, 
   notes: string,
 }
@@ -45,7 +45,7 @@ Gbr:
   notes, // примечания 
 }
 
-// ==== Alarm's state ====: 
+// ==== Alarm's statuses ====: 
   0   - new alarm;
   10  - picked up;
   20  - group sent
