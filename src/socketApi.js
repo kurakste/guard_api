@@ -34,6 +34,8 @@ appIo.on('connection', (socket) => {
 cpIo.on('connection', (socket) => {
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
+  const cpAlarmClosed = cpSocketController.cpAlarmClosed.bind(cpSocketController, cpIo);
+  const cpAlarmDecline = cpSocketController.cpAlarmDecline.bind(cpSocketController, cpIo);
   const { uid } = socket.handshake.query;
   const conObject = { uid, socket };
 
@@ -44,6 +46,8 @@ cpIo.on('connection', (socket) => {
 
   socket.on('cpPickedUpAlarm', cpPickedUpAlarm);
   socket.on('cpAlarmGbrSent', cpAlarmGbrSent);
+  socket.on('cpAlarmClosed', cpAlarmClosed);
+  socket.on('cpAlarmDecline', cpAlarmDecline);
 
 
   socket.on('disconnect', () => {

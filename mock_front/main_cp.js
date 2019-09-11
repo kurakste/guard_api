@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const btnCpPickedUpAlarm = document.getElementById('cpPickedUpAlarm');
   const btnAlarmGbrSent = document.getElementById('btnAlarmGbrSent');
+  const btnClosed = document.getElementById('btnClosed');
+  const btnDecline = document.getElementById('btnDecline');
 
 
   const uid = getParams.uid;
@@ -41,6 +43,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnAlarmGbrSent.onclick = () => {
     socket.emit('cpAlarmGbrSent', {
+      token: { user: { id: 2 }, },
+      payload: {
+        id: 54,
+        UserId: 2,
+        track: [[55.749054, 52.457500],],
+        regionId: null, // определяем по координатам
+        status: 0,
+        oid: null, // operator id,
+        pickedUpAt: null,
+        groupSendAt: null,
+        declineAt: null,
+        closedAt: null,
+        notes: null
+      }
+    });
+  }
+
+  btnClosed.onclick = () => {
+    socket.emit('cpAlarmClosed', {
+      token: { user: { id: 2 }, },
+      payload: {
+        id: 54,
+        UserId: 2,
+        track: [[55.749054, 52.457500],],
+        regionId: null, // определяем по координатам
+        status: 0,
+        oid: null, // operator id,
+        pickedUpAt: null,
+        groupSendAt: null,
+        declineAt: null,
+        closedAt: null,
+        notes: null
+      }
+    });
+  }
+
+  btnDecline.onclick = () => {
+    socket.emit('cpAlarmDecline', {
       token: { user: { id: 2 }, },
       payload: {
         id: 54,
