@@ -33,6 +33,7 @@ appIo.on('connection', (socket) => {
 
 cpIo.on('connection', (socket) => {
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
+  const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
   const { uid } = socket.handshake.query;
   const conObject = { uid, socket };
 
@@ -42,6 +43,8 @@ cpIo.on('connection', (socket) => {
   console.log(`New ID: ${uid} operator connected.`);
 
   socket.on('cpPickedUpAlarm', cpPickedUpAlarm);
+  socket.on('cpAlarmGbrSent', cpAlarmGbrSent);
+
 
   socket.on('disconnect', () => {
     openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);

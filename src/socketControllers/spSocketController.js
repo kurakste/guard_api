@@ -26,6 +26,24 @@ const cpSocketController = {
       console.log(err);
     }
   },
+  cpAlarmGbrSent: async (cpIo, data) => {
+    try {
+      console.log('cpAlarmGbrSent', data);
+      const { payload } = data;
+      const alarm = payload;
+      const alarmUpdated = await Alarm.findByPk(alarm.id, {
+        include: [
+          'User',
+          { model: Gbr, through: 'GbrsToAlarms' },
+        ],
+      });
+      alarmUpdated.groupSendAt = new Date();
+      alarmUpdated.save();
+      cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
 };
 
