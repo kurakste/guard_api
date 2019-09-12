@@ -20,7 +20,6 @@ appSock.use(cors());
 
 appIo.attach(appSock);
 cpIo.attach(appSock);
-const openCpIoSockets = [];
 
 appIo.on('connection', (socket) => {
   const appNewAlarm = appSocketController.appNewAlarm.bind(appSocketController, cpIo, socket);
@@ -31,6 +30,7 @@ appIo.on('connection', (socket) => {
   socket.on('disconnect', appSocketController.disconnect);
 });
 
+const openCpIoSockets = [];
 cpIo.on('connection', (socket) => {
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
@@ -38,22 +38,28 @@ cpIo.on('connection', (socket) => {
   const cpAlarmDecline = cpSocketController.cpAlarmDecline.bind(cpSocketController, cpIo);
   const { uid } = socket.handshake.query;
   const conObject = { uid, socket };
-
-  cpEventEmitter.srvUpdateAlarmListAll(socket);
-
-  openCpIoSockets.push(conObject);
-  console.log(`New ID: ${uid} operator connected.`);
-
-  socket.on('cpPickedUpAlarm', cpPickedUpAlarm);
-  socket.on('cpAlarmGbrSent', cpAlarmGbrSent);
-  socket.on('cpAlarmClosed', cpAlarmClosed);
-  socket.on('cpAlarmDecline', cpAlarmDecline);
-
-
-  socket.on('disconnect', () => {
-    openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
-    console.log(`Cp disconnected operator with ID:${conObject.uid}`);
-  });
+  try {
+    if (!uid) throw new Error('uid is required!');
+    const usersIds = openCpIoSockets.map(el => el.uid);
+    if (usersIds.indexOf(uid) !== -1) throw new Error('user with this ID connected');
+    openCpIoSockets.push(conObject);
+    console.log(`New ID: ${uid} operator connected.`);
+    socket.on('cpPickedUpAlarm', cpPickedUpAlarm);
+    socket.on('cpAlarmGbrSent', cpAlarmGbrSent);
+    socket.on('cpAlarmClosed', cpAlarmClosed);
+    socket.on('cpAlarmDecline', cpAlarmDecline);
+    socket.on('disconnect', () => {
+      openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
+      cpEventEmitter.srvNewUserDisconnected(cpIo, uid);
+      console.log(`Cp disconnected operator with ID:${conObject.uid}`);
+    });
+    cpEventEmitter.srvUpdateAlarmListAll(socket);
+    cpEventEmitter.srvUpdateUserList(socket, openCpIoSockets.map(el => el.uid));
+    cpEventEmitter.srvNewUserConnected(cpIo, uid);
+  } catch (error) {
+    console.log('error: ', error);
+    cpSocketController.cpErrorMessage(socket, error.message);
+  }
 });
 
 appSock.listen(3333, () => {

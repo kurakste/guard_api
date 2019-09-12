@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const uid = getParams.uid;
-
-  const socket = io('http://localhost:3333/cp-clients', { query: `uid=${uid}` });
-  // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
+  const params = uid ? { query: `uid=${uid}` } : null;
+  const socket = io('http://localhost:3333/cp-clients', params);
+// const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
 
   btnCpPickedUpAlarm.onclick = () => {
     socket.emit('cpPickedUpAlarm', {
@@ -121,5 +121,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   socket.on('srvUpdateAlarm', (data) => {
     console.log('srvUpdateAlarm: ', data);
-  })
+  });
+  
+  socket.on('srvUpdateUserList', (data) => {
+    console.log('srvUpdateUserList: ', data);
+  });
+  
+  socket.on('srvNewUserConnected', (data) => {
+    console.log('srvNewUserConnected: ', data);
+  });
+  
+  socket.on('srvNewUserDisconnected', (data) => {
+    console.log('srvNewUserDisconnected: ', data);
+  });
+  
+  socket.on('errMessage', (data) => {
+    console.log('errMessage: ', data);
+  });
 });

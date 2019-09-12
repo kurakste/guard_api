@@ -30,8 +30,16 @@ const cpSocketEventEmitter = {
     cpIo.socket.emit('srvUpdateAlarm', alarm);
   },
 
-  cpPickedUpAlarm: async (cpIo, alarm) => {
+  srvUpdateUserList: async (socket, usersList) => {
+    socket.emit('srvUpdateUserList', usersList);
+  },
 
+  srvNewUserConnected: async (spIo, uid) => {
+    spIo.socket.emit('srvNewUserConnected', uid);
+  },
+
+  srvNewUserDisconnected: async (spIo, uid) => {
+    spIo.socket.emit('srvNewUserDisconnected', uid);
   },
 };
 

@@ -65,7 +65,6 @@ const cpSocketController = {
       console.log(error);
     }
   },
-  
   cpAlarmDecline: async (cpIo, data) => {
     try {
       console.log('cpAlarmGbrSent', data);
@@ -84,6 +83,9 @@ const cpSocketController = {
     } catch (error) {
       console.log(error);
     }
+  },
+  cpErrorMessage: (socket, msg) => {
+    socket.emit('errMessage', msg);
   },
 
 };
