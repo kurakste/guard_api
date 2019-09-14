@@ -56,7 +56,6 @@ const cpSocketController = {
         process.env.JWT_KEY,
         { expiresIn: '96h' },
       );
-
       delete userForSend.password;
       cpSocketEmitter.srvLoginResult(socket, loginResult, user, token);
     } catch (err) {

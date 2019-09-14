@@ -44,6 +44,13 @@ cpIo.on('connection', (socket) => {
   const conObject = { uid, socket };
   socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
   socket.on('cpSignIn', cpSignIn);
+  socket.on('cpPing', (data) => {
+    console.log('ping: ', data);
+    const { token, user } = data;
+    const userParsed = JSON.parse(user);
+    console.log('ping: ', userParsed, token);
+  });
+
   try {
     if (!uid) throw new Error('uid is required!');
     const usersIds = openCpIoSockets.map(el => el.uid);
