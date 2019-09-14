@@ -36,8 +36,14 @@ cpIo.on('connection', (socket) => {
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
   const cpAlarmClosed = cpSocketController.cpAlarmClosed.bind(cpSocketController, cpIo);
   const cpAlarmDecline = cpSocketController.cpAlarmDecline.bind(cpSocketController, cpIo);
+  const cpRegisterNewCpUser = cpSocketController
+    .cpRegisterNewCpUser
+    .bind(cpSocketController, socket);
+  const cpSignIn = cpSocketController.cpSignIn.bind(cpSocketController, socket);
   const { uid } = socket.handshake.query;
   const conObject = { uid, socket };
+  socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
+  socket.on('cpSignIn', cpSignIn);
   try {
     if (!uid) throw new Error('uid is required!');
     const usersIds = openCpIoSockets.map(el => el.uid);

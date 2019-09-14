@@ -25,10 +25,17 @@ webSoсket (библиотека socket.io).
 
 Входящие сообщения на контрольную панель от сервера:
 
+  srvNewUserWasCreated:
+    ответ на запрос создания нового пользователя
+    payload: {
+    token:'sdfasdfsd',
+    user: {},
+    }
+
+
   srvAuthResponse
     ответ на запрос авторизации
     payload: {
-      success: true/false
       token: 
     }
     

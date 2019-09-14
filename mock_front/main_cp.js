@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return b;
   })();
 
+  const firstNameInput = document.getElementById('firstName');
+  const lastNameInput = document.getElementById('lastName');
+  const telInput = document.getElementById('tel');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const registerButton = document.getElementById('register');
+  const loginButton = document.getElementById('login');
   const btnCpPickedUpAlarm = document.getElementById('cpPickedUpAlarm');
   const btnAlarmGbrSent = document.getElementById('btnAlarmGbrSent');
   const btnClosed = document.getElementById('btnClosed');
@@ -20,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const uid = getParams.uid;
   const params = uid ? { query: `uid=${uid}` } : null;
   const socket = io('http://localhost:3333/cp-clients', params);
-// const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
+  // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
 
   btnCpPickedUpAlarm.onclick = () => {
     socket.emit('cpPickedUpAlarm', {
@@ -58,26 +65,26 @@ document.addEventListener('DOMContentLoaded', () => {
         notes: null
       }
     });
-  }
+  },
 
-  btnClosed.onclick = () => {
-    socket.emit('cpAlarmClosed', {
-      token: { user: { id: 2 }, },
-      payload: {
-        id: 54,
-        UserId: 2,
-        track: [[55.749054, 52.457500],],
-        regionId: null, // определяем по координатам
-        status: 0,
-        oid: null, // operator id,
-        pickedUpAt: null,
-        groupSendAt: null,
-        declineAt: null,
-        closedAt: null,
-        notes: null
-      }
-    });
-  }
+    btnClosed.onclick = () => {
+      socket.emit('cpAlarmClosed', {
+        token: { user: { id: 2 }, },
+        payload: {
+          id: 54,
+          UserId: 2,
+          track: [[55.749054, 52.457500],],
+          regionId: null, // определяем по координатам
+          status: 0,
+          oid: null, // operator id,
+          pickedUpAt: null,
+          groupSendAt: null,
+          declineAt: null,
+          closedAt: null,
+          notes: null
+        }
+      });
+    }
 
   btnDecline.onclick = () => {
     socket.emit('cpAlarmDecline', {
@@ -96,6 +103,39 @@ document.addEventListener('DOMContentLoaded', () => {
         notes: null
       }
     });
+  },
+
+  registerButton.onclick = () => {
+    const user = {
+      firstName: firstNameInput.value,
+      lastName: lastNameInput.value,
+      tel: telInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    }
+
+    socket.emit('cpRegisterNewCpUser', {
+      token: null,
+      payload: user,
+    });
+
+    console.log('register', user);
+  }
+
+  loginButton.onclick = () => {
+    const user = {
+      firstName: firstNameInput.value,
+      lastName: lastNameInput.value,
+      tel: telInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    }
+
+    socket.emit('cpSignIn', {
+      token: null,
+      payload: user,
+    });
+    console.log('login', user);
   }
 
   socket.on('open', function () {
@@ -122,20 +162,24 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('srvUpdateAlarm', (data) => {
     console.log('srvUpdateAlarm: ', data);
   });
-  
+
   socket.on('srvUpdateUserList', (data) => {
     console.log('srvUpdateUserList: ', data);
   });
-  
+
   socket.on('srvNewUserConnected', (data) => {
     console.log('srvNewUserConnected: ', data);
   });
-  
+
   socket.on('srvNewUserDisconnected', (data) => {
     console.log('srvNewUserDisconnected: ', data);
   });
-  
+
   socket.on('errMessage', (data) => {
     console.log('errMessage: ', data);
+  });
+
+  socket.on('srvNewUserWasCreated', (data) => {
+    console.log('srvNewUserWasCreated: ', data);
   });
 });

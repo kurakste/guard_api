@@ -1,10 +1,45 @@
+const bycrypt = require('bcryptjs');
 const getUserFromToken = require('../helpers/getUserFromToken');
 const cpSocketEmitter = require('../cpSocketEventEmitter');
 const models = require('../../models');
 
-const { Alarm, Gbr } = models;
+const { Alarm, Gbr, User } = models;
 
 const cpSocketController = {
+
+  cpRegisterNewCpUser: async (socket, data) => {
+    const { payload } = data;
+    const userFromFront = { ...payload };
+    const {
+      firstName, lastName, email, tel, password,
+    } = userFromFront;
+    const cryptPassword = await bycrypt.hash(password, 10);
+    const user = {
+      firstName, lastName, email, tel, password: cryptPassword, role: 32, active: false,
+    };
+    delete user.password;
+    cpSocketEmitter.srvNewUserWasCreated(socket, user);
+
+    try {
+      const checkUserInDb = await User.findOne({
+        where: { email: user.email },
+      });
+
+      if (checkUserInDb) throw new Error('User with this email already exist.');
+      const result = await User.create(user);
+      console.log('user: ', result.dataValues);
+    } catch (err) {
+      socket.emit('errMessage', err.message);
+      console.log(err);
+    }
+  },
+
+  cpSignIn: async (socket, data) => {
+    const { payload } = data;
+    const user = payload;
+    console.log('cpSignIn: ', user);
+  },
+
   cpPickedUpAlarm: async (cpIo, data) => {
     try {
       const { token, payload } = data;
