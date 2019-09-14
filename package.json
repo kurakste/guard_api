@@ -12,6 +12,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.1.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.1",
     "koa-body": "^4.1.1",
     "koa-busboy": "^1.2.0",

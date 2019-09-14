@@ -12,6 +12,15 @@ const cpSocketEventEmitter = {
     });
   },
 
+  srvLoginResult: async (socket, result, user, token) => {
+    console.log('emited srvLoginResult');
+    socket.emit('srvLoginResult', {
+      result,
+      token,
+      user,
+    });
+  },
+
   srvCreateNewAlarm: async (cpIo, alarms) => {
     cpIo.socket.emit('srvCreateNewAlarm', getSocketObject(alarms));
   },

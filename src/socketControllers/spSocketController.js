@@ -1,4 +1,5 @@
-const bycrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const getUserFromToken = require('../helpers/getUserFromToken');
 const cpSocketEmitter = require('../cpSocketEventEmitter');
 const models = require('../../models');
@@ -13,12 +14,10 @@ const cpSocketController = {
     const {
       firstName, lastName, email, tel, password,
     } = userFromFront;
-    const cryptPassword = await bycrypt.hash(password, 10);
+    const cryptPassword = await bcrypt.hash(password, 10);
     const user = {
       firstName, lastName, email, tel, password: cryptPassword, role: 32, active: false,
     };
-    delete user.password;
-    cpSocketEmitter.srvNewUserWasCreated(socket, user);
 
     try {
       const checkUserInDb = await User.findOne({
@@ -28,6 +27,8 @@ const cpSocketController = {
       if (checkUserInDb) throw new Error('User with this email already exist.');
       const result = await User.create(user);
       console.log('user: ', result.dataValues);
+      delete result.dataValues.password;
+      cpSocketEmitter.srvNewUserWasCreated(socket, result.dataValues);
     } catch (err) {
       socket.emit('errMessage', err.message);
       console.log(err);
@@ -38,6 +39,30 @@ const cpSocketController = {
     const { payload } = data;
     const user = payload;
     console.log('cpSignIn: ', user);
+    try {
+      const userFromDb = await User.findOne({
+        where: { email: user.email },
+      });
+      console.log('User from signIn: ', userFromDb.password);
+      if (!userFromDb.active) throw new Error('User doesn\'t active. Contact the server administrator');
+      const loginResult = await bcrypt
+        .compare(user.password, userFromDb.password);
+      console.log('login result: ', loginResult);
+      if (!loginResult) throw new Error('Login error');
+      const userForSend = { ...userFromDb.dataValues };
+      if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
+      const token = jwt.sign(
+        userForSend,
+        process.env.JWT_KEY,
+        { expiresIn: '96h' },
+      );
+
+      delete userForSend.password;
+      cpSocketEmitter.srvLoginResult(socket, loginResult, user, token);
+    } catch (err) {
+      console.log('errMessage: ', err);
+      socket.emit('errMessage', err.message);
+    }
   },
 
   cpPickedUpAlarm: async (cpIo, data) => {

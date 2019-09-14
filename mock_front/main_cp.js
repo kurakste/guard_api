@@ -174,6 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('srvNewUserDisconnected', (data) => {
     console.log('srvNewUserDisconnected: ', data);
   });
+  
+  socket.on('srvLoginResult', (data) => {
+    console.log('srvLoginResult: ', data);
+  });
 
   socket.on('errMessage', (data) => {
     console.log('errMessage: ', data);
