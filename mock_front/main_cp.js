@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerButton = document.getElementById('register');
   const loginButton = document.getElementById('login');
   const btnCpPickedUpAlarm = document.getElementById('cpPickedUpAlarm');
+  const btnPing = document.getElementById('btnPing');
   const btnAlarmGbrSent = document.getElementById('btnAlarmGbrSent');
   const btnClosed = document.getElementById('btnClosed');
   const btnDecline = document.getElementById('btnDecline');
@@ -29,9 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const socket = io('http://localhost:3333/cp-clients', params);
   // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
 
+  btnPing.onclick = () => {
+    console.log('ping');
+    socket.emit('cpPing', {
+      token: localStorage.token,
+      user: JSON.pars(localStorage.user),
+      payload: { payload: 'payload' },
+    });
+  }
+
   btnCpPickedUpAlarm.onclick = () => {
     socket.emit('cpPickedUpAlarm', {
-      token: { user: { id: 2 }, },
+      token: localStorage.token,
+      user: localStorage.user,
       payload: {
         id: 54,
         UserId: 2,
@@ -50,7 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnAlarmGbrSent.onclick = () => {
     socket.emit('cpAlarmGbrSent', {
-      token: { user: { id: 2 }, },
+      token: localStorage.token,
+      user: localStorage.user,
       payload: {
         id: 54,
         UserId: 2,
@@ -69,7 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnClosed.onclick = () => {
       socket.emit('cpAlarmClosed', {
-        token: { user: { id: 2 }, },
+        token: localStorage.token,
+        user: localStorage.user,
         payload: {
           id: 54,
           UserId: 2,
@@ -88,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnDecline.onclick = () => {
     socket.emit('cpAlarmDecline', {
-      token: { user: { id: 2 }, },
+      token: localStorage.token,
+      user: localStorage.user,
       payload: {
         id: 54,
         UserId: 2,
@@ -105,22 +119,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   },
 
-  registerButton.onclick = () => {
-    const user = {
-      firstName: firstNameInput.value,
-      lastName: lastNameInput.value,
-      tel: telInput.value,
-      email: emailInput.value,
-      password: passwordInput.value,
+    registerButton.onclick = () => {
+      const user = {
+        firstName: firstNameInput.value,
+        lastName: lastNameInput.value,
+        tel: telInput.value,
+        email: emailInput.value,
+        password: passwordInput.value,
+      }
+
+      socket.emit('cpRegisterNewCpUser', {
+        token: null,
+        payload: user,
+      });
+
+      console.log('register', user);
     }
-
-    socket.emit('cpRegisterNewCpUser', {
-      token: null,
-      payload: user,
-    });
-
-    console.log('register', user);
-  }
 
   loginButton.onclick = () => {
     const user = {
@@ -174,8 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('srvNewUserDisconnected', (data) => {
     console.log('srvNewUserDisconnected: ', data);
   });
-  
+
   socket.on('srvLoginResult', (data) => {
+    const { token, user } = data;
+    localStorage.token = token;
+    localStorage.user = JSON.stringify(user);
     console.log('srvLoginResult: ', data);
   });
 
