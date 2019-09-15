@@ -31,6 +31,11 @@ appIo.on('connection', (socket) => {
 });
 
 const openCpIoSockets = [];
+cpIo.use(async (ctx, next) => {
+  console.log('midleware');
+  await next();
+  console.log('midleware');
+});
 cpIo.on('connection', (socket) => {
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
@@ -45,7 +50,7 @@ cpIo.on('connection', (socket) => {
   socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
   socket.on('cpSignIn', cpSignIn);
   socket.on('cpPing', (data) => {
-    console.log('ping: ', data);
+    //console.log('ping: ', data);
     const { token, user } = data;
     const userParsed = JSON.parse(user);
     console.log('ping: ', userParsed, token);

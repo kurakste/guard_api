@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('ping');
     socket.emit('cpPing', {
       token: localStorage.token,
-      user: JSON.pars(localStorage.user),
+      user: JSON.stringify(localStorage.user),
       payload: { payload: 'payload' },
     });
   }
