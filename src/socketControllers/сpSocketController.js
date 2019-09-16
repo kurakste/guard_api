@@ -107,7 +107,7 @@ const cpSocketController = {
   },
   cpAlarmClosed: async (cpIo, data) => {
     try {
-      console.log('cpAlarmGbrSent', data);
+      console.log('cpAlarmClosed', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {
@@ -126,7 +126,7 @@ const cpSocketController = {
   },
   cpAlarmDecline: async (cpIo, data) => {
     try {
-      console.log('cpAlarmGbrSent', data);
+      console.log('cpAlarmDecline', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {
