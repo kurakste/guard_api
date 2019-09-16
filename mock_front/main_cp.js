@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit('cpPickedUpAlarm', {
       token: localStorage.token,
       user: localStorage.user,
-      payload: {
+      appPayload: {
         id: 54,
         UserId: 2,
         track: [[55.749054, 52.457500],],
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit('cpAlarmGbrSent', {
       token: localStorage.token,
       user: localStorage.user,
-      payload: {
+      appPayload: {
         id: 54,
         UserId: 2,
         track: [[55.749054, 52.457500],],
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.emit('cpAlarmClosed', {
         token: localStorage.token,
         user: localStorage.user,
-        payload: {
+        appPayload: {
           id: 54,
           UserId: 2,
           track: [[55.749054, 52.457500],],
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit('cpAlarmDecline', {
       token: localStorage.token,
       user: localStorage.user,
-      payload: {
+      appPayload: {
         id: 54,
         UserId: 2,
         track: [[55.749054, 52.457500],],
