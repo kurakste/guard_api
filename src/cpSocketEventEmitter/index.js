@@ -38,7 +38,7 @@ const cpSocketEventEmitter = {
     const alarmsForSend = alarms.map(el => {
       const ell = { ...el };
       ell.User.password = null;
-      return el;
+      return ell;
     });
     socket.emit('srvUpdateAlarmListAll', getSocketObject(alarmsForSend));
   },
