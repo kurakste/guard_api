@@ -30,80 +30,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const socket = io('http://localhost:3333/cp-clients', params);
   // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
 
+  function getSocketObject(payload) {
+    return {
+      token: localStorage.token,
+      user: localStorage.user,
+      rid: 'fjsalkdfjsaldfk',
+      payload,
+    }
+  }
+
   btnPing.onclick = () => {
     console.log('ping');
-    socket.emit('cpPing', {
-      token: localStorage.token,
-      user: JSON.stringify(localStorage.user),
-      payload: { data: 'payload' },
-    });
+    socket.emit('cpPing', getSocketObject({ data: 'payload' }));
   }
 
   btnCpPickedUpAlarm.onclick = () => {
-    socket.emit('cpPickedUpAlarm', {
-      token: localStorage.token,
-      user: localStorage.user,
-      payload: {
-        id: 54,
-        UserId: 2,
-        track: [[55.749054, 52.457500],],
-        regionId: null, // определяем по координатам
-        status: 0,
-        oid: null, // operator id,
-        pickedUpAt: null,
-        groupSendAt: null,
-        declineAt: null,
-        closedAt: null,
-        notes: null
-      }
-    });
+    const dd = {
+      id: 54,
+      UserId: 2,
+      track: [[55.749054, 52.457500],],
+      regionId: null, // определяем по координатам
+      status: 0,
+      oid: null, // operator id,
+      pickedUpAt: null,
+      groupSendAt: null,
+      declineAt: null,
+      closedAt: null,
+      notes: null
+    };
+    socket.emit('cpPickedUpAlarm', getSocketObject(dd));
   }
 
   btnAlarmGbrSent.onclick = () => {
-    socket.emit('cpAlarmGbrSent', {
-      token: localStorage.token,
-      user: localStorage.user,
-      payload: {
-        id: 54,
-        UserId: 2,
-        track: [[55.749054, 52.457500],],
-        regionId: null, // определяем по координатам
-        status: 0,
-        oid: null, // operator id,
-        pickedUpAt: null,
-        groupSendAt: null,
-        declineAt: null,
-        closedAt: null,
-        notes: null
-      }
-    });
+    const dd = {
+      id: 54,
+      UserId: 2,
+      track: [[55.749054, 52.457500],],
+      regionId: null, // определяем по координатам
+      status: 0,
+      oid: null, // operator id,
+      pickedUpAt: null,
+      groupSendAt: null,
+      declineAt: null,
+      closedAt: null,
+      notes: null
+    };
+    socket.emit('cpAlarmGbrSent', getSocketObject(dd));
   },
 
     btnClosed.onclick = () => {
-      socket.emit('cpAlarmClosed', {
-        token: localStorage.token,
-        user: localStorage.user,
-        payload: {
-          id: 54,
-          UserId: 2,
-          track: [[55.749054, 52.457500],],
-          regionId: null, // определяем по координатам
-          status: 0,
-          oid: null, // operator id,
-          pickedUpAt: null,
-          groupSendAt: null,
-          declineAt: null,
-          closedAt: null,
-          notes: null
-        }
-      });
-    }
-
-  btnDecline.onclick = () => {
-    socket.emit('cpAlarmDecline', {
-      token: localStorage.token,
-      user: localStorage.user,
-      payload: {
+      const dd =  {
         id: 54,
         UserId: 2,
         track: [[55.749054, 52.457500],],
@@ -115,8 +91,26 @@ document.addEventListener('DOMContentLoaded', () => {
         declineAt: null,
         closedAt: null,
         notes: null
-      }
-    });
+      };
+
+      socket.emit('cpAlarmClosed', getSocketObject(dd));
+    }
+
+  btnDecline.onclick = () => {
+    const dd =  {
+      id: 54,
+      UserId: 2,
+      track: [[55.749054, 52.457500],],
+      regionId: null, // определяем по координатам
+      status: 0,
+      oid: null, // operator id,
+      pickedUpAt: null,
+      groupSendAt: null,
+      declineAt: null,
+      closedAt: null,
+      notes: null
+    };
+    socket.emit('cpAlarmDecline', getSocketObject(dd));
   },
 
     registerButton.onclick = () => {
