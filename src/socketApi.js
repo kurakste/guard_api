@@ -1,12 +1,11 @@
 const Koa = require('koa');
-//  const IO = require('koa-socket-2');
-const IO = require('socket.io');
 const cors = require('koa-cors');
 const cpEventEmitter = require('./cpSocketEventEmitter');
 const cpSocketController = require('./socketControllers/сpSocketController');
 const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middelware/auth');
 const extractParamsFromUrl = require('./helpers/extractParamsFromUrl');
+const logger = require('./helpers/logger');
 
 const appSock = new Koa();
 appSock.use(cors());
@@ -49,9 +48,9 @@ cpIo.on('connection', (socket) => {
   const params = extractParamsFromUrl(socket.request.url);
   const { token } = params;
   const authResult = auth(token);
-  console.log('++++++++++ connection ++++++++++++++++++++++');
-  console.log('user connected', params, token, authResult);
-  console.log('++++++++++ connection ++++++++++++++++++++++');
+  logger.info('++++++++++ connection ++++++++++++++++++++++');
+  logger.info('user connected', params, token, authResult);
+  logger.info('++++++++++ connection ++++++++++++++++++++++');
 
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
@@ -63,10 +62,8 @@ cpIo.on('connection', (socket) => {
   const cpSignIn = cpSocketController.cpSignIn.bind(cpSocketController, socket);
   socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
   socket.on('cpSignIn', cpSignIn);
-  socket.on('cpPing', (data) => {
-    console.log('++++++++++ ping ++++++++++++++++++++++');
-    console.log(authResult);
-    console.log('++++++++++ ping ++++++++++++++++++++++');
+  socket.on('cpPing', () => {
+    logger.info('ping', authResult);
   });
   if (authResult) {
     const { id } = authResult;
@@ -75,7 +72,7 @@ cpIo.on('connection', (socket) => {
       const usersIds = openCpIoSockets.map(el => el.id);
       if (usersIds.indexOf(id) !== -1) throw new Error('user with this ID connected');
       openCpIoSockets.push(conObject);
-      console.log(`New ID: ${id} operator connected.`);
+      logger.info(`New ID: ${id} operator connected.`);
       socket.on('cpPickedUpAlarm', cpPickedUpAlarm);
       socket.on('cpAlarmGbrSent', cpAlarmGbrSent);
       socket.on('cpAlarmClosed', cpAlarmClosed);
@@ -83,13 +80,13 @@ cpIo.on('connection', (socket) => {
       socket.on('disconnect', () => {
         openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
         cpEventEmitter.srvNewUserDisconnected(cpIo, id);
-        console.log(`Cp disconnected operator with ID:${conObject.uid}`);
+        logger.info(`Cp disconnected operator with ID:${conObject.uid}`);
       });
       cpEventEmitter.srvUpdateAlarmListAll(socket);
       cpEventEmitter.srvUpdateUserList(socket, openCpIoSockets.map(el => el.id));
       cpEventEmitter.srvNewUserConnected(cpIo, id);
     } catch (error) {
-      console.log('error: ', error);
+      logger.error('error: ', error);
       cpSocketController.cpErrorMessage(socket, error.message);
     }
   }
@@ -97,5 +94,5 @@ cpIo.on('connection', (socket) => {
 
 
 server.listen(3333, () => {
-  console.log('Application is starting on port 3333');
+  logger.info('Application is starting on port 3333');
 });
