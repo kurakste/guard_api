@@ -4,15 +4,13 @@ const getSocketObject = require('../helpers/socketObject');
 const { Alarm, Gbr } = models;
 
 const cpSocketEventEmitter = {
-  srvNewUserWasCreated: async (socket, user) => {
-    console.log('emited srvNewUserWasCreated');
+  srvNewUserWasCreated: async (socket) => {
     socket.emit('srvNewUserWasCreated', {
       result: true,
     });
   },
 
   srvLoginOk: async (socket, result, user, token) => {
-    console.log('emited srvLoginResult');
     socket.emit('srvLoginOk', {
       token,
       user,
@@ -50,7 +48,6 @@ const cpSocketEventEmitter = {
   },
 
   srvNewUserConnected: async (cpIo, uid) => {
-    // console.log('cpio', cpIo);
     cpIo.emit('srvNewUserConnected', uid);
   },
 

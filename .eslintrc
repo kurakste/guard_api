@@ -6,5 +6,9 @@
     "no-console":"off",
     "arrow-parens":"off",
     "no-use-before-define": "off",
+  },
+  "env": {
+    "jest": true
   }
+
 }
