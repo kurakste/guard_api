@@ -3,5 +3,12 @@ const extractParamsFromUrl = require('./extractParamsFromUrl');
 test('test extract url', () => {
   const testString = '/socket.io/?uid=3&EIO=3&transport=polling&t=Mq-166I';
   const res = extractParamsFromUrl(testString);
-  expect(res['uid']).toBe('3');
+  expect(res.uid).toBe('3');
 });
+
+test('test 2', () => {
+  const testString = '/socket.io/?uid=3&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImZpcnN0TmFtZSI6IkRpbWFuIiwibGFzdE5hbWUiOiJQZXRyb3YiLCJlbWFpbCI6InBldHJvdjFAZ21haWwuY29tIiwidGVsIjoiOTkzMzQ0IiwiYWN0aXZlIjp0cnVlLCJyb2xlIjozMiwiaW1nIjpudWxsLCJwYXNJbWcxIjpudWxsLCJwYXNJbWcyIjpudWxsLCJwYXNzd29yZCI6IiQyYSQxMCRsSjZGN2RHUkYxSmY1M1pDbHU1cWJPUGhUa1RxRzQ4bVJUcDVOL01PY3hDSDltMmhFR0sxZSIsIm5vdGVzIjpudWxsLCJjcmVhdGVkQXQiOiIyMDE5LTA5LTE0VDA3OjI2OjU3LjUzNFoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA5LTE0VDA3OjI2OjU3LjUzNFoiLCJpYXQiOjE1Njg1NjY4MzUsImV4cCI6MTU2ODkxMjQzNX0.cMvIDRzr5T9Se9ooorgH4VkrjEH2eA38b94Z7NBlMLE&EIO=3&transport=polling&t=Mq-9_Sm';
+  const res = extractParamsFromUrl(testString);
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImZpcnN0TmFtZSI6IkRpbWFuIiwibGFzdE5hbWUiOiJQZXRyb3YiLCJlbWFpbCI6InBldHJvdjFAZ21haWwuY29tIiwidGVsIjoiOTkzMzQ0IiwiYWN0aXZlIjp0cnVlLCJyb2xlIjozMiwiaW1nIjpudWxsLCJwYXNJbWcxIjpudWxsLCJwYXNJbWcyIjpudWxsLCJwYXNzd29yZCI6IiQyYSQxMCRsSjZGN2RHUkYxSmY1M1pDbHU1cWJPUGhUa1RxRzQ4bVJUcDVOL01PY3hDSDltMmhFR0sxZSIsIm5vdGVzIjpudWxsLCJjcmVhdGVkQXQiOiIyMDE5LTA5LTE0VDA3OjI2OjU3LjUzNFoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA5LTE0VDA3OjI2OjU3LjUzNFoiLCJpYXQiOjE1Njg1NjY4MzUsImV4cCI6MTU2ODkxMjQzNX0.cMvIDRzr5T9Se9ooorgH4VkrjEH2eA38b94Z7NBlMLE';
+  expect(res.token).toBe(token);
+})
