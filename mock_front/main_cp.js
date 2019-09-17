@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return b;
   })();
 
+  const destSelector = document.getElementsByName('dest');
   const firstNameInput = document.getElementById('firstName');
   const lastNameInput = document.getElementById('lastName');
   const telInput = document.getElementById('tel');
@@ -24,179 +25,200 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnClosed = document.getElementById('btnClosed');
   const btnDecline = document.getElementById('btnDecline');
 
-
+  console.log('=-----', destSelector[0].checked);
+  console.log('=-----', destSelector[1].checked);
   const uid = getParams.uid;
   const token = localStorage.token;
   const params = { query: `token=${token}` };
-  // const socket = io('http://localhost:3333', params);
-  // const socket = io('http://localhost:3333/cp-clients', params);
-  const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', params);
 
-  function getSocketObject(payload) {
-    return {
-      token: localStorage.token,
-      user: localStorage.user,
-      rid: 'fjsalkdfjsaldfk',
-      payload,
-    }
-  }
+  let url = (destSelector[1].checked) 
+    ? 'http://localhost:3333/cp-clients' 
+    : 'http://kurakste1.fvds.ru:3333/cp-clients';
+    
+  let socket = io(url, params);
+  onSelectorChange();
 
-  btnPing.onclick = () => {
-    console.log('ping');
-    socket.emit('cpPing', getSocketObject({ data: 'payload' }));
-  }
-
-  btnCpPickedUpAlarm.onclick = () => {
-    const dd = {
-      id: 27,
-      UserId: 2,
-      track: [[55.749054, 52.457500],],
-      regionId: null, // определяем по координатам
-      status: 0,
-      oid: null, // operator id,
-      pickedUpAt: null,
-      groupSendAt: null,
-      declineAt: null,
-      closedAt: null,
-      notes: null
-    };
-    socket.emit('cpPickedUpAlarm', getSocketObject(dd));
-  }
-
-  btnAlarmGbrSent.onclick = () => {
-    const dd = {
-      id: 27,
-      UserId: 2,
-      track: [[55.749054, 52.457500],],
-      regionId: null, // определяем по координатам
-      status: 0,
-      oid: null, // operator id,
-      pickedUpAt: null,
-      groupSendAt: null,
-      declineAt: null,
-      closedAt: null,
-      notes: null
-    };
-    socket.emit('cpAlarmGbrSent', getSocketObject(dd));
-  },
-
-    btnClosed.onclick = () => {
-      const dd =  {
-        id: 27,
-        UserId: 2,
-        track: [[55.749054, 52.457500],],
-        regionId: null, // определяем по координатам
-        status: 0,
-        oid: null, // operator id,
-        pickedUpAt: null,
-        groupSendAt: null,
-        declineAt: null,
-        closedAt: null,
-        notes: null
-      };
-
-      socket.emit('cpAlarmClosed', getSocketObject(dd));
-    }
-
-  btnDecline.onclick = () => {
-    const dd =  {
-      id: 27,
-      UserId: 2,
-      track: [[55.749054, 52.457500],],
-      regionId: null, // определяем по координатам
-      status: 0,
-      oid: null, // operator id,
-      pickedUpAt: null,
-      groupSendAt: null,
-      declineAt: null,
-      closedAt: null,
-      notes: null
-    };
-    socket.emit('cpAlarmDecline', getSocketObject(dd));
-  },
-
-    registerButton.onclick = () => {
-      const user = {
-        firstName: firstNameInput.value,
-        lastName: lastNameInput.value,
-        tel: telInput.value,
-        email: emailInput.value,
-        password: passwordInput.value,
+  function onSelectorChange() {
+    console.log('change fierd');
+    socket.disconnect();
+    url = (destSelector[1].checked) 
+    ? 'http://localhost:3333/cp-clients' 
+    : 'http://kurakste1.fvds.ru:3333/cp-clients';
+    socket = io(url, params);
+    (function() {
+      function getSocketObject(payload) {
+        return {
+          token: localStorage.token,
+          user: localStorage.user,
+          rid: 'fjsalkdfjsaldfk',
+          payload,
+        }
       }
-
-      socket.emit('cpRegisterNewCpUser', {
-        token: null,
-        payload: user,
+    
+      btnPing.onclick = () => {
+        console.log('ping');
+        socket.emit('cpPing', getSocketObject({ data: 'payload' }));
+      }
+    
+      btnCpPickedUpAlarm.onclick = () => {
+        const dd = {
+          id: 27,
+          UserId: 2,
+          track: [[55.749054, 52.457500],],
+          regionId: null, // определяем по координатам
+          status: 0,
+          oid: null, // operator id,
+          pickedUpAt: null,
+          groupSendAt: null,
+          declineAt: null,
+          closedAt: null,
+          notes: null
+        };
+        socket.emit('cpPickedUpAlarm', getSocketObject(dd));
+      }
+    
+      btnAlarmGbrSent.onclick = () => {
+        const dd = {
+          id: 27,
+          UserId: 2,
+          track: [[55.749054, 52.457500],],
+          regionId: null, // определяем по координатам
+          status: 0,
+          oid: null, // operator id,
+          pickedUpAt: null,
+          groupSendAt: null,
+          declineAt: null,
+          closedAt: null,
+          notes: null
+        };
+        socket.emit('cpAlarmGbrSent', getSocketObject(dd));
+      },
+    
+        btnClosed.onclick = () => {
+          const dd =  {
+            id: 27,
+            UserId: 2,
+            track: [[55.749054, 52.457500],],
+            regionId: null, // определяем по координатам
+            status: 0,
+            oid: null, // operator id,
+            pickedUpAt: null,
+            groupSendAt: null,
+            declineAt: null,
+            closedAt: null,
+            notes: null
+          };
+    
+          socket.emit('cpAlarmClosed', getSocketObject(dd));
+        }
+    
+      btnDecline.onclick = () => {
+        const dd =  {
+          id: 27,
+          UserId: 2,
+          track: [[55.749054, 52.457500],],
+          regionId: null, // определяем по координатам
+          status: 0,
+          oid: null, // operator id,
+          pickedUpAt: null,
+          groupSendAt: null,
+          declineAt: null,
+          closedAt: null,
+          notes: null
+        };
+        socket.emit('cpAlarmDecline', getSocketObject(dd));
+      },
+    
+        registerButton.onclick = () => {
+          const user = {
+            firstName: firstNameInput.value,
+            lastName: lastNameInput.value,
+            tel: telInput.value,
+            email: emailInput.value,
+            password: passwordInput.value,
+          }
+    
+          socket.emit('cpRegisterNewCpUser', {
+            token: null,
+            payload: user,
+          });
+    
+          console.log('register', user);
+        }
+    
+      loginButton.onclick = () => {
+        const user = {
+          firstName: firstNameInput.value,
+          lastName: lastNameInput.value,
+          tel: telInput.value,
+          email: emailInput.value,
+          password: passwordInput.value,
+        }
+    
+        socket.emit('cpSignIn', {
+          token: null,
+          payload: user,
+        });
+        console.log('login', user);
+      }
+    
+      socket.on('open', function () {
+        console.log('socket connection succesfull');
+      });
+    
+      socket.on('connect', function () {
+        console.log('successfull connected');
+      });
+    
+      socket.on('disconnect', function () {
+        console.log('connection loose');
+      });
+    
+      socket.on('srvUpdateAlarmListAll', (data) => {
+        console.log('srvUpdateAlarmListAll: ', data);
+    
+      });
+    
+      socket.on('srvCreateNewAlarm', (data) => {
+        console.log('srvCreateNewAlarm: ', data);
+      });
+    
+      socket.on('srvUpdateAlarm', (data) => {
+        console.log('srvUpdateAlarm: ', data);
+      });
+    
+      socket.on('srvUpdateUserList', (data) => {
+        console.log('srvUpdateUserList: ', data);
+      });
+    
+      socket.on('srvNewUserConnected', (data) => {
+        console.log('srvNewUserConnected: ', data);
+      });
+    
+      socket.on('srvNewUserDisconnected', (data) => {
+        console.log('srvNewUserDisconnected: ', data);
+      });
+    
+      socket.on('srvLoginOk', (data) => {
+        const { token, user } = data;
+        localStorage.token = token;
+        localStorage.user = JSON.stringify(user);
+        console.log('srvLoginResult: ', data);
+      });
+    
+      socket.on('errMessage', (data) => {
+        console.log('errMessage: ', data);
+      });
+    
+      socket.on('srvNewUserWasCreated', (data) => {
+        console.log('srvNewUserWasCreated: ', data);
       });
 
-      console.log('register', user);
-    }
+    })();
+  };
 
-  loginButton.onclick = () => {
-    const user = {
-      firstName: firstNameInput.value,
-      lastName: lastNameInput.value,
-      tel: telInput.value,
-      email: emailInput.value,
-      password: passwordInput.value,
-    }
+  destSelector[0].onchange = onSelectorChange;
+  destSelector[1].onchange = onSelectorChange;
 
-    socket.emit('cpSignIn', {
-      token: null,
-      payload: user,
-    });
-    console.log('login', user);
-  }
 
-  socket.on('open', function () {
-    console.log('socket connection succesfull');
-  });
-
-  socket.on('connect', function () {
-    console.log('successfull connected');
-  });
-
-  socket.on('disconnect', function () {
-    console.log('connection loose');
-  });
-
-  socket.on('srvUpdateAlarmListAll', (data) => {
-    console.log('srvUpdateAlarmListAll: ', data);
-
-  });
-
-  socket.on('srvCreateNewAlarm', (data) => {
-    console.log('srvCreateNewAlarm: ', data);
-  });
-
-  socket.on('srvUpdateAlarm', (data) => {
-    console.log('srvUpdateAlarm: ', data);
-  });
-
-  socket.on('srvUpdateUserList', (data) => {
-    console.log('srvUpdateUserList: ', data);
-  });
-
-  socket.on('srvNewUserConnected', (data) => {
-    console.log('srvNewUserConnected: ', data);
-  });
-
-  socket.on('srvNewUserDisconnected', (data) => {
-    console.log('srvNewUserDisconnected: ', data);
-  });
-
-  socket.on('srvLoginOk', (data) => {
-    const { token, user } = data;
-    localStorage.token = token;
-    localStorage.user = JSON.stringify(user);
-    console.log('srvLoginResult: ', data);
-  });
-
-  socket.on('errMessage', (data) => {
-    console.log('errMessage: ', data);
-  });
-
-  socket.on('srvNewUserWasCreated', (data) => {
-    console.log('srvNewUserWasCreated: ', data);
-  });
 });
