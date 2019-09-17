@@ -7,17 +7,14 @@ const cpSocketEventEmitter = {
   srvNewUserWasCreated: async (socket, user) => {
     console.log('emited srvNewUserWasCreated');
     socket.emit('srvNewUserWasCreated', {
-      token: 'fake token',
-      user,
+      result: true,
     });
   },
 
   srvLoginOk: async (socket, result, user, token) => {
     console.log('emited srvLoginResult');
     socket.emit('srvLoginOk', {
-      result,
       token,
-      user,
     });
   },
 
