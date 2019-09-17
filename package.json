@@ -24,7 +24,8 @@
     "koa-static-server": "^1.4.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.16.0"
+    "sequelize": "^5.16.0",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^24.9.0"
   }
 }
