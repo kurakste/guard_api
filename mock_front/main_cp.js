@@ -26,7 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const uid = getParams.uid;
-  const params = uid ? { query: `uid=${uid}` } : null;
+  const token = localStorage.token;
+  const params = uid ? { query: `uid=${uid}&token=${token}` } : null;
+  // const socket = io('http://localhost:3333', params);
   const socket = io('http://localhost:3333/cp-clients', params);
   // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
 
@@ -183,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('srvNewUserDisconnected: ', data);
   });
 
-  socket.on('srvLoginResult', (data) => {
+  socket.on('srvLoginOk', (data) => {
     const { token, user } = data;
     localStorage.token = token;
     localStorage.user = JSON.stringify(user);
