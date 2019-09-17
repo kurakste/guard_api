@@ -12,9 +12,9 @@ const cpSocketEventEmitter = {
     });
   },
 
-  srvLoginResult: async (socket, result, user, token) => {
+  srvLoginOk: async (socket, result, user, token) => {
     console.log('emited srvLoginResult');
-    socket.emit('srvLoginResult', {
+    socket.emit('srvLoginOk', {
       result,
       token,
       user,
@@ -22,7 +22,7 @@ const cpSocketEventEmitter = {
   },
 
   srvCreateNewAlarm: async (cpIo, alarms) => {
-    cpIo.socket.emit('srvCreateNewAlarm', getSocketObject(alarms));
+    cpIo.emit('srvCreateNewAlarm', getSocketObject(alarms));
   },
 
   srvUpdateAlarmListAll: async (socket) => {
@@ -44,19 +44,20 @@ const cpSocketEventEmitter = {
   },
 
   srvUpdateAlarm: async (cpIo, alarm) => {
-    cpIo.socket.emit('srvUpdateAlarm', alarm);
+    cpIo.emit('srvUpdateAlarm', alarm);
   },
 
   srvUpdateUserList: async (socket, usersList) => {
     socket.emit('srvUpdateUserList', usersList);
   },
 
-  srvNewUserConnected: async (spIo, uid) => {
-    spIo.socket.emit('srvNewUserConnected', uid);
+  srvNewUserConnected: async (cpIo, uid) => {
+    console.log('cpio', cpIo);
+    cpIo.emit('srvNewUserConnected', uid);
   },
 
   srvNewUserDisconnected: async (spIo, uid) => {
-    spIo.socket.emit('srvNewUserDisconnected', uid);
+    spIo.emit('srvNewUserDisconnected', uid);
   },
 };
 
