@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.token;
   const params = { query: `token=${token}` };
   // const socket = io('http://localhost:3333', params);
-  const socket = io('http://localhost:3333/cp-clients', params);
-  // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });
+  // const socket = io('http://localhost:3333/cp-clients', params);
+  const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', params);
 
   function getSocketObject(payload) {
     return {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnCpPickedUpAlarm.onclick = () => {
     const dd = {
-      id: 54,
+      id: 27,
       UserId: 2,
       track: [[55.749054, 52.457500],],
       regionId: null, // определяем по координатам
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnAlarmGbrSent.onclick = () => {
     const dd = {
-      id: 54,
+      id: 27,
       UserId: 2,
       track: [[55.749054, 52.457500],],
       regionId: null, // определяем по координатам
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnClosed.onclick = () => {
       const dd =  {
-        id: 54,
+        id: 27,
         UserId: 2,
         track: [[55.749054, 52.457500],],
         regionId: null, // определяем по координатам
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnDecline.onclick = () => {
     const dd =  {
-      id: 54,
+      id: 27,
       UserId: 2,
       track: [[55.749054, 52.457500],],
       regionId: null, // определяем по координатам

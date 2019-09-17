@@ -15,6 +15,7 @@ const cpSocketEventEmitter = {
     console.log('emited srvLoginResult');
     socket.emit('srvLoginOk', {
       token,
+      user,
     });
   },
 
