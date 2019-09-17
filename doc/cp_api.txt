@@ -1,203 +1,22 @@
-1) ==================================================  
-api: GET: _server_/users/new-app-users  
-do: returns all new app users  
-permissions: // status code range  
-data: -  
-returns:   
- [  
-   {  
-    firstName: string,  
-    lastName: string,  
-    email:string,  
-    tel:string,  
-    img: file,  
-    pasImg1: file,  
-    pasImg2: file,    
-   },  
-   ...  
- ]  
-
-2) ==================================================
-api: POST: _server_/users/decline-app-user
-do: decline the new app user
-permissions: // status code range
-data: { id: number }
-returns: 
- [
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,  
-   },
-   ...
- ]
-
-3) ==================================================
-api: POST: _server_/users/verify-app-user
-do: Verify the new app user
-permissions: // status code range
-data: { id: number }
-returns: 
- [
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,  
-   },
-   ...
- ]
-
-4) ===  
-  api: POST: _server_/user-new-cp 
-  do: add new control panel user in database. It has to be approved.  
-  permissions: // status code range  
-  data: form/data  
-  Content-type: multipart/form-data  
-  params:  
-    firstName: string,  
-    lastName: string,  
-    email: string,  
-    tel: string,  
-    password: string,  
-  returns:  
-    firstName: string,  
-    lastName: string,  
-    email:string,  
-    tel:string,  
-
-5) ==================================================  
-api: GET: _server_/users/new-cp-users  
-do: returns all new control panel users  
-permissions: // status code range  
-data: -  
-returns: 
- [
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,  
-   },
-   ...
- ]
- 6) ==================================================
-api: POST: _server_/users/decline-cp-user
-do: decline the new control panel user
-permissions: // status code range
-data: { id: number }
-returns: 
- [
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,  
-   },
-   ...
- ]
- 
-7) ==================================================
-api: POST: _server_/users/verify-cp-user
-do: Verify the new control panel user
-permissions: // status code range
-data: { id: number }
-returns: 
- [
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,  
-   },
-   ...
- ]
-
-8) ====================================================
-api: GET: _server_/user/_id_
-do: returns all
-permissions: // status code range
-data: -
-returns: 
-   {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file,  
-   }
-9) ====================================================
-api: PATCH: _server_/user
-do: patch user in database. 
-permissions: // status code range
-data: json
-Content-type: application/json
-params: 
-  id: number,
-  // these fields can be updated
-  firstName: string,
-  lastName: string,
-  email: string,
-  tel: string,
-returns:
-{
-  "success": true,
-  "message": "",
-  "payload": {
-    firstName: string,
-    lastName: string,
-    email:string,
-    tel:string,
-    img: file,
-    pasImg1: file,
-    pasImg2: file, }
-  
 }
-10) ====================================================
-api: DELETE: _server_/user/_id_
-do: delete user in database. 
-permissions: // status code range
-data: -
-Content-type: -
-params: 
-  
-returns:
-{
-  "success": true,
-  "message": "",
-  "payload": {
-    "message": "User was deleted."
-  }
-}
-==================================================
+===============================================================================
 При запуске контрольная панель создает соединение по сокету с сервером.
 
 Контрольная панель проходит аутентификацию на сервере. 
 Если пользователь панели подтвержден - его соединение сервер сохраняет 
 в массив открытых сокетов в месте с id оператора и ссылкой на сокет.
 Когда соединение рвется нужно удалять из массива соединений соответсвующий элемент.
+Параметром подключения к сокету является token, это зашифрованный объект пользователя.
+время жизни сокета - 96 часов. После этого пользователь должен получить токен.
+Если приложение получает в событии srvError код ошибки от 0-10 - это ошибки 
+связанные с авторизацией. При возникновении таких ошибок приложение делает редирект
+на страницу регистрации. 
+
 
 
 Контрольная панель должна слушать сокет. 
   Приложение делает эмиссию следующих событий: 
+
     appNewalarm:
       params: alarm - объект тревоги
       Пользователь создал новую тревогу. 
