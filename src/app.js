@@ -4,6 +4,7 @@ const json = require('koa-json');
 const statServer = require('koa-static-server');
 const cors = require('koa-cors');
 const router = require('./router');
+const logger = require('./helpers/logger');
 
 const app = new Koa();
 
@@ -35,7 +36,7 @@ app.use(async (ctx) => {
 
 const port = process.env.PORT || 4040;
 app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
+  logger.info(`http://localhost:${port}`);
 });
 
 require('./socketApi');
