@@ -57,7 +57,7 @@ const cpSocketController = {
         { expiresIn: '96h' },
       );
       delete userForSend.password;
-      cpSocketEmitter.srvLoginResult(socket, loginResult, user, token);
+      cpSocketEmitter.srvLoginOk(socket, loginResult, user, token);
     } catch (err) {
       console.log('errMessage: ', err);
       socket.emit('errMessage', err.message);

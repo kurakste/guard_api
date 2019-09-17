@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const uid = getParams.uid;
   const token = localStorage.token;
-  const params = uid ? { query: `uid=${uid}&token=${token}` } : null;
+  const params = { query: `token=${token}` };
   // const socket = io('http://localhost:3333', params);
   const socket = io('http://localhost:3333/cp-clients', params);
   // const socket = io('http://kurakste1.fvds.ru:3333/cp-clients', { query: `uid=${uid}` });

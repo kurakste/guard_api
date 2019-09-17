@@ -52,7 +52,7 @@ const cpSocketEventEmitter = {
   },
 
   srvNewUserConnected: async (cpIo, uid) => {
-    console.log('cpio', cpIo);
+    // console.log('cpio', cpIo);
     cpIo.emit('srvNewUserConnected', uid);
   },
 
