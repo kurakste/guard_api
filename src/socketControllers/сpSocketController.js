@@ -143,10 +143,6 @@ const cpSocketController = {
       console.log(error);
     }
   },
-  cpErrorMessage: (socket, message, code) => {
-    socket.emit('srvErrMessage', { message, code });
-  },
-
 };
 
 module.exports = cpSocketController;

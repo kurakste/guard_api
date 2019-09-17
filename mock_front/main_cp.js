@@ -206,8 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('srvLoginResult: ', data);
       });
     
-      socket.on('errMessage', (data) => {
-        console.log('errMessage: ', data);
+      socket.on('srvErrMessage', (data) => {
+        console.log('srvErrMessage: ', data);
       });
     
       socket.on('srvNewUserWasCreated', (data) => {

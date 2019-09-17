@@ -54,6 +54,10 @@ const cpSocketEventEmitter = {
   srvNewUserDisconnected: async (spIo, uid) => {
     spIo.emit('srvNewUserDisconnected', uid);
   },
+
+  srvErrMessage: (socket, code, message) => {
+    socket.emit('srvErrMessage', { message, code });
+  },
 };
 
 module.exports = cpSocketEventEmitter;

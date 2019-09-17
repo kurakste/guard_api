@@ -87,7 +87,7 @@ cpIo.on('connection', (socket) => {
       cpEventEmitter.srvNewUserConnected(cpIo, id);
     } catch (error) {
       logger.error('error: ', error);
-      cpSocketController.cpErrorMessage(socket, error.message);
+      cpEventEmitter.srvErrMessage(socket, 500, error.message);
     }
   }
 });
