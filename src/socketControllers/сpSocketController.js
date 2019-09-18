@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const getUserFromToken = require('../helpers/getUserFromToken');
 const cpSocketEmitter = require('../cpSocketEventEmitter');
 const models = require('../../models');
+const logger = require('../helpers/logger');
 
 const { Alarm, Gbr, User } = models;
 
@@ -26,28 +27,33 @@ const cpSocketController = {
 
       if (checkUserInDb) throw new Error('User with this email already exist.');
       const result = await User.create(user);
-      console.log('user: ', result.dataValues);
+      logger.info('user: ', result.dataValues);
       delete result.dataValues.password;
       cpSocketEmitter.srvNewUserWasCreated(socket, result.dataValues);
     } catch (err) {
       socket.emit('errMessage', err.message);
-      console.log(err);
+      cpSocketEmitter.srvErrMessage(socket, 1, err.message);
+      logger.error(err);
     }
   },
 
   cpSignIn: async (socket, data) => {
     const { payload } = data;
     const user = payload;
-    console.log('cpSignIn: ', user);
+    logger.info('cpSignIn: ', user);
     try {
       const userFromDb = await User.findOne({
         where: { email: user.email },
       });
-      console.log('User from signIn: ', userFromDb.password);
-      if (!userFromDb.active) throw new Error('User doesn\'t active. Contact the server administrator');
+      logger.info('User from signIn: ', userFromDb.password);
+      if (!userFromDb.active) {
+        const msg = 'User doesn\'t active. Contact the server administrator';
+        cpSocketEmitter.srvErrMessage(socket, 8, msg);
+        return;
+      }
       const loginResult = await bcrypt
         .compare(user.password, userFromDb.password);
-      console.log('login result: ', loginResult);
+      logger.info('login result: ', loginResult);
       if (!loginResult) throw new Error('Login error');
       const userForSend = { ...userFromDb.dataValues };
       if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
@@ -59,8 +65,8 @@ const cpSocketController = {
       delete userForSend.password;
       cpSocketEmitter.srvLoginOk(socket, loginResult, userForSend, token);
     } catch (err) {
-      console.log('errMessage: ', err);
-      socket.emit('errMessage', err.message);
+      cpSocketEmitter.srvErrMessage(socket, 8, err.message);
+      logger.error('errMessage: ', err);
     }
   },
 
@@ -80,10 +86,10 @@ const cpSocketController = {
       alarmUpdated.pickedUpAt = new Date();
       alarmUpdated.save();
 
-      console.log('cpPickedUpAlarm: ', alarmUpdated.dataValues);
+      logger.info('cpPickedUpAlarm: ', alarmUpdated.dataValues);
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   },
   cpAlarmGbrSent: async (cpIo, data) => {
