@@ -35,7 +35,7 @@ const cpIo = io.of('/cp-clients');
 // appIo.on('connection', (socket) => {
 //   const appNewAlarm = appSocketController.appNewAlarm.bind(appSocketController, cpIo, socket);
 //   const appNewPointInTrack = appSocketController.appNewPointInTrack.bind(appSocketController, cpIo);
-//   console.log('New user connected.');
+//   logger.info('New user connected.');
 //   socket.on('appNewAlarm', appNewAlarm);
 //   socket.on('appNewPointInTrack', appNewPointInTrack);
 //   socket.on('disconnect', appSocketController.disconnect);

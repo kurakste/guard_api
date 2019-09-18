@@ -2,6 +2,7 @@ const bycrypt = require('bcryptjs');
 const apiResponseObject = require('../helpers/getApiResponseObject');
 const models = require('../../models');
 const checkAndStoreFiles = require('../helpers/checkAndStore');
+const logger = require('../helpers/logger');
 
 const { User } = models;
 
@@ -18,7 +19,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
@@ -56,7 +57,7 @@ const userController = {
 
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err);
+      logger.error(err);
     }
   },
 
@@ -69,14 +70,14 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
   postDeclineAppUser: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    console.log('id: ', id);
+    logger.info('id: ', id);
     try {
       const [updated] = await User.update({ role: 33 }, { where: { id } });
       if (updated === 0) throw new Error('Record not found in DB.');
@@ -87,7 +88,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
@@ -104,7 +105,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
@@ -129,14 +130,14 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
   postDeclineCpUser: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    console.log('id: ', id);
+    logger.info('id: ', id);
     try {
       const [updated] = await User.update({ role: 34 }, { where: { id } });
       if (updated === 0) throw new Error('Record not found in DB.');
@@ -147,7 +148,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
@@ -164,7 +165,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
@@ -177,7 +178,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 
@@ -196,7 +197,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
   deleteUser: async (ctx) => {
@@ -214,7 +215,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
   getAll: async (ctx) => {
@@ -227,7 +228,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      console.log(err.message);
+      logger.error(err.message);
     }
   },
 };

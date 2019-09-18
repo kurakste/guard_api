@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const getUserFromToken = require('../helpers/getUserFromToken');
 const cpSocketEmitter = require('../cpSocketEventEmitter');
 const models = require('../../models');
 const logger = require('../helpers/logger');
@@ -94,7 +93,6 @@ const cpSocketController = {
   },
   cpAlarmGbrSent: async (cpIo, socket, data) => {
     try {
-      console.log('cpAlarmGbrSent', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {
@@ -114,7 +112,7 @@ const cpSocketController = {
   },
   cpAlarmClosed: async (cpIo, socket, data) => {
     try {
-      console.log('cpAlarmClosed', data);
+      logger.info('cpAlarmClosed', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {
@@ -128,13 +126,13 @@ const cpSocketController = {
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
     } catch (err) {
-      logger.error(err)
+      logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 40, err.message);
     }
   },
   cpAlarmDecline: async (cpIo, socket, data) => {
     try {
-      console.log('cpAlarmDecline', data);
+      logger.info('cpAlarmDecline', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {

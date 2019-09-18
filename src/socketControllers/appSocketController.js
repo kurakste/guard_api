@@ -1,4 +1,5 @@
 const models = require('../../models');
+const logger =require('../helpers/logger');
 
 const { Alarm, Gbr } = models;
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
@@ -24,13 +25,13 @@ const socketController = {
       newAlarmWithGbr.User.password = null;
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   },
 
   appNewPointInTrack: async (cpIo, data) => {
     try {
-      console.log('track update: ', data);
+      logger.error('track update: ', data);
       const { payload } = data;
       const { aid, point } = payload;
       const alarm = await Alarm.findByPk(aid);
@@ -38,13 +39,13 @@ const socketController = {
       await alarm.save();
       cpSocketEventEmitter.srvUpdateAlarm(cpIo, alarm.dataValues);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   },
 
 
   disconnect: (data) => {
-    console.log('disconnected: ', data);
+    logger.info('disconnected: ', data);
   },
 };
 
