@@ -63,6 +63,7 @@ const cpSocketController = {
       );
       delete userForSend.password;
       cpSocketEmitter.srvLoginOk(socket, loginResult, userForSend, token);
+      cpSocketEmitter.srvUpdateAlarmListAll(socket);
     } catch (err) {
       logger.error('errMessage: ', err);
       cpSocketEmitter.srvErrMessage(socket, 6, err.message);
