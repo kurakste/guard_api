@@ -1,45 +1,32 @@
 const Koa = require('koa');
 const cors = require('koa-cors');
+const http = require('http');
+const IO = require('socket.io');
 const cpEventEmitter = require('./cpSocketEventEmitter');
 const cpSocketController = require('./socketControllers/сpSocketController');
 const appSocketController = require('./socketControllers/appSocketController');
-const auth = require('./middelware/auth');
+const auth = require('./middleware/auth');
 const extractParamsFromUrl = require('./helpers/extractParamsFromUrl');
 const logger = require('./helpers/logger');
 
 const appSock = new Koa();
 appSock.use(cors());
 
-// const appIo = new IO({
-//   namespace: 'app-clients',
-// });
-
-// const cpIo = new IO({
-//   namespace: 'cp-clients',
-// });
-
-const server = require('http').createServer(appSock.callback());
-const io = require('socket.io')(server);
-
-
-// const io = IO(appSock, { origins: '*:*' });
-// io.set('origins', '*:*');
-// const appIo = io.of('/app-clients');
+const server = http.createServer(appSock.callback());
+const io = IO(server);
 const cpIo = io.of('/cp-clients');
-// const cpIo = io;
+const appIo = io.of('/app-clients');
 
-// appIo.attach(appSock);
-// cpIo.attach(appSock);
-
-
-// appIo.on('connection', (socket) => {
-//   const appNewAlarm = appSocketController.appNewAlarm.bind(appSocketController, cpIo, socket);
-//   const appNewPointInTrack = appSocketController.appNewPointInTrack.bind(appSocketController, cpIo);
-//   logger.info('New user connected.');
-//   socket.on('appNewAlarm', appNewAlarm);
-//   socket.on('appNewPointInTrack', appNewPointInTrack);
-//   socket.on('disconnect', appSocketController.disconnect);
-// });
+appIo.on('connection', (socket) => {
+  const appNewAlarm = appSocketController
+    .appNewAlarm.bind(appSocketController, cpIo, socket);
+  const appNewPointInTrack = appSocketController.appNewPointInTrack
+    .bind(appSocketController, cpIo);
+  logger.info('New user connected.');
+  socket.on('appNewAlarm', appNewAlarm);
+  socket.on('appNewPointInTrack', appNewPointInTrack);
+  socket.on('disconnect', appSocketController.disconnect);
+});
 
 
 const openCpIoSockets = [];
@@ -48,14 +35,15 @@ cpIo.on('connection', (socket) => {
   const params = extractParamsFromUrl(socket.request.url);
   const { token } = params;
   const authResult = auth(token);
-  logger.info('++++++++++ connection ++++++++++++++++++++++');
   logger.info('user connected', params, token, authResult);
-  logger.info('++++++++++ connection ++++++++++++++++++++++');
-
-  const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo, socket, authResult);
-  const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo, socket);
-  const cpAlarmClosed = cpSocketController.cpAlarmClosed.bind(cpSocketController, cpIo, socket);
-  const cpAlarmDecline = cpSocketController.cpAlarmDecline.bind(cpSocketController, cpIo, socket);
+  const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm
+    .bind(cpSocketController, cpIo, socket, authResult);
+  const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent
+    .bind(cpSocketController, cpIo, socket);
+  const cpAlarmClosed = cpSocketController.cpAlarmClosed
+    .bind(cpSocketController, cpIo, socket);
+  const cpAlarmDecline = cpSocketController.cpAlarmDecline
+    .bind(cpSocketController, cpIo, socket);
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
     .bind(cpSocketController, socket);

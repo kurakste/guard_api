@@ -1,5 +1,5 @@
 const models = require('../../models');
-const logger =require('../helpers/logger');
+const logger = require('../helpers/logger');
 
 const { Alarm, Gbr } = models;
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
