@@ -52,10 +52,10 @@ cpIo.on('connection', (socket) => {
   logger.info('user connected', params, token, authResult);
   logger.info('++++++++++ connection ++++++++++++++++++++++');
 
-  const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo);
-  const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo);
-  const cpAlarmClosed = cpSocketController.cpAlarmClosed.bind(cpSocketController, cpIo);
-  const cpAlarmDecline = cpSocketController.cpAlarmDecline.bind(cpSocketController, cpIo);
+  const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm.bind(cpSocketController, cpIo, socket, authResult);
+  const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent.bind(cpSocketController, cpIo, socket);
+  const cpAlarmClosed = cpSocketController.cpAlarmClosed.bind(cpSocketController, cpIo, socket);
+  const cpAlarmDecline = cpSocketController.cpAlarmDecline.bind(cpSocketController, cpIo, socket);
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
     .bind(cpSocketController, socket);

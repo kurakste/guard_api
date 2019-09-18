@@ -59,15 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('ping');
         socket.emit('cpPing', getSocketObject({ data: 'payload' }));
       }
+
+      const alarmId = 54;
     
       btnCpPickedUpAlarm.onclick = () => {
+        console.log('cpPickedUpAlarm');
         const dd = {
-          id: 27,
+          id: alarmId,
           UserId: 2,
           track: [[55.749054, 52.457500],],
           regionId: null, // определяем по координатам
           status: 0,
-          oid: null, // operator id,
+          oid: 2, // operator id,
           pickedUpAt: null,
           groupSendAt: null,
           declineAt: null,
@@ -79,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
       btnAlarmGbrSent.onclick = () => {
         const dd = {
-          id: 27,
+          id: alarmId,
           UserId: 2,
           track: [[55.749054, 52.457500],],
           regionId: null, // определяем по координатам
@@ -96,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         btnClosed.onclick = () => {
           const dd =  {
-            id: 27,
+            id: alarmId,
             UserId: 2,
             track: [[55.749054, 52.457500],],
             regionId: null, // определяем по координатам
@@ -114,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
       btnDecline.onclick = () => {
         const dd =  {
-          id: 27,
+          id: alarmId,
           UserId: 2,
           track: [[55.749054, 52.457500],],
           regionId: null, // определяем по координатам

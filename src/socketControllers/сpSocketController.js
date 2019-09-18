@@ -65,16 +65,15 @@ const cpSocketController = {
       delete userForSend.password;
       cpSocketEmitter.srvLoginOk(socket, loginResult, userForSend, token);
     } catch (err) {
-      cpSocketEmitter.srvErrMessage(socket, 7, err.message);
       logger.error('errMessage: ', err);
+      cpSocketEmitter.srvErrMessage(socket, 6, err.message);
     }
   },
 
-  cpPickedUpAlarm: async (cpIo, data) => {
+  cpPickedUpAlarm: async (cpIo, socket, user, data) => {
     try {
-      const { token, payload } = data;
-      const alarm = payload;
-      const user = getUserFromToken(token);
+      const { payload } = data;
+      const alarm = { ...payload };
       const alarmUpdated = await Alarm.findByPk(alarm.id, {
         include: [
           'User',
@@ -89,10 +88,11 @@ const cpSocketController = {
       logger.info('cpPickedUpAlarm: ', alarmUpdated.dataValues);
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
     } catch (err) {
-      logger.error(err);
+      logger.error(err.message);
+      cpSocketEmitter.srvErrMessage(socket, 20, err.message);
     }
   },
-  cpAlarmGbrSent: async (cpIo, data) => {
+  cpAlarmGbrSent: async (cpIo, socket, data) => {
     try {
       console.log('cpAlarmGbrSent', data);
       const { payload } = data;
@@ -107,11 +107,12 @@ const cpSocketController = {
       alarmUpdated.status = 20;
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      logger.error(err);
+      cpSocketEmitter.srvErrMessage(socket, 30, err.message);
     }
   },
-  cpAlarmClosed: async (cpIo, data) => {
+  cpAlarmClosed: async (cpIo, socket, data) => {
     try {
       console.log('cpAlarmClosed', data);
       const { payload } = data;
@@ -126,11 +127,12 @@ const cpSocketController = {
       alarmUpdated.status = 40;
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      logger.error(err)
+      cpSocketEmitter.srvErrMessage(socket, 40, err.message);
     }
   },
-  cpAlarmDecline: async (cpIo, data) => {
+  cpAlarmDecline: async (cpIo, socket, data) => {
     try {
       console.log('cpAlarmDecline', data);
       const { payload } = data;
@@ -145,8 +147,9 @@ const cpSocketController = {
       alarmUpdated.status = 30;
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      logger.error(err);
+      cpSocketEmitter.srvErrMessage(socket, 50, err.message);
     }
   },
 };
