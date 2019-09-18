@@ -46,15 +46,15 @@ const cpSocketController = {
         where: { email: user.email },
       });
       logger.info('User from signIn: ', userFromDb.password);
+      const loginResult = await bcrypt
+        .compare(user.password, userFromDb.password);
+      logger.info('login result: ', loginResult);
+      if (!loginResult) throw new Error('Login error');
       if (!userFromDb.active) {
         const msg = 'User doesn\'t active. Contact the server administrator';
         cpSocketEmitter.srvErrMessage(socket, 8, msg);
         return;
       }
-      const loginResult = await bcrypt
-        .compare(user.password, userFromDb.password);
-      logger.info('login result: ', loginResult);
-      if (!loginResult) throw new Error('Login error');
       const userForSend = { ...userFromDb.dataValues };
       if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
       const token = jwt.sign(
@@ -65,7 +65,7 @@ const cpSocketController = {
       delete userForSend.password;
       cpSocketEmitter.srvLoginOk(socket, loginResult, userForSend, token);
     } catch (err) {
-      cpSocketEmitter.srvErrMessage(socket, 8, err.message);
+      cpSocketEmitter.srvErrMessage(socket, 7, err.message);
       logger.error('errMessage: ', err);
     }
   },
