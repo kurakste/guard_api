@@ -2,11 +2,11 @@ const Koa = require('koa');
 const cors = require('koa-cors');
 const http = require('http');
 const IO = require('socket.io');
+const urlParser = require('url-parameter-parser');
 const cpEventEmitter = require('./cpSocketEventEmitter');
 const cpSocketController = require('./socketControllers/сpSocketController');
 const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middleware/auth');
-const extractParamsFromUrl = require('./helpers/extractParamsFromUrl');
 const logger = require('./helpers/logger');
 
 const appSock = new Koa();
@@ -32,7 +32,7 @@ appIo.on('connection', (socket) => {
 const openCpIoSockets = [];
 
 cpIo.on('connection', (socket) => {
-  const params = extractParamsFromUrl(socket.request.url);
+  const params = urlParser(socket.request.url);
   const { token } = params;
   const authResult = auth(token);
   logger.info('user connected', params, token, authResult);
