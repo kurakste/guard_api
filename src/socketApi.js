@@ -34,7 +34,7 @@ const openCpIoSockets = [];
 cpIo.on('connection', (socket) => {
   const params = urlParser(socket.request.url);
   const { token } = params;
-  const authResult = auth(token);
+  const authResult = auth(token, socket);
   logger.info('user connected', params, token, authResult);
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm
     .bind(cpSocketController, cpIo, socket, authResult);
@@ -53,8 +53,8 @@ cpIo.on('connection', (socket) => {
   socket.on('cpPing', () => {
     logger.info('ping', authResult);
   });
-  if (authResult) {
-    const { id } = authResult;
+  if (authResult.res) {
+    const { id } = authResult.user;
     const conObject = { id, socket };
     try {
       const usersIds = openCpIoSockets.map(el => el.id);
@@ -77,6 +77,8 @@ cpIo.on('connection', (socket) => {
       logger.error('error: ', error);
       cpEventEmitter.srvErrMessage(socket, 500, error.message);
     }
+  } else {
+    cpEventEmitter.srvErrMessage(socket, authResult.code, authResult.msg);
   }
 });
 

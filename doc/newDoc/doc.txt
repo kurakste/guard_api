@@ -59,6 +59,8 @@ webSoсket (библиотека socket.io).
     1 - все ошибки при SignUp кроме проверки email на уникальность
     7 - пользователь с таким email существует(при регистрации). 
     8 - пользователь не подтвержден админом.
+    3 - auth token absent ....
+    4 - auth token incorrect or expired.
     6 - прочие ошибки при SignIn
   srvNewUserWasCreated:
     ответ на запрос создания нового пользователя
