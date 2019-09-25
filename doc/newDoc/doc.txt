@@ -50,6 +50,24 @@ webSoсket (библиотека socket.io).
   cpAlarmDecline
      Оператор отклонил тревогу
      payload: объект тревоги 
+  
+  cpAppUserApprove
+    Оператор подтвердил пользователя приложения
+    payload: user
+  
+  cpAppUserDecline
+    payload: {
+      user, comment:string
+    }
+  
+  cpCpUserApprove
+    Оператор подтвердил пользователя приложения
+    payload: user
+  
+  cpCpUserDecline
+    payload: {
+      user, comment:string
+    }
 
 Входящие сообщения на контрольную панель от сервера:
   srvErrMessage
