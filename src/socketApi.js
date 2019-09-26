@@ -75,6 +75,7 @@ cpIo.on('connection', (socket) => {
       // TODO: rename it to srvSendActiveCpUsers 
       cpEventEmitter.srvUpdateUserList(socket, openCpIoSockets.map(el => el.id));
       cpEventEmitter.srvSendAllCpUserListForOneCpUser(socket);
+      cpEventEmitter.srvSendAllAppUserListForOneCpUser(socket);
       cpEventEmitter.srvNewUserConnected(cpIo, id);
     } catch (error) {
       logger.error('error: ', error);

@@ -220,6 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvSendAllCpUserList', (data) => {
         console.log('srvSendAllCpUserList: ', data);
       });
+      
+      socket.on('srvSendAllAppUserList', (data) => {
+        console.log('srvSendAllAppUserList: ', data);
+      });
 
     })();
   };

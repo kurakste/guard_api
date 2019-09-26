@@ -55,6 +55,16 @@ const cpSocketEventEmitter = {
     console.log('users: ', users);
     socket.emit('srvSendAllCpUserList', users);
   },
+  
+  srvSendAllAppUserListForOneCpUser: async (socket) => {
+    const dataObj = await User
+      .findAll({
+        where: { role: [35, 31, 33] },
+      });
+    const users = dataObj.map(el => el.dataValues);
+    console.log('users: ', users);
+    socket.emit('srvSendAllAppUserList', users);
+  },
 
   srvNewUserConnected: async (cpIo, uid) => {
     cpIo.emit('srvNewUserConnected', uid);
