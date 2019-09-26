@@ -217,6 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('srvNewUserWasCreated: ', data);
       });
 
+      socket.on('srvSendAllCpUserList', (data) => {
+        console.log('srvSendAllCpUserList: ', data);
+      });
+
     })();
   };
 

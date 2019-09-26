@@ -1,6 +1,6 @@
 const models = require('../../models');
 
-const { Alarm, Gbr } = models;
+const { Alarm, Gbr, User } = models;
 
 const cpSocketEventEmitter = {
   srvNewUserWasCreated: async (socket) => {
@@ -44,6 +44,16 @@ const cpSocketEventEmitter = {
 
   srvUpdateUserList: async (socket, usersList) => {
     socket.emit('srvUpdateUserList', usersList);
+  },
+
+  srvSendAllCpUserListForOneCpUser: async (socket) => {
+    const dataObj = await User
+      .findAll({
+        where: { role: [36, 32, 34] },
+      });
+    const users = dataObj.map(el => el.dataValues);
+    console.log('users: ', users);
+    socket.emit('srvSendAllCpUserList', users);
   },
 
   srvNewUserConnected: async (cpIo, uid) => {

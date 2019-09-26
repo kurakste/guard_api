@@ -70,8 +70,11 @@ cpIo.on('connection', (socket) => {
         cpEventEmitter.srvNewUserDisconnected(cpIo, id);
         logger.info(`Cp disconnected operator with ID:${conObject.uid}`);
       });
+      // TODO: rename it to srvSendAlarmListAll;
       cpEventEmitter.srvUpdateAlarmListAll(socket);
+      // TODO: rename it to srvSendActiveCpUsers 
       cpEventEmitter.srvUpdateUserList(socket, openCpIoSockets.map(el => el.id));
+      cpEventEmitter.srvSendAllCpUserListForOneCpUser(socket);
       cpEventEmitter.srvNewUserConnected(cpIo, id);
     } catch (error) {
       logger.error('error: ', error);
