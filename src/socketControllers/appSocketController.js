@@ -5,7 +5,7 @@ const { Alarm, Gbr } = models;
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
 // const appSocketEventEmitter = require('../appSocketEventEmitter');
 
-// TODO: Write real function))))
+// TODO: Write real function)
 const getGbrId = () => 32;
 
 const socketController = {
