@@ -52,7 +52,6 @@ const cpSocketEventEmitter = {
         where: { role: [36, 32, 34] },
       });
     const users = dataObj.map(el => el.dataValues);
-    console.log('users: ', users);
     socket.emit('srvSendAllCpUserList', users);
   },
 
@@ -62,7 +61,6 @@ const cpSocketEventEmitter = {
         where: { role: [35, 31, 33] },
       });
     const users = dataObj.map(el => el.dataValues);
-    console.log('users: ', users);
     socket.emit('srvSendAllAppUserList', users);
   },
 
