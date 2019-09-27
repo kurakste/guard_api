@@ -36,6 +36,66 @@ const cpSocketController = {
     }
   },
 
+  cpAppUserApprove: async (socket, cpIo, user) => {
+    logger.info('cpAppUserApprove', user);
+    const { id } = user;
+    try {
+      const [updated] = await User.update({ role: 35 }, { where: { id } });
+      if (updated === 0) throw new Error('Record not found in DB.');
+      const updatedUser = await User.findByPk(id);
+      const newUser = updatedUser.dataValues;
+      cpIo.emit('srvUpdateOneCpUser', newUser);
+    } catch (err) {
+      logger.error(err.message);
+      cpSocketEmitter.srvErrMessage(socket, 11, err.message);
+    }
+  },
+
+  cpAppUserDecline: async (socket, cpIo, user) => {
+    logger.info('cpAppUserDecline', user);
+    const { id } = user;
+    try {
+      const [updated] = await User.update({ role: 33 }, { where: { id } });
+      if (updated === 0) throw new Error('Record not found in DB.');
+      const updatedUser = await User.findByPk(id);
+      const newUser = updatedUser.dataValues;
+      cpIo.emit('srvUpdateOneCpUser', newUser);
+    } catch (err) {
+      logger.error(err.message);
+      cpSocketEmitter.srvErrMessage(socket, 11, err.message);
+    }
+  },
+
+  cpCpUserApprove: async (socket, cpIo, user) => {
+    logger.info('cpCpUserApprove', user);
+    const { id } = user;
+    try {
+      const [updated] = await User.update({ role: 36 }, { where: { id } });
+      if (updated === 0) throw new Error('Record not found in DB.');
+      const updatedUser = await User.findByPk(id);
+      const newUser = updatedUser.dataValues;
+      cpIo.emit('srvUpdateOneCpUser', newUser);
+    } catch (err) {
+      logger.error(err.message);
+      cpSocketEmitter.srvErrMessage(socket, 11, err.message);
+    }
+  },
+
+  cpCpUserDecline: async (socket, cpIo, user) => {
+    logger.info('cpCpUserDecline', user);
+    const { id } = user;
+    try {
+      const [updated] = await User.update({ role: 34 }, { where: { id } });
+      if (updated === 0) throw new Error('Record not found in DB.');
+      const updatedUser = await User.findByPk(id);
+      const newUser = updatedUser.dataValues;
+      cpIo.emit('srvUpdateOneCpUser', newUser);
+    } catch (err) {
+      logger.error(err.message);
+      cpSocketEmitter.srvErrMessage(socket, 11, err.message);
+    }
+  },
+
   cpSignIn: async (socket, data) => {
     const { payload } = data;
     const user = payload;

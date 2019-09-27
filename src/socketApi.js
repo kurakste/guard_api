@@ -47,7 +47,17 @@ cpIo.on('connection', (socket) => {
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
     .bind(cpSocketController, socket);
-  const cpSignIn = cpSocketController.cpSignIn.bind(cpSocketController, socket);
+  const cpSignIn = cpSocketController.cpSignIn
+    .bind(cpSocketController, socket);
+  const cpAppUserApprove = cpSocketController.cpAppUserApprove
+    .bind(cpSocketController, socket, cpIo);
+  const cpAppUserDecline = cpSocketController.cpAppUserDecline
+    .bind(cpSocketController, socket, cpIo);
+  const cpCpUserApprove = cpSocketController.cpCpUserApprove
+    .bind(cpSocketController, socket, cpIo);
+  const cpCpUserDecline = cpSocketController.cpCpUserDecline
+    .bind(cpSocketController, socket, cpIo);
+
   socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
   socket.on('cpSignIn', cpSignIn);
   socket.on('cpPing', () => {
@@ -65,6 +75,10 @@ cpIo.on('connection', (socket) => {
       socket.on('cpAlarmGbrSent', cpAlarmGbrSent);
       socket.on('cpAlarmClosed', cpAlarmClosed);
       socket.on('cpAlarmDecline', cpAlarmDecline);
+      socket.on('cpAppUserApprove', cpAppUserApprove);
+      socket.on('cpAppUserDecline', cpAppUserDecline);
+      socket.on('cpCpUserApprove', cpCpUserApprove);
+      socket.on('cpCpUserDecline', cpCpUserDecline);
       socket.on('disconnect', () => {
         openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
         cpEventEmitter.srvNewUserDisconnected(cpIo, id);
@@ -72,7 +86,7 @@ cpIo.on('connection', (socket) => {
       });
       // TODO: rename it to srvSendAlarmListAll;
       cpEventEmitter.srvUpdateAlarmListAll(socket);
-      // TODO: rename it to srvSendActiveCpUsers 
+      // TODO: rename it to srvSendActiveCpUsers
       cpEventEmitter.srvUpdateUserList(socket, openCpIoSockets.map(el => el.id));
       cpEventEmitter.srvSendAllCpUserListForOneCpUser(socket);
       cpEventEmitter.srvSendAllAppUserListForOneCpUser(socket);

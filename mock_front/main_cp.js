@@ -258,6 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvSendAllAppUserList', (data) => {
         console.log('srvSendAllAppUserList: ', data);
       });
+      
+      socket.on('srvUpdateOneCpUser', (data) => {
+        console.log('srvUpdateOneCpUser: ', data);
+      });
 
     })();
   };

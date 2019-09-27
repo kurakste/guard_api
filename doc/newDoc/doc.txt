@@ -80,6 +80,8 @@ webSoсket (библиотека socket.io).
     3 - auth token absent ....
     4 - auth token incorrect or expired.
     6 - прочие ошибки при SignIn
+    11 - ошибки подтверждения/отклонения пользователя
+
   srvNewUserWasCreated:
     ответ на запрос создания нового пользователя
     payload: {
@@ -115,12 +117,19 @@ webSoсket (библиотека socket.io).
     На сервере обновился полный список пользователей контрольной панели. 
     Возможно добавлен/удален пользователь. Возможно изменен. 
     payload: [user1, user2, ...]
+
+  srvUpdateOneCpUser:
+    Изменилось состояние пользователя. 
+    payload: user
   
-  srvUpdateAllCpUserList:
-    На сервере обновился полный список пользователей контрольной панели. 
+  srvUpdateAllAppUserList:
+    На сервере обновился полный список пользователей приложения. 
     Возможно добавлен/удален пользователь. Возможно изменен. 
     payload: [user1, user2, ...]
   
+  srvUpdateOneAppUser:
+    Изменилось состояние пользователя. 
+    payload: user
 
   srvUpdateAlarmListAll:
     На сервере обновился общий лист тревог.
