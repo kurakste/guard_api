@@ -24,28 +24,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnAlarmGbrSent = document.getElementById('btnAlarmGbrSent');
   const btnClosed = document.getElementById('btnClosed');
   const btnDecline = document.getElementById('btnDecline');
+  const btnAppUserApprove = document.getElementById('btnAppUserApprove');
+  const btnAppUserDecline = document.getElementById('btnAppUserDecline');
+  const btnCpUserApprove = document.getElementById('btnCpUserApprove');
+  const btnCpUserDecline = document.getElementById('btnCpUserDecline');
 
-  console.log('=-----', destSelector[0].checked);
-  console.log('=-----', destSelector[1].checked);
   const uid = getParams.uid;
   const token = localStorage.token;
   const params = { query: `token=${token}` };
 
-  let url = (destSelector[1].checked) 
-    ? 'http://localhost:3333/cp-clients' 
+  let url = (destSelector[1].checked)
+    ? 'http://localhost:3333/cp-clients'
     : 'http://kurakste1.fvds.ru:3333/cp-clients';
-    
+
   let socket = io(url, params);
   onSelectorChange();
 
   function onSelectorChange() {
     console.log('change fierd');
     socket.disconnect();
-    url = (destSelector[1].checked) 
-    ? 'http://localhost:3333/cp-clients' 
-    : 'http://kurakste1.fvds.ru:3333/cp-clients';
+    url = (destSelector[1].checked)
+      ? 'http://localhost:3333/cp-clients'
+      : 'http://kurakste1.fvds.ru:3333/cp-clients';
     socket = io(url, params);
-    (function() {
+    (function () {
       function getSocketObject(payload) {
         return {
           token: localStorage.token,
@@ -54,14 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
           payload,
         }
       }
-    
+
       btnPing.onclick = () => {
         console.log('ping');
         socket.emit('cpPing', getSocketObject({ data: 'payload' }));
       }
 
       const alarmId = 54;
-    
+
       btnCpPickedUpAlarm.onclick = () => {
         console.log('cpPickedUpAlarm');
         const dd = {
@@ -79,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         socket.emit('cpPickedUpAlarm', getSocketObject(dd));
       }
-    
+
       btnAlarmGbrSent.onclick = () => {
         const dd = {
           id: alarmId,
@@ -96,9 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         socket.emit('cpAlarmGbrSent', getSocketObject(dd));
       },
-    
+
         btnClosed.onclick = () => {
-          const dd =  {
+          const dd = {
             id: alarmId,
             UserId: 2,
             track: [[55.749054, 52.457500],],
@@ -111,12 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
             closedAt: null,
             notes: null
           };
-    
+
           socket.emit('cpAlarmClosed', getSocketObject(dd));
         }
-    
+
       btnDecline.onclick = () => {
-        const dd =  {
+        const dd = {
           id: alarmId,
           UserId: 2,
           track: [[55.749054, 52.457500],],
@@ -131,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         socket.emit('cpAlarmDecline', getSocketObject(dd));
       },
-    
+
         registerButton.onclick = () => {
           const user = {
             firstName: firstNameInput.value,
@@ -140,15 +142,47 @@ document.addEventListener('DOMContentLoaded', () => {
             email: emailInput.value,
             password: passwordInput.value,
           }
-    
+
           socket.emit('cpRegisterNewCpUser', {
             token: null,
             payload: user,
           });
-    
+
           console.log('register', user);
         }
-    
+
+      btnAppUserApprove.onclick = () => {
+        const user = {
+          id: document.getElementById('uid').value,
+        }
+
+        socket.emit('cpAppUserApprove', user); 
+      };
+      
+      btnAppUserDecline.onclick = () => {
+        const user = {
+          id: document.getElementById('uid').value,
+        }
+
+        socket.emit('cpAppUserDecline', user); 
+      };
+
+      btnCpUserApprove.onclick = () => {
+        const user = {
+          id: document.getElementById('uid').value,
+        }
+
+        socket.emit('cpCpUserApprove', user); 
+      };
+      
+      btnCpUserDecline.onclick = () => {
+        const user = {
+          id: document.getElementById('uid').value,
+        }
+
+        socket.emit('cpCpUserDecline', user); 
+      };
+
       loginButton.onclick = () => {
         const user = {
           firstName: firstNameInput.value,
@@ -157,62 +191,62 @@ document.addEventListener('DOMContentLoaded', () => {
           email: emailInput.value,
           password: passwordInput.value,
         }
-    
+
         socket.emit('cpSignIn', {
           token: null,
           payload: user,
         });
         console.log('login', user);
       }
-    
+
       socket.on('open', function () {
         console.log('socket connection succesfull');
       });
-    
+
       socket.on('connect', function () {
         console.log('successfull connected');
       });
-    
+
       socket.on('disconnect', function () {
         console.log('connection loose');
       });
-    
+
       socket.on('srvUpdateAlarmListAll', (data) => {
         console.log('srvUpdateAlarmListAll: ', data);
-    
+
       });
-    
+
       socket.on('srvCreateNewAlarm', (data) => {
         console.log('srvCreateNewAlarm: ', data);
       });
-    
+
       socket.on('srvUpdateAlarm', (data) => {
         console.log('srvUpdateAlarm: ', data);
       });
-    
+
       socket.on('srvUpdateUserList', (data) => {
         console.log('srvUpdateUserList: ', data);
       });
-    
+
       socket.on('srvNewUserConnected', (data) => {
         console.log('srvNewUserConnected: ', data);
       });
-    
+
       socket.on('srvNewUserDisconnected', (data) => {
         console.log('srvNewUserDisconnected: ', data);
       });
-    
+
       socket.on('srvLoginOk', (data) => {
         const { token, user } = data;
         localStorage.token = token;
         localStorage.user = JSON.stringify(user);
         console.log('srvLoginResult: ', data);
       });
-    
+
       socket.on('srvErrMessage', (data) => {
         console.log('srvErrMessage: ', data);
       });
-    
+
       socket.on('srvNewUserWasCreated', (data) => {
         console.log('srvNewUserWasCreated: ', data);
       });
@@ -220,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvSendAllCpUserList', (data) => {
         console.log('srvSendAllCpUserList: ', data);
       });
-      
+
       socket.on('srvSendAllAppUserList', (data) => {
         console.log('srvSendAllAppUserList: ', data);
       });
