@@ -36,7 +36,9 @@ const cpSocketController = {
     }
   },
 
-  cpAppUserApprove: async (socket, cpIo, user) => {
+  cpAppUserApprove: async (socket, cpIo, data) => {
+    const { payload } = data;
+    const user = payload;
     logger.info('cpAppUserApprove', user);
     const { id } = user;
     try {
@@ -51,7 +53,9 @@ const cpSocketController = {
     }
   },
 
-  cpAppUserDecline: async (socket, cpIo, user) => {
+  cpAppUserDecline: async (socket, cpIo, data) => {
+    const { payload } = data;
+    const user = payload;
     logger.info('cpAppUserDecline', user);
     const { id } = user;
     try {
@@ -66,7 +70,9 @@ const cpSocketController = {
     }
   },
 
-  cpCpUserApprove: async (socket, cpIo, user) => {
+  cpCpUserApprove: async (socket, cpIo, data) => {
+    const { payload } = data;
+    const user = payload;
     logger.info('cpCpUserApprove', user);
     const { id } = user;
     try {
@@ -81,7 +87,9 @@ const cpSocketController = {
     }
   },
 
-  cpCpUserDecline: async (socket, cpIo, user) => {
+  cpCpUserDecline: async (socket, cpIo, data) => {
+    const { payload } = data;
+    const user = payload;
     logger.info('cpCpUserDecline', user);
     const { id } = user;
     try {

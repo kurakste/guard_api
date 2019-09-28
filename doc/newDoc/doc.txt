@@ -55,16 +55,18 @@ webSoсket (библиотека socket.io).
     Оператор подтвердил пользователя приложения
     payload: user
   
-  cpAppUserDecline
+  cpAppUserDecline    
+  Оператор отклонил пользователя приложения
     payload: {
       user, comment:string
     }
   
   cpCpUserApprove
-    Оператор подтвердил пользователя приложения
+    Оператор подтвердил пользователя контрольной панели
     payload: user
   
   cpCpUserDecline
+    Оператор отклонил пользователя контрольной панели
     payload: {
       user, comment:string
     }

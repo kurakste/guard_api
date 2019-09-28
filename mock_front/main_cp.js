@@ -154,9 +154,12 @@ document.addEventListener('DOMContentLoaded', () => {
       btnAppUserApprove.onclick = () => {
         const user = {
           id: document.getElementById('uid').value,
-        }
+        };
 
-        socket.emit('cpAppUserApprove', user); 
+        socket.emit('cpAppUserApprove', {
+          token:null,
+          payload: user,
+        }); 
       };
       
       btnAppUserDecline.onclick = () => {
@@ -164,7 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
           id: document.getElementById('uid').value,
         }
 
-        socket.emit('cpAppUserDecline', user); 
+        socket.emit('cpAppUserDecline', {
+          token:null,
+          payload: user,
+        }); 
       };
 
       btnCpUserApprove.onclick = () => {
@@ -172,7 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
           id: document.getElementById('uid').value,
         }
 
-        socket.emit('cpCpUserApprove', user); 
+        socket.emit('cpCpUserApprove', {
+          token:null,
+          payload: user,
+        }); 
       };
       
       btnCpUserDecline.onclick = () => {
@@ -180,7 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
           id: document.getElementById('uid').value,
         }
 
-        socket.emit('cpCpUserDecline', user); 
+        socket.emit('cpCpUserDecline', {
+          token:null,
+          payload: user,
+        }); 
       };
 
       loginButton.onclick = () => {
