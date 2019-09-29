@@ -55,6 +55,15 @@ const cpSocketEventEmitter = {
     socket.emit('srvSendAllCpUserList', users);
   },
 
+  srvSendAllCpUserListForAllCpUser: async (cpIo) => {
+    const dataObj = await User
+      .findAll({
+        where: { role: [36, 32, 34] },
+      });
+    const users = dataObj.map(el => el.dataValues);
+    cpIo.emit('srvSendAllCpUserList', users);
+  },
+
   srvSendAllAppUserListForOneCpUser: async (socket) => {
     const dataObj = await User
       .findAll({
@@ -62,6 +71,15 @@ const cpSocketEventEmitter = {
       });
     const users = dataObj.map(el => el.dataValues);
     socket.emit('srvSendAllAppUserList', users);
+  },
+
+  srvSendAllAppUserListForAllCpUser: async (cpIo) => {
+    const dataObj = await User
+      .findAll({
+        where: { role: [35, 31, 33] },
+      });
+    const users = dataObj.map(el => el.dataValues);
+    cpIo.emit('srvSendAllAppUserList', users);
   },
 
   srvUpdatedCpUser: async (cpIo, user) => {

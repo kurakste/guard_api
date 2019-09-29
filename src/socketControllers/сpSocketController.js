@@ -8,7 +8,7 @@ const { Alarm, Gbr, User } = models;
 
 const cpSocketController = {
 
-  cpRegisterNewCpUser: async (socket, data) => {
+  cpRegisterNewCpUser: async (cpIo, socket, data) => {
     const { payload } = data;
     const userFromFront = { ...payload };
     const {
@@ -29,6 +29,7 @@ const cpSocketController = {
       logger.info('user: ', result.dataValues);
       delete result.dataValues.password;
       cpSocketEmitter.srvNewUserWasCreated(socket, result.dataValues);
+      cpSocketEmitter.srvSendAllCpUserListForAllCpUser(cpIo, result.dataValues);
     } catch (err) {
       socket.emit('errMessage', err.message);
       cpSocketEmitter.srvErrMessage(socket, 1, err.message);
