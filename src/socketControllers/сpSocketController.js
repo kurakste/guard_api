@@ -29,7 +29,7 @@ const cpSocketController = {
       logger.info('user: ', result.dataValues);
       delete result.dataValues.password;
       cpSocketEmitter.srvNewUserWasCreated(socket, result.dataValues);
-      cpSocketEmitter.srvSendAllCpUserListForAllCpUser(cpIo, result.dataValues);
+      cpSocketEmitter.srvSendAllAppUserListForAllCpUser(cpIo, result.dataValues);
     } catch (err) {
       socket.emit('errMessage', err.message);
       cpSocketEmitter.srvErrMessage(socket, 1, err.message);
