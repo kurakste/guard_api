@@ -46,7 +46,7 @@ cpIo.on('connection', (socket) => {
     .bind(cpSocketController, cpIo, socket);
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
-    .bind(cpSocketController, socket);
+    .bind(cpSocketController, cpIo, socket);
   const cpSignIn = cpSocketController.cpSignIn
     .bind(cpSocketController, socket);
   const cpAppUserApprove = cpSocketController.cpAppUserApprove
