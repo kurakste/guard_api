@@ -51,7 +51,7 @@ const userController = {
       const finalUser = finalUserObj.dataValues;
       finalUser.password = null;
 
-      ctx.body = JSON.stringify(finalUser, null, '\t');
+      ctx.body = apiResponseObject(true, '', JSON.stringify(finalUser, null, '\t'));
     } catch (err) {
       if (newUser) await User.destroy({ where: { id: newUser.id } });
 
