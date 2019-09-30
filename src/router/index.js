@@ -8,6 +8,8 @@ const userController = require('../controllers/users');
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
 router.post('/sign-in', userController.postSignIn);
+router.post('/restore-password-step-one', userController.postRestorePasswordStepOne);
+router.post('/restore-password-step-two', userController.postRestorePasswordStepTwo);
 router.get('/user/:id', userController.getUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.post('/user-new-cp', userController.postNewCPUser);

@@ -4,10 +4,70 @@ const apiResponseObject = require('../helpers/getApiResponseObject');
 const models = require('../../models');
 const checkAndStoreFiles = require('../helpers/checkAndStore');
 const logger = require('../helpers/logger');
+const getCode = require('../helpers/getCode');
 
 const { User } = models;
 
 const userController = {
+  postRestorePasswordStepOne: async (ctx) => {
+    const { body } = ctx.request;
+    const { email } = body;
+    const code = getCode();
+    logger.info('postRestorePasswordStepOne: ', { email, code });
+    const secretObject = {
+      time: Date().toString(),
+      code,
+    };
+    try {
+      if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
+      const restoreToken = jwt.sign(
+        secretObject,
+        process.env.JWT_KEY,
+        { expiresIn: 60 * 30 },
+      );
+      const output = apiResponseObject(true, null, { restoreToken, code });
+      ctx.body = output;
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null, 500);
+      ctx.body = output;
+      logger.error('errMessage: ', err);
+    }
+  },
+
+  postRestorePasswordStepTwo: async (ctx) => {
+    const { body } = ctx.request;
+    logger.info('postRestorePasswordStepTwo: ', body);
+    const {
+      restoreToken, code, email, password,
+    } = body;
+    try {
+      if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
+      try {
+        const decoded = jwt.verify(restoreToken, process.env.JWT_KEY);
+        const decodedCode = decoded.code;
+        if (!(decodedCode === code)) throw new Error('Wrong code');
+        const userFromDbObj = await User.findOne({
+          where: { email },
+        });
+        if (!userFromDbObj) throw new Error('wrong email');
+        if (!password) throw new Error('Password required.');
+        const cryptPassword = await bcrypt.hash(password, 10);
+        userFromDbObj.password = cryptPassword;
+        await userFromDbObj.save();
+        const output = apiResponseObject(true, null, { mgs: 'work done' }, 0);
+        ctx.body = output;
+      } catch (err) {
+        const output = apiResponseObject(false, err.message, null, 301);
+        ctx.body = output;
+        logger.error('postRestorePasswordStepTwo: ', err);
+      }
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null, 500);
+      ctx.body = output;
+      logger.error('postRestorePasswordStepTwo: ', err);
+    }
+  },
+
   postSignIn: async (ctx) => {
     const { body } = ctx.request;
     const { email, password } = body;
@@ -46,7 +106,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null, 500);
       ctx.body = output;
-      logger.error('errMessage: ', err);
+      logger.error('postSignIn: ', err);
     }
   },
 

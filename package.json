@@ -25,6 +25,7 @@
     "nodemon": "^1.19.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+    "random-number": "0.0.9",
     "sequelize": "^5.19.0",
     "socket.io": "^2.3.0",
     "url-parameter-parser": "^1.0.1",
