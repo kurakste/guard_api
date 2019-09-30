@@ -19,10 +19,10 @@ const userController = {
       });
       const user = { ...userFromDbObj.dataValues };
       const passwordFromDb = user.password;
-      logger.info('signIn: ', passwordFromDb); // TODO: why it isn't work?
+      logger.info('signIn: ', { passwordFromDb }); // TODO: why it isn't work?
       const loginResult = await bcrypt
         .compare(password, passwordFromDb);
-      logger.info('login result: ', loginResult);
+      logger.info('login result: ', { loginResult });
       if (!loginResult) throw new Error('Login error');
       if (!user.active) {
         const msg = 'User doesn\'t active. Contact the server administrator';
