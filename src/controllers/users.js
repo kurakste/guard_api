@@ -1,4 +1,5 @@
-const bycrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const apiResponseObject = require('../helpers/getApiResponseObject');
 const models = require('../../models');
 const checkAndStoreFiles = require('../helpers/checkAndStore');
@@ -7,6 +8,48 @@ const logger = require('../helpers/logger');
 const { User } = models;
 
 const userController = {
+  postSignIn: async (ctx) => {
+    const { body } = ctx.request;
+    const { email, password } = body;
+    logger.info('postSignIn: ', body);
+
+    try {
+      const userFromDbObj = await User.findOne({
+        where: { email },
+      });
+      const user = { ...userFromDbObj.dataValues };
+      const passwordFromDb = user.password;
+      logger.info('signIn: ', passwordFromDb); // TODO: why it isn't work?
+      const loginResult = await bcrypt
+        .compare(password, passwordFromDb);
+      logger.info('login result: ', loginResult);
+      if (!loginResult) throw new Error('Login error');
+      if (!user.active) {
+        const msg = 'User doesn\'t active. Contact the server administrator';
+        const output = apiResponseObject(false, msg, null, 308);
+        ctx.body = output;
+        return;
+      }
+      const userForSend = { ...user };
+      if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
+      const token = jwt.sign(
+        userForSend,
+        process.env.JWT_KEY,
+        { expiresIn: '96h' },
+      );
+      delete userForSend.password;
+      const output = apiResponseObject(true, null, {
+        user: userForSend,
+        token,
+      });
+      ctx.body = output;
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null, 500);
+      ctx.body = output;
+      logger.error('errMessage: ', err);
+    }
+  },
+
   getUser: async (ctx) => {
     const { params } = ctx;
     const { id } = params;

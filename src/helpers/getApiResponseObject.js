@@ -1,3 +1,5 @@
-module.exports = function getApiResponseObject(success, message, payload) {
-  return { success, message, payload };
+module.exports = function getApiResponseObject(success, message, payload, errorCode = null) {
+  return {
+    success, message, payload, errorCode,
+  };
 };
