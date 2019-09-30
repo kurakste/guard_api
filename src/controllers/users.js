@@ -25,7 +25,7 @@ const userController = {
         process.env.JWT_KEY,
         { expiresIn: 60 * 30 },
       );
-      const output = apiResponseObject(true, null, { restoreToken, code });
+      const output = apiResponseObject(true, null, { restoreToken });
       ctx.body = output;
     } catch (err) {
       const output = apiResponseObject(false, err.message, null, 500);
