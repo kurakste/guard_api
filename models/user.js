@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     pasImg2: DataTypes.STRING,
     password: DataTypes.STRING,
     notes: DataTypes.TEXT,
+    balance: DataTypes.NUMERIC,
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Alarm);
