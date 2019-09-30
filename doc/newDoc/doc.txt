@@ -220,26 +220,49 @@ webSoсket (библиотека socket.io).
           }
       }
 
-  3) Восстановление пароля - на почту отправляется сообщение с кодом для востановления пароля.
-    API POST: _server_/restore_password
+  3) Восстановление пароля - на почту отправляется сообщение с кодом для воcтановления пароля.
+    API POST: _server_/restore-password-step-one
     запрос отдает json формата:
       {
         success: boolean,
         errorCode: number, 
         message: string,
         payload: { 
-          code: string, 
-          token: string // токен нужно вернуть назад, 
+          email: string,
           },
+      }
+    Получает ответ: 
+      {
+        "success": true,
+          "message": "",
+          "errorCode": 0,
+          "payload": {
+            restoreToken: 'string'
+          }
+      } 
+
+    API POST: _server_/restore-password-step-one-two
+    запрос отдает json формата:
+    {
+      email: string,
+      code: number,
+      password: string,
+      restoreToken: string
+    }
+    Получает ответ: 
+      {
+        "success": true,
+        "message": null,
+        "payload": {
+          "mgs": "work done"
+        },
+        "errorCode": 0
       }
 
     Время жизни токена - 30 минут.
-    Такой же код отправляется пользователю по эл. почте.
-    Нужно дождаться ввода пользователя. 
-    Если код совпал - ввод нового пароля.
-    Сохраняем новый пароль: 
-    Нет - стоим на месте, ждем верный код. 
-    Нужна кнопка отправить новый код. 
+    Код отправляется пользователю по эл. почте.
+    Нужно дождаться ввода пользователя и запросить restore-password-step-one-two
+    Если ответ на запрос без ошибок - пароль сменен, редирект на страницу 
 
 
     API POST: _server_/update_password
