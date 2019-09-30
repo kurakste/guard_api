@@ -203,7 +203,7 @@ webSoсket (библиотека socket.io).
         }
 
   2) После регистрации он переадресуется на авторизацию.
-    API POST: _api_/sign_in
+    API POST: _api_/sign-in
     Content-type: json
       json: {
         email: string,
