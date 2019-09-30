@@ -203,6 +203,23 @@ webSoсket (библиотека socket.io).
         }
 
   2) После регистрации он переадресуется на авторизацию.
+    API POST: _api_/sign_in
+    Content-type: json
+      json: {
+        email: string,
+        password: string,
+      }
+    Ответ: 
+      {
+        "success": true,
+          "message": "",
+          "errorCode": 0,
+          "payload": {
+            user: User,
+            token: 'string'
+          }
+      }
+
   3) Восстановление пароля - на почту отправляется сообщение с кодом для востановления пароля.
     API POST: _server_/restore_password
     запрос отдает json формата:
