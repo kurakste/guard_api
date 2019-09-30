@@ -3,11 +3,13 @@ const Router = require('koa-router');
 const router = new Router();
 const rootController = require('../controllers/root');
 const userController = require('../controllers/users');
+const billController = require('../controllers/bills');
 
 
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
 router.post('/sign-in', userController.postSignIn);
+router.post('/replenishment', billController.replenishment);
 router.post('/restore-password-step-one', userController.postRestorePasswordStepOne);
 router.post('/restore-password-step-two', userController.postRestorePasswordStepTwo);
 router.get('/user/:id', userController.getUser);
