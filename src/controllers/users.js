@@ -74,7 +74,7 @@ const userController = {
     const {
       firstName, lastName, email, tel, password,
     } = body;
-    const cryptPassword = await bycrypt.hash(password, 10);
+    const cryptPassword = await bcrypt.hash(password, 10);
     const user = {
       firstName, lastName, email, tel, password: cryptPassword, role: 31, active: false, notes: '',
     };
@@ -160,7 +160,7 @@ const userController = {
     const {
       firstName, lastName, email, tel, password,
     } = body;
-    const cryptPassword = await bycrypt.hash(password, 10);
+    const cryptPassword = await bcrypt.hash(password, 10);
     const user = {
       firstName, lastName, email, tel, password: cryptPassword, role: 32, active: false, notes: '',
     };
