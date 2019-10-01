@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const alarmClose = document.getElementById('alarmClose');
 
   let url = (destSelector[1].checked)
-    ? 'http://localhost:3333/ap-clients'
-    : 'http://kurakste1.fvds.ru:3333/ap-clients';
+    ? 'http://localhost:3333/app-clients'
+    : 'http://kurakste1.fvds.ru:3333/app-clients';
 
   const token = localStorage.token;
   const params = { query: `token=${token}` };
@@ -22,14 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
   onSelectorChange();
 
   function onSelectorChange() {
-    console.log('change fierd');
-    socket.disconnect();
-    url = (destSelector[1].checked)
-      ? 'http://localhost:3333/cp-clients'
-      : 'http://kurakste1.fvds.ru:3333/cp-clients';
-    socket = io(url, params);
-    (function () {
 
+    console.log('change fierd');
+    // socket && socket.disconnect();
+    socket.disconnect()
+    url = (destSelector[1].checked)
+      ? 'http://localhost:3333/app-clients'
+      : 'http://kurakste1.fvds.ru:3333/app-clients';
+    socket = io(url, params);
+
+    (function () {
+      console.log('aaa');
       socket.on('connect', function () {
         console.log('App successfull connected');
       });
@@ -100,53 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('alarmWasRegistered: ', alarm)
       });
 
-    });
+    })();
     destSelector[0].onchange = onSelectorChange;
+    destSelector[1].onchange = onSelectorChange;
   };
 });
-
-
-
-// window.onload = function () {
-//   const name = document.location.href.split('=')[1];
-//   console.log(name);
-//   const msgList = document.querySelector('#messages');
-//   const socket = io('ws://localhost:3333');
-// //        const socket = new WebSocket('ws://localhost:3333');
-
-//   const form = document.querySelector('#form');
-//   const inp = document.querySelector('#inp');
-//   socket.on('open',function(){
-//     console.log('socket connection succesfull');
-//   });
-
-//   socket.on('connect', function () {
-//     socket.emit('username', name);
-//     const liEl = document.createElement('li');
-//     liEl.innerHTML ='<h3> I get server connection! </h3>';
-//     msgList.appendChild(liEl);
-//   });
-
-//   socket.on('disconnect', function () {
-//     const liEl = document.createElement('li');
-//     liEl.innerHTML ='<h3> Loose connection with server .. </h3>';
-//     msgList.appendChild(liEl);
-//   })
-
-
-
-//   socket.on('message',function (data) {
-//     console.log('incoming data: \n', data);
-//     const liEl = document.createElement('li');
-//     liEl.innerHTML = `${data.username}: ${data.message} `;
-//     msgList.appendChild(liEl);
-//   });
-
-//   console.log('document loaded...', socket);
-//   form.onsubmit = function (event) {
-//     event.preventDefault();
-//     console.log(inp.value);
-//     socket.emit('message', inp.value);
-//     inp.value = '';
-//   }
-// };
