@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ? 'http://localhost:3333/app-clients'
     : 'http://kurakste1.fvds.ru:3333/app-clients';
 
-  const token = localStorage.token;
-  const params = { query: `token=${token}` };
+  let token = localStorage.token;
+  let params = { query: `token=${token}` };
 
   let socket = io(url, params);
   onSelectorChange();
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const { payload, success, message } = res;
     if (success) {
       const { token } = payload;
-      localStorage.token
+      localStorage.token = token;
       console.log('login is ok', token);
 
     } else {
@@ -64,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
     url = (destSelector[1].checked)
       ? 'http://localhost:3333/app-clients'
       : 'http://kurakste1.fvds.ru:3333/app-clients';
+
+    token = localStorage.token;
+    params = { query: `token=${token}` };
     socket = io(url, params);
 
     (function () {
