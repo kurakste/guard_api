@@ -3,7 +3,6 @@ const logger = require('../helpers/logger');
 
 
 function auth(token) {
-  console.log('-------------- token:', token);
   if (!token || token === undefined || token === 'undefined') {
     return {
       res: false,
@@ -25,6 +24,7 @@ function auth(token) {
     }
 
     const res = jwt.verify(token, process.env.JWT_KEY);
+    delete res.password;
     return {
       res: true, user: res, code: null, msg: null,
     };
