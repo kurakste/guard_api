@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
 const logger = require('../helpers/logger');
+const models = require('../../models');
+
+const { User } = models;
 
 
-function auth(token) {
+async function auth(token) {
   if (!token || token === undefined || token === 'undefined') {
     return {
       res: false,
@@ -11,7 +14,6 @@ function auth(token) {
       msg: 'Auth token absent.',
     };
   }
-
   try {
     if (!process.env.JWT_KEY) {
       logger.error('JWT key absent in env.JWT_KEY');
@@ -22,11 +24,12 @@ function auth(token) {
         msg: 'server error',
       };
     }
-
     const res = jwt.verify(token, process.env.JWT_KEY);
-    delete res.password;
+    const freshUserFromDb = await User.findByPk(res.id);
+    const userForSend = freshUserFromDb.dataValues;
+    delete userForSend.password;
     return {
-      res: true, user: res, code: null, msg: null,
+      res: true, user: userForSend, code: null, msg: null,
     };
   } catch (err) {
     return {
