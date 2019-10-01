@@ -22,7 +22,7 @@ appIo.on('connection', (socket) => {
     .appNewAlarm.bind(appSocketController, cpIo, socket);
   const appNewPointInTrack = appSocketController.appNewPointInTrack
     .bind(appSocketController, cpIo);
-  logger.info('New user connected.');
+  logger.info('New app user connected.');
   socket.on('appNewAlarm', appNewAlarm);
   socket.on('appNewPointInTrack', appNewPointInTrack);
   socket.on('disconnect', appSocketController.disconnect);
