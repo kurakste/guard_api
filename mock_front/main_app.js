@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('login is ok', token);
 
     } else {
+      localStorage.token = null;
       console.log(message);
 
     }
@@ -139,6 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const alarmIdInput = document.getElementById('alarmId');
         alarmIdInput.value = alarm.id;
         console.log('alarmWasRegistered: ', alarm)
+      });
+
+      socket.on('srvErrMessage', function(data) {
+        console.log('srvErrMessage: ', data);
+      });
+      
+      socket.on('srvSendAppState', function(data) {
+        console.log('srvSendAppState: ', data);
       });
 
     })();
