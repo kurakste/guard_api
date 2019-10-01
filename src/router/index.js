@@ -10,6 +10,7 @@ router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
 router.post('/sign-in', userController.postSignIn);
 router.post('/replenishment', billController.replenishment);
+router.post('/billing', billController.billing);
 router.post('/restore-password-step-one', userController.postRestorePasswordStepOne);
 router.post('/restore-password-step-two', userController.postRestorePasswordStepTwo);
 router.get('/user/:id', userController.getUser);
