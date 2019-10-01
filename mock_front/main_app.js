@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const gbrSent = document.getElementById('gbrSent');
   const alarmDecline = document.getElementById('alarmDecline');
   const alarmClose = document.getElementById('alarmClose');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const loginButton = document.getElementById('login');
 
   let url = (destSelector[1].checked)
     ? 'http://localhost:3333/app-clients'
@@ -20,6 +23,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let socket = io(url, params);
   onSelectorChange();
+
+  loginButton.onclick = async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const body = { email, password };
+    let url = (destSelector[1].checked)
+      ? 'http://localhost:3030/sign-in'
+      : 'http://kurakste1.fvds.ru:3030/sign-in';
+
+    console.log(body);
+    const rawResp = await fetch(url,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(body)
+      });
+    const res = await rawResp.json();
+    const { payload, success, message } = res;
+    if (success) {
+      const { token } = payload;
+      localStorage.token
+      console.log('login is ok', token);
+
+    } else {
+      console.log(message);
+
+    }
+
+  }
 
   function onSelectorChange() {
 
