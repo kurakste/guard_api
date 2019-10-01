@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     notes: DataTypes.TEXT,
     balance: DataTypes.NUMERIC,
+    autoSubscriptions: DataTypes.BOOLEAN, 
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Alarm);
