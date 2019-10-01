@@ -4,6 +4,7 @@ const http = require('http');
 const IO = require('socket.io');
 const urlParser = require('url-parameter-parser');
 const cpEventEmitter = require('./cpSocketEventEmitter');
+const appEventEmitter = require('./appSocketEventEmitter');
 const cpSocketController = require('./socketControllers/сpSocketController');
 const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middleware/auth');
@@ -17,15 +18,29 @@ const io = IO(server);
 const cpIo = io.of('/cp-clients');
 const appIo = io.of('/app-clients');
 
-appIo.on('connection', (socket) => {
-  const appNewAlarm = appSocketController
-    .appNewAlarm.bind(appSocketController, cpIo, socket);
-  const appNewPointInTrack = appSocketController.appNewPointInTrack
-    .bind(appSocketController, cpIo);
+appIo.on('connection', async (socket) => {
   logger.info('New app user connected.');
-  socket.on('appNewAlarm', appNewAlarm);
-  socket.on('appNewPointInTrack', appNewPointInTrack);
-  socket.on('disconnect', appSocketController.disconnect);
+  const params = urlParser(socket.request.url);
+  const { token } = params;
+  const authResult = await auth(token, socket);
+  const { res, user } = authResult;
+
+  if (res) {
+    logger.info('New app login successful');
+    appEventEmitter.srvSendAppState(socket, user);
+    const appNewAlarm = appSocketController
+      .appNewAlarm
+      .bind(appSocketController, cpIo, socket);
+    const appNewPointInTrack = appSocketController
+      .appNewPointInTrack
+      .bind(appSocketController, cpIo);
+    logger.info('New app user connected.');
+    socket.on('appNewAlarm', appNewAlarm);
+    socket.on('appNewPointInTrack', appNewPointInTrack);
+    socket.on('disconnect', appSocketController.disconnect);
+  } else {
+    appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
+  }
 });
 
 
