@@ -79,7 +79,6 @@ const userController = {
       });
       const user = { ...userFromDbObj.dataValues };
       const passwordFromDb = user.password;
-      logger.info('signIn: ', { passwordFromDb }); // TODO: why it isn't work?
       const loginResult = await bcrypt
         .compare(password, passwordFromDb);
       logger.info('login result: ', { loginResult });
