@@ -28,15 +28,19 @@ appIo.on('connection', async (socket) => {
   if (res) {
     logger.info('New app login successful');
     appEventEmitter.srvSendAppState(socket, user);
+    const appNewTrack = appSocketController
+      .appNewTrack
+      .bind(appSocketController, cpIo, socket, user);
     const appNewAlarm = appSocketController
       .appNewAlarm
       .bind(appSocketController, cpIo, socket);
-    const appNewPointInTrack = appSocketController
+    const appNewPointInAlarmTrack = appSocketController
       .appNewPointInTrack
-      .bind(appSocketController, cpIo);
+      .bind(appSocketController, cpIo, socket);
     logger.info('New app user connected.');
+    socket.on('appNewTrack', appNewTrack);
     socket.on('appNewAlarm', appNewAlarm);
-    socket.on('appNewPointInTrack', appNewPointInTrack);
+    socket.on('appNewPointInAlarmTrack', appNewPointInAlarmTrack);
     socket.on('disconnect', appSocketController.disconnect);
   } else {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
