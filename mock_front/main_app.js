@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const destSelector = document.getElementsByName('dest');
   const newTrack = document.getElementById('newTrack');
+  const trackAddPoint = document.getElementById('trackAddPoint');
   const newAlarm = document.getElementById('newAlarm');
   const userId = document.getElementById('userId');
   const alarmId = document.getElementById('alarmId');
@@ -59,28 +60,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
+  
   function onSelectorChange() {
-
+    
     console.log('change fierd');
     // socket && socket.disconnect();
     socket.disconnect()
     url = (destSelector[1].checked)
-      ? 'http://localhost:3333/app-clients'
-      : 'http://kurakste1.fvds.ru:3333/app-clients';
-
+    ? 'http://localhost:3333/app-clients'
+    : 'http://kurakste1.fvds.ru:3333/app-clients';
+    
     token = localStorage.token;
     params = { query: `token=${token}` };
     socket = io(url, params);
-
+    
     (function () {
       console.log('aaa');
       socket.on('connect', function () {
         console.log('App successfull connected');
       });
-
+      
       socket.on('disconnect', function () {
         console.log('App connection loose');
       });
+      
+      trackAddPoint.onclick = () => {
+        console.log('appTrackAddPoint');
+        socket.emit('appTrackAddPoint', {
+          payload: [23.2345, 34.34235]
+        });
+      },
 
       newTrack.onclick = () => {
         console.log('appNewTrack');
@@ -158,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvSendAppState', function (data) {
         console.log('srvSendAppState: ', data);
       });
-      
+
       socket.on('srvAcceptNewTrack', function (data) {
         console.log('srvAcceptNewTrack: ', data);
       });
