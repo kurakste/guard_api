@@ -35,7 +35,7 @@ appIo.on('connection', async (socket) => {
       .appNewAlarm
       .bind(appSocketController, cpIo, socket);
     const appNewPointInAlarmTrack = appSocketController
-      .appNewPointInTrack
+      .appNewPointInAlarmTrack
       .bind(appSocketController, cpIo, socket);
     logger.info('New app user connected.');
     socket.on('appNewTrack', appNewTrack);
