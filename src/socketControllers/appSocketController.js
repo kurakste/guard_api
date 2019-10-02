@@ -9,6 +9,12 @@ const cpSocketEventEmitter = require('../cpSocketEventEmitter');
 const getGbrId = () => 32;
 
 const socketController = {
+  appNewTrack: async (cpIo, socket, user, data) => {
+    logger.info('appNewTrack', { data, user });
+
+    socket.emit('srvAcceptNewTrack', { tid: 21 }); // TODO: clean UP.
+  },
+
   appNewAlarm: async (cpIo, socket, data) => {
     try {
       const { payload } = data;
