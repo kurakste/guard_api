@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userId = document.getElementById('userId');
   const alarmId = document.getElementById('alarmId');
   const trackUpdate = document.getElementById('trackUpdate');
+  const appAddNewPointInAlarmTrack = document.getElementById('appAddNewPointInAlarmTrack');
 
   let url = (destSelector[1].checked)
     ? 'http://localhost:3333/app-clients'
@@ -106,6 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
           payload: [55.749054, 52.457500]
         });
       }
+
+      appAddNewPointInAlarmTrack.onclick = () => {
+        console.log('appAddNewPointInAlarmTrack');
+        socket.emit('appAddNewPointInAlarmTrack', {
+          token: 'string',
+          payload: {
+            point: [22.3333, 45.22334]
+          }
+        });
+    }
 
       trackUpdate.onclick = () => {
         const alarmIdInput = document.getElementById('alarmId');
