@@ -18,7 +18,7 @@ const socketController = {
       const trackArr = trackObjArr
         .filter(el => el.isActive);
       if (trackArr.length > 0) throw new Error(`Can't open one more track for UserId: ${user.id}`);
-    
+
       logger.info('appNewTrack', { user: user.id });
       const track = await Track.build({
         UserId: user.id,
@@ -72,11 +72,18 @@ const socketController = {
     }
   },
 
-  appNewAlarm: async (cpIo, socket, data) => {
+  appNewAlarm: async (cpIo, socket, user, data) => {
     try {
       const { payload } = data;
-      payload.GbrId = getGbrId(payload);
-      const alarm = await Alarm.create(payload);
+      const isOpen = await hasThisUserOpenAlarm(user.id);
+      if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
+      const [lat, lon] = payload;
+      const alarmData = {
+        UserId: user.id,
+        track: [[lat, lon],],
+      };
+      payload.GbrId = getGbrId(alarmData);
+      const alarm = await Alarm.create(alarmData);
       const gbr = await Gbr.findAll({ where: { regionId: getGbrId() } });
       await alarm.addGbr(gbr);
       const newAlarmWithGbr = await Alarm.findOne({
@@ -91,6 +98,16 @@ const socketController = {
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
+    }
+
+    async function hasThisUserOpenAlarm(userId) {
+      const alarms = await Alarm.findAll({
+        where: {
+          UserId: userId, closedAt: null,
+        },
+      });
+      if (alarms.length > 0) return true;
+      return false;
     }
   },
 

@@ -40,7 +40,7 @@ appIo.on('connection', async (socket) => {
       .bind(appSocketController, cpIo, socket, user);
     const appNewAlarm = appSocketController
       .appNewAlarm
-      .bind(appSocketController, cpIo, socket);
+      .bind(appSocketController, cpIo, socket, user);
     const appNewPointInAlarmTrack = appSocketController
       .appNewPointInAlarmTrack
       .bind(appSocketController, cpIo, socket);
