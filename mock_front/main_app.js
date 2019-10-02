@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const destSelector = document.getElementsByName('dest');
   const newTrack = document.getElementById('newTrack');
   const trackAddPoint = document.getElementById('trackAddPoint');
+  const stopTrack = document.getElementById('stopTrack');
   const newAlarm = document.getElementById('newAlarm');
   const userId = document.getElementById('userId');
   const alarmId = document.getElementById('alarmId');
@@ -88,6 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('appTrackAddPoint');
         socket.emit('appTrackAddPoint', {
           payload: [23.2345, 34.34235]
+        });
+      },
+
+      stopTrack.onclick = () => {
+        console.log('appStopTrack');
+        socket.emit('appStopTrack', {
+          payload: null
         });
       },
 
