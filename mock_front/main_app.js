@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastalarm;
 
   const destSelector = document.getElementsByName('dest');
-  const newAlarm = document.getElementById('newalarm');
+  const newTrack = document.getElementById('newTrack');
+  const newAlarm = document.getElementById('newAlarm');
+  const userId = document.getElementById('userId');
   const alarmId = document.getElementById('alarmId');
   const trackUpdate = document.getElementById('trackUpdate');
   const alarmInWork = document.getElementById('alarmInWork');
@@ -80,6 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('App connection loose');
       });
 
+      newTrack.onclick = () => {
+        console.log('appNewTrack');
+        socket.emit('appNewTrack', {
+          payload: [23.2345, 34.34235]
+        });
+      }
+
       newAlarm.onclick = () => {
         console.log('appNewAlarm');
         socket.emit('appNewAlarm', {
@@ -142,12 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('alarmWasRegistered: ', alarm)
       });
 
-      socket.on('srvErrMessage', function(data) {
+      socket.on('srvErrMessage', function (data) {
         console.log('srvErrMessage: ', data);
       });
-      
-      socket.on('srvSendAppState', function(data) {
+
+      socket.on('srvSendAppState', function (data) {
         console.log('srvSendAppState: ', data);
+      });
+      
+      socket.on('srvAcceptNewTrack', function (data) {
+        console.log('srvAcceptNewTrack: ', data);
       });
 
     })();
