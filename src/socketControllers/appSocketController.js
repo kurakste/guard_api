@@ -79,7 +79,7 @@ const socketController = {
       const [lat, lon] = payload;
       const alarmData = {
         UserId: user.id,
-        track: [[lat, lon],],
+        track: [[lat, lon]],
       };
       payload.GbrId = getGbrId(alarmData);
       const alarm = await Alarm.create(alarmData);
@@ -112,7 +112,7 @@ const socketController = {
 
   appAddNewPointInAlarmTrack: async (cpIo, socket, user, data) => {
     try {
-      logger.info('track update: ', data);
+      logger.info('appAddNewPointInAlarmTrack', data);
       const { payload } = data;
       const { point } = payload;
       const aid = await getOpenTrackId(user.id);
