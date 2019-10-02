@@ -5,7 +5,18 @@ const appSocketEventEmitter = {
   },
 
   srvSendAppState: (socket, user) => {
-    socket.emit('srvSendAppState', { user });
+    const getOpenAlarm = () => null;
+    const getOpenTrack = () => null;
+    const getAlarmHistory = () => null;
+
+    // TODO: Получить незакрытые тревоги т треки если они есть и отправить.
+    const openTrack = getOpenTrack();
+    const openAlarm = getOpenAlarm();
+    const alarmHistory = getAlarmHistory();
+
+    socket.emit('srvSendAppState', {
+      user, openTrack, openAlarm, alarmHistory,
+    });
   },
 };
 

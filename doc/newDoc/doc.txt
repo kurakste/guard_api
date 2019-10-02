@@ -325,19 +325,33 @@ webSoсket (библиотека socket.io).
     event: srvErrMessage
     payload:  { message: "Auth error. Check your token.", code: 302 }
 
-    Если авторизация прошла успешно, то возникнет событие    
+    Если авторизация прошла успешно, то возникнет событие 
     event: srvSendAppState
     payload:  
       {
-        paid: boolean, // оплачен ли текущий период, другими словами внесена ли абон. плата
-        alarmId: number or null, // если не нул - значить есть открытая тревога нужно перейти в состояние тревоги.
-        tid: number or null,  // если не нул - значит писали трек, нужно продолжить. 
-        alarmHistory: [
-          alarm1, alarm2, ....
-        ],
-        autoSubscription: boolean, // включено ли автоматическое продление подписки?
-
-      } 
+        "user": {
+          "id": 1,
+          "firstName": "Diman",
+          "lastName": "Petrov",
+          "email": "kurakste@gmail.com",
+          "tel": "+79176450029",
+          "active": true,
+          "role": 32,
+          "img": null,
+          "pasImg1": null,
+          "pasImg2": null,
+          "notes": "",
+          "balance": "2000",
+          "autoSubscriptions": false,
+          "lowBallance": true,
+          "createdAt": "2019-09-09T19:10:49.696Z",
+          "updatedAt": "2019-10-01T19:49:39.992Z"
+        },
+        "openTrack": null | trackObject,
+        "openAlarm": null | alarmObject,
+        "alarmHistory": null | alarmObject[]
+      }
+    
       При подгрузки главного экрана приложение считывает координаты пользователя. 
       Если доступа к координатам нет - то нужно подсветить значок gps красным. 
       Кнопка вызова группы нажиматься не должна. 
