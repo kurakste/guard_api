@@ -54,9 +54,8 @@ const socketController = {
     }
   },
 
-  appStopTrack: async (cpIo, socket, user, data) => {
+  appStopTrack: async (cpIo, socket, user) => {
     try {
-      //const { payload } = data;
       logger.info('appStopTrack', { user: user.id });
       const trackObjArr = await Track.findAll({ UserId: user.id });
       const trackArr = trackObjArr
@@ -111,11 +110,13 @@ const socketController = {
     }
   },
 
-  appNewPointInAlarmTrack: async (cpIo, socket, data) => {
+  appAddNewPointInAlarmTrack: async (cpIo, socket, user, data) => {
     try {
-      logger.error('track update: ', data);
+      logger.info('track update: ', data);
       const { payload } = data;
-      const { aid, point } = payload;
+      const { point } = payload;
+      const aid = await getOpenTrackId(user.id);
+      if (!aid) throw new Error(`No open alarm was found for user with id: ${user.id}`);
       const alarm = await Alarm.findByPk(aid);
       alarm.track = [...alarm.track, point];
       await alarm.save();
@@ -123,6 +124,16 @@ const socketController = {
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
+    }
+    async function getOpenTrackId(userId) {
+      const alarms = await Alarm.findAll({
+        where: {
+          UserId: userId, closedAt: null,
+        },
+      });
+      if (alarms.length > 1) throw new Error(`More then one open alarm for user with id : ${userId}`);
+      if (alarms.length === 0) return null;
+      return alarms[0].id;
     }
   },
 
