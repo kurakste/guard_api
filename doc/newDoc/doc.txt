@@ -370,7 +370,6 @@ webSoсket (библиотека socket.io).
         событие: appStartNewTrack
         сообщение
         {
-          token: string,
           payload: [lat, lon]
         }
 
