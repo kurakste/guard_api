@@ -13,10 +13,16 @@ const socketController = {
     try {
       const { payload } = data;
       const [lat, lon] = payload;
+
+      const trackObjArr = await Track.findAll({ UserId: user.id });
+      const trackArr = trackObjArr
+        .filter(el => el.isActive);
+      if (trackArr.length > 0) throw new Error(`Can't open one more track for UserId: ${user.id}`);
+    
       logger.info('appNewTrack', { user: user.id });
       const track = await Track.build({
         UserId: user.id,
-        track: [lat, lon],
+        track: [[lat, lon]],
         isActive: true,
       });
       await track.save();
@@ -24,6 +30,45 @@ const socketController = {
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err);
+    }
+  },
+
+  appTrackAddPoint: async (cpIo, socket, user, data) => {
+    try {
+      const { payload } = data;
+      const [lat, lon] = payload;
+      logger.info('appTrackAddPoint', { user: user.id });
+      const trackObjArr = await Track.findAll({ UserId: user.id });
+      const trackArr = trackObjArr
+        .filter(el => el.isActive);
+      if (trackArr.length > 1) throw new Error(`More then one active track for UserId: ${user.id}`);
+      if (trackArr.length === 0) throw new Error(`No active track found for UserId: ${user.id}`);
+      const track = trackArr[0];
+      const tmp = [...track.track];
+      tmp.push([lat, lon]);
+      track.track = [...tmp];
+      await track.save();
+    } catch (err) {
+      appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
+      logger.error(err.message);
+    }
+  },
+
+  appStopTrack: async (cpIo, socket, user, data) => {
+    try {
+      //const { payload } = data;
+      logger.info('appStopTrack', { user: user.id });
+      const trackObjArr = await Track.findAll({ UserId: user.id });
+      const trackArr = trackObjArr
+        .filter(el => el.isActive);
+      if (trackArr.length > 1) throw new Error(`More then one active track for UserId: ${user.id}`);
+      if (trackArr.length === 0) throw new Error(`No active track found for UserId: ${user.id}`);
+      const track = trackArr[0];
+      track.isActive = false;
+      await track.save();
+    } catch (err) {
+      appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
+      logger.error(err.message);
     }
   },
 
@@ -45,7 +90,7 @@ const socketController = {
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
-      logger.error(err);
+      logger.error(err.message);
     }
   },
 
@@ -60,7 +105,7 @@ const socketController = {
       cpSocketEventEmitter.srvUpdateAlarm(cpIo, alarm.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
-      logger.error(err);
+      logger.error(err.message);
     }
   },
 

@@ -26,10 +26,17 @@ appIo.on('connection', async (socket) => {
   const { res, user } = authResult;
 
   if (res) {
-    logger.info('New app login successful');
+    logger.info('New app login successful', { id: user.id });
+
     appEventEmitter.srvSendAppState(socket, user);
     const appNewTrack = appSocketController
       .appNewTrack
+      .bind(appSocketController, cpIo, socket, user);
+    const appTrackAddPoint = appSocketController
+      .appTrackAddPoint
+      .bind(appSocketController, cpIo, socket, user);
+    const appStopTrack = appSocketController
+      .appStopTrack
       .bind(appSocketController, cpIo, socket, user);
     const appNewAlarm = appSocketController
       .appNewAlarm
@@ -37,8 +44,10 @@ appIo.on('connection', async (socket) => {
     const appNewPointInAlarmTrack = appSocketController
       .appNewPointInAlarmTrack
       .bind(appSocketController, cpIo, socket);
-    logger.info('New app user connected.');
+
     socket.on('appNewTrack', appNewTrack);
+    socket.on('appTrackAddPoint', appTrackAddPoint);
+    socket.on('appStopTrack', appStopTrack);
     socket.on('appNewAlarm', appNewAlarm);
     socket.on('appNewPointInAlarmTrack', appNewPointInAlarmTrack);
     socket.on('disconnect', appSocketController.disconnect);
