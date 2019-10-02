@@ -10,13 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const userId = document.getElementById('userId');
   const alarmId = document.getElementById('alarmId');
   const trackUpdate = document.getElementById('trackUpdate');
-  const alarmInWork = document.getElementById('alarmInWork');
-  const gbrSent = document.getElementById('gbrSent');
-  const alarmDecline = document.getElementById('alarmDecline');
-  const alarmClose = document.getElementById('alarmClose');
-  const emailInput = document.getElementById('email');
-  const passwordInput = document.getElementById('password');
-  const loginButton = document.getElementById('login');
 
   let url = (destSelector[1].checked)
     ? 'http://localhost:3333/app-clients'
@@ -61,30 +54,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
-  
+
   function onSelectorChange() {
-    
+
     console.log('change fierd');
     // socket && socket.disconnect();
     socket.disconnect()
     url = (destSelector[1].checked)
-    ? 'http://localhost:3333/app-clients'
-    : 'http://kurakste1.fvds.ru:3333/app-clients';
-    
+      ? 'http://localhost:3333/app-clients'
+      : 'http://kurakste1.fvds.ru:3333/app-clients';
+
     token = localStorage.token;
     params = { query: `token=${token}` };
     socket = io(url, params);
-    
+
     (function () {
-      console.log('aaa');
       socket.on('connect', function () {
         console.log('App successfull connected');
       });
-      
+
       socket.on('disconnect', function () {
         console.log('App connection loose');
       });
-      
+
       trackAddPoint.onclick = () => {
         console.log('appTrackAddPoint');
         socket.emit('appTrackAddPoint', {
@@ -92,37 +84,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       },
 
-      stopTrack.onclick = () => {
-        console.log('appStopTrack');
-        socket.emit('appStopTrack', {
-          payload: null
-        });
-      },
+        stopTrack.onclick = () => {
+          console.log('appStopTrack');
+          socket.emit('appStopTrack', {
+            payload: null
+          });
+        },
 
-      newTrack.onclick = () => {
-        console.log('appNewTrack');
-        socket.emit('appNewTrack', {
-          payload: [23.2345, 34.34235]
-        });
-      }
+        newTrack.onclick = () => {
+          console.log('appNewTrack');
+          socket.emit('appNewTrack', {
+            payload: [23.2345, 34.34235]
+          });
+        }
 
       newAlarm.onclick = () => {
         console.log('appNewAlarm');
         socket.emit('appNewAlarm', {
           token: 'string',
-          payload: {
-            id: null,
-            UserId: 2,
-            track: [[55.749054, 52.457500],],
-            regionId: null, // определяем по координатам
-            status: 0,
-            oid: null, // operator id,
-            pickedUpAt: null,
-            groupSendAt: null,
-            declineAt: null,
-            closedAt: null,
-            notes: null
-          }
+          payload: [55.749054, 52.457500]
         });
       }
 
@@ -138,35 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
-
-      alarmInWork.onclick = () => {
-        console.log('alarmInWork');
-        socket.emit('alarmInWork', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
-      }
-
-      gbrSent.onclick = () => {
-        console.log('gbrSent');
-        socket.emit('gbrSent', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
-      }
-
-      alarmDecline.onclick = () => {
-        console.log('alarmDecline');
-        socket.emit('alarmDecline', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
-      }
-
-      alarmClose.onclick = () => {
-        console.log('alarmClose');
-        socket.emit('alarmClose', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
-      }
-
-      socket.on('appalarmWasRegistered', function (data) {
-        console.log(data);
-        const { alarm } = data;
-        lastalarm = alarm;
-        const alarmIdInput = document.getElementById('alarmId');
-        alarmIdInput.value = alarm.id;
-        console.log('alarmWasRegistered: ', alarm)
-      });
 
       socket.on('srvErrMessage', function (data) {
         console.log('srvErrMessage: ', data);
