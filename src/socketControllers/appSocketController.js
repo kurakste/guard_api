@@ -20,7 +20,7 @@ const socketController = {
         isActive: true,
       });
       await track.save();
-      socket.emit('srvAcceptNewTrack', { tid: track.id });
+      appSocketEventEmitter.srvAcceptNewTrack(socket, track.id);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err);

@@ -4,6 +4,10 @@ const appSocketEventEmitter = {
     socket.emit('srvErrMessage', { message, code });
   },
 
+  srvAcceptNewTrack: (socket, tid) => {
+    socket.emit('srvAcceptNewTrack', { tid });
+  },
+
   srvSendAppState: (socket, user) => {
     const getOpenAlarm = () => null;
     const getOpenTrack = () => null;
