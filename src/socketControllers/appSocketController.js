@@ -98,24 +98,14 @@ const socketController = {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
     }
-
-    async function hasThisUserOpenAlarm(userId) {
-      const alarms = await Alarm.findAll({
-        where: {
-          UserId: userId, closedAt: null,
-        },
-      });
-      if (alarms.length > 0) return true;
-      return false;
-    }
   },
 
   appAddNewPointInAlarmTrack: async (cpIo, socket, user, data) => {
     try {
       logger.info('appAddNewPointInAlarmTrack', data);
       const { payload } = data;
-      const { point } = payload;
-      const aid = await getOpenTrackId(user.id);
+      const point = payload;
+      const aid = await getOpenAlarmId(user.id);
       if (!aid) throw new Error(`No open alarm was found for user with id: ${user.id}`);
       const alarm = await Alarm.findByPk(aid);
       alarm.track = [...alarm.track, point];
@@ -125,15 +115,27 @@ const socketController = {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
     }
-    async function getOpenTrackId(userId) {
-      const alarms = await Alarm.findAll({
-        where: {
-          UserId: userId, closedAt: null,
-        },
-      });
-      if (alarms.length > 1) throw new Error(`More then one open alarm for user with id : ${userId}`);
-      if (alarms.length === 0) return null;
-      return alarms[0].id;
+  },
+
+  appCancelAlarm: async (cpIo, socket, user) => {
+    logger.info(`appCancelAlarm for user id: ${user.id}`);
+    try {
+      const isOpen = await hasThisUserOpenAlarm(user.id);
+      if (isOpen) {
+        const openAlarm = await getOpenAlarmObject(user.id);
+        openAlarm.closedAt = Date.now();
+        openAlarm.status = 45;
+        openAlarm.notes = 'Closed by user';
+        openAlarm.save();
+        cpSocketEventEmitter.srvUpdateAlarm(cpIo, openAlarm.dataValues);
+      } else {
+        const msg = 'Open alarm not found.';
+        appSocketEventEmitter.srvErrMessage(socket, 500, msg);
+        logger.error(msg);
+      }
+    } catch (err) {
+      appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
+      logger.error(err.message);
     }
   },
 
@@ -143,4 +145,38 @@ const socketController = {
   },
 };
 
+async function getOpenAlarmObject(userId) {
+  const alarms = await Alarm.findAll({
+    where: {
+      UserId: userId, closedAt: null,
+    },
+  });
+  if (alarms.length > 1) throw new Error(`More then one open alarm for user with id : ${userId}`);
+  if (alarms.length === 0) return null;
+  return alarms[0];
+}
+
 module.exports = socketController;
+
+// ====================== helpers =================================================
+
+async function getOpenAlarmId(userId) {
+  const alarms = await Alarm.findAll({
+    where: {
+      UserId: userId, closedAt: null,
+    },
+  });
+  if (alarms.length > 1) throw new Error(`More then one open alarm for user with id : ${userId}`);
+  if (alarms.length === 0) return null;
+  return alarms[0].id;
+}
+
+async function hasThisUserOpenAlarm(userId) {
+  const alarms = await Alarm.findAll({
+    where: {
+      UserId: userId, closedAt: null,
+    },
+  });
+  if (alarms.length > 0) return true;
+  return false;
+}

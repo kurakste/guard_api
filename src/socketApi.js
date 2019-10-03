@@ -45,11 +45,16 @@ appIo.on('connection', async (socket) => {
       .appAddNewPointInAlarmTrack
       .bind(appSocketController, cpIo, socket, user);
 
+    const appCancelAlarm = appSocketController
+      .appCancelAlarm
+      .bind(appSocketController, cpIo, socket, user);
+
     socket.on('appNewTrack', appNewTrack);
     socket.on('appTrackAddPoint', appTrackAddPoint);
     socket.on('appStopTrack', appStopTrack);
     socket.on('appNewAlarm', appNewAlarm);
     socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
+    socket.on('appCancelAlarm', appCancelAlarm);
     socket.on('disconnect', appSocketController.disconnect);
   } else {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
