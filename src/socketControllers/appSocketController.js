@@ -83,6 +83,7 @@ const socketController = {
       const [lat, lon] = payload;
       const alarmData = {
         UserId: user.id,
+        status: 0,
         track: [[lat, lon]],
       };
       payload.GbrId = getGbrId(alarmData);
