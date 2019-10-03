@@ -9,7 +9,7 @@ const cpSocketController = require('./socketControllers/сpSocketController');
 const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middleware/auth');
 const logger = require('./helpers/logger');
-const ToSocketTransport = require('./helpers/logerToSocket');
+const ToSocketTransport = require('./helpers/loggerToSocket');
 
 const appSock = new Koa();
 appSock.use(cors());
