@@ -50,7 +50,8 @@ Gbr:
   10  - picked up;
   20  - group sent
   30  - alarm decline
-  40  - alarm closed
+  40  - alarm closed (by operator)
+  45  - alarm closed by user (canceled);
 
 //==== user roles ====== 
   0 admin
