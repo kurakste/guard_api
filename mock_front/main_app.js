@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = { email, password };
     let url = (destSelector[1].checked)
       ? 'http://localhost:3030/sign-in'
-      : 'http://kurakste1.fvds.ru:3030/sign-in';
+      : 'https://api2.kurakste.ru/sign-in';
 
     console.log(body);
     const rawResp = await fetch(url,
@@ -120,17 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-      trackUpdate.onclick = () => {
-        const alarmIdInput = document.getElementById('alarmId');
-        console.log('appNewPointInTrack');
-        socket.emit('appNewPointInTrack', {
-          token: 'string',
-          payload: {
-            aid: alarmIdInput.value,
-            point: [22.3333, 45.22334]
-          }
-        });
-      }
+      // trackUpdate.onclick = () => {
+      //   const alarmIdInput = document.getElementById('alarmId');
+      //   console.log('appNewPointInTrack');
+      //   socket.emit('appNewPointInTrack', {
+      //     token: 'string',
+      //     payload: {
+      //       aid: alarmIdInput.value,
+      //       point: [22.3333, 45.22334]
+      //     }
+      //   });
+      // }
       //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
 
       socket.on('srvErrMessage', function (data) {
