@@ -65,6 +65,7 @@ const socketController = {
       const track = trackArr[0];
       track.isActive = false;
       await track.save();
+      appSocketEventEmitter.srvCancelActiveTrack(socket);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
@@ -93,6 +94,7 @@ const socketController = {
         ],
       });
       newAlarmWithGbr.User.password = null;
+      appSocketEventEmitter.srvAcceptNewAlarm(socket);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -128,6 +130,7 @@ const socketController = {
         openAlarm.notes = 'Closed by user';
         openAlarm.save();
         cpSocketEventEmitter.srvUpdateAlarm(cpIo, openAlarm.dataValues);
+        appSocketEventEmitter.srvCancelActiveAlarm(socket);
       } else {
         const msg = 'Open alarm not found.';
         appSocketEventEmitter.srvErrMessage(socket, 500, msg);

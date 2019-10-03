@@ -8,6 +8,18 @@ const appSocketEventEmitter = {
     socket.emit('srvAcceptNewTrack', { tid });
   },
 
+  srvCancelActiveTrack: (socket, tid) => {
+    socket.emit('srvCancelActiveTrack', { tid });
+  },
+
+  srvAcceptNewAlarm: (socket) => {
+    socket.emit('srvAcceptNewAlarm');
+  },
+
+  srvCancelActiveAlarm: (socket) => {
+    socket.emit('srvCancelActiveAlarm');
+  },
+
   srvSendAppState: (socket, user) => {
     const getOpenAlarm = () => null;
     const getOpenTrack = () => null;

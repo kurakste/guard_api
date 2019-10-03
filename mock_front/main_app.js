@@ -125,19 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('appCancelAlarm');
     }
 
-      // trackUpdate.onclick = () => {
-      //   const alarmIdInput = document.getElementById('alarmId');
-      //   console.log('appNewPointInTrack');
-      //   socket.emit('appNewPointInTrack', {
-      //     token: 'string',
-      //     payload: {
-      //       aid: alarmIdInput.value,
-      //       point: [22.3333, 45.22334]
-      //     }
-      //   });
-      // }
-      //socket.emit('appNewPointInTrack', { id: null, uid: 234, track: [{ lan: 1, lon: 3 }] });
-
       socket.on('srvErrMessage', function (data) {
         console.log('srvErrMessage: ', data);
       });
@@ -149,6 +136,17 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvAcceptNewTrack', function (data) {
         console.log('srvAcceptNewTrack: ', data);
       });
+      socket.on('srvCancelActiveTrack', function (data) {
+        console.log('srvCancelActiveTrack: ', data);
+      });
+      
+      socket.on('srvAcceptNewAlarm', function (data) {
+        console.log('srvAcceptNewAlarm: ', data);
+      });
+      socket.on('srvCancelActiveAlarm', function (data) {
+        console.log('srvCancelActiveTrack: ', data);
+      });
+
 
     })();
     destSelector[0].onchange = onSelectorChange;
