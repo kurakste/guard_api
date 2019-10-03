@@ -77,12 +77,27 @@ const userController = {
       const userFromDbObj = await User.findOne({
         where: { email },
       });
+      if (!userFromDbObj) {
+        const msg = 'Incorrect username or password';
+        logger.error(msg);
+        const output = apiResponseObject(false, msg, null, 307);
+        ctx.body = output;
+        return;
+      }
       const user = { ...userFromDbObj.dataValues };
       const passwordFromDb = user.password;
       const loginResult = await bcrypt
         .compare(password, passwordFromDb);
       logger.info('login result: ', { loginResult });
-      if (!loginResult) throw new Error('Login error');
+
+      if (!loginResult) {
+        const msg = 'Incorrect username or password';
+        logger.error(msg);
+        const output = apiResponseObject(false, msg, null, 307);
+        ctx.body = output;
+        return;
+      }
+
       if (!user.active) {
         const msg = 'User doesn\'t active. Contact the server administrator';
         const output = apiResponseObject(false, msg, null, 308);

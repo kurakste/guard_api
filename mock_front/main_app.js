@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastalarm;
 
   const destSelector = document.getElementsByName('dest');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
   const loginButton = document.getElementById('login');
   const newTrack = document.getElementById('newTrack');
   const trackAddPoint = document.getElementById('trackAddPoint');
