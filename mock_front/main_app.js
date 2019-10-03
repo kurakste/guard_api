@@ -147,6 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('srvCancelActiveTrack: ', data);
       });
 
+      socket.on('logger', (data) => {
+        console.log('logger: ', data);
+      });
+
 
     })();
     destSelector[0].onchange = onSelectorChange;

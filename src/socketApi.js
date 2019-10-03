@@ -9,6 +9,7 @@ const cpSocketController = require('./socketControllers/сpSocketController');
 const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middleware/auth');
 const logger = require('./helpers/logger');
+const ToSocketTransport = require('./helpers/logerToSocket');
 
 const appSock = new Koa();
 appSock.use(cors());
@@ -17,6 +18,10 @@ const server = http.createServer(appSock.callback());
 const io = IO(server);
 const cpIo = io.of('/cp-clients');
 const appIo = io.of('/app-clients');
+
+const toSocketTransport = new ToSocketTransport({ appIo });
+logger.add(toSocketTransport);
+
 
 appIo.on('connection', async (socket) => {
   logger.info('New app user connected.');
@@ -60,7 +65,6 @@ appIo.on('connection', async (socket) => {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
   }
 });
-
 
 const openCpIoSockets = [];
 

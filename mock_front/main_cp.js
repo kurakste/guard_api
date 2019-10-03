@@ -274,6 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvUpdateOneCpUser', (data) => {
         console.log('srvUpdateOneCpUser: ', data);
       });
+      
+      socket.on('logger', (data) => {
+        console.log('logger: ', data);
+      });
 
     })();
   };
