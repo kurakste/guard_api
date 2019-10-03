@@ -9,6 +9,7 @@ const { Alarm, Gbr, User } = models;
 const cpSocketController = {
 
   cpRegisterNewCpUser: async (cpIo, socket, data) => {
+    logger.info('cpRegisterNewCpUser', data);
     const { payload } = data;
     const userFromFront = { ...payload };
     const {
@@ -26,7 +27,6 @@ const cpSocketController = {
 
       if (checkUserInDb) throw new Error('User with this email already exist.');
       const result = await User.create(user);
-      logger.info('user: ', result.dataValues);
       delete result.dataValues.password;
       cpSocketEmitter.srvNewUserWasCreated(socket, result.dataValues);
       cpSocketEmitter.srvSendAllAppUserListForAllCpUser(cpIo, result.dataValues);
@@ -140,6 +140,7 @@ const cpSocketController = {
   },
 
   cpPickedUpAlarm: async (cpIo, socket, user, data) => {
+    logger.info('cpPickedUpAlarm: ', user);
     try {
       const { payload } = data;
       const alarm = { ...payload };
@@ -162,6 +163,7 @@ const cpSocketController = {
     }
   },
   cpAlarmGbrSent: async (cpIo, socket, data) => {
+    logger.info('cpAlarmGbrSent: ');
     try {
       const { payload } = data;
       const alarm = payload;
@@ -181,8 +183,8 @@ const cpSocketController = {
     }
   },
   cpAlarmClosed: async (cpIo, socket, data) => {
+    logger.info('cpAlarmClosed', data);
     try {
-      logger.info('cpAlarmClosed', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {
@@ -201,8 +203,8 @@ const cpSocketController = {
     }
   },
   cpAlarmDecline: async (cpIo, socket, data) => {
+    logger.info('cpAlarmDecline', data);
     try {
-      logger.info('cpAlarmDecline', data);
       const { payload } = data;
       const alarm = payload;
       const alarmUpdated = await Alarm.findByPk(alarm.id, {

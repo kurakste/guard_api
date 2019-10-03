@@ -10,6 +10,7 @@ const getGbrId = () => 32;
 
 const socketController = {
   appNewTrack: async (cpIo, socket, user, data) => {
+    logger.info('appNewTrack', { data });
     try {
       const { payload } = data;
       const [lat, lon] = payload;
@@ -34,6 +35,7 @@ const socketController = {
   },
 
   appTrackAddPoint: async (cpIo, socket, user, data) => {
+    logger.info('appNewTrack', { data });
     try {
       const { payload } = data;
       const [lat, lon] = payload;
@@ -74,6 +76,7 @@ const socketController = {
 
   appNewAlarm: async (cpIo, socket, user, data) => {
     try {
+      logger.info('appNewAlarm', { data });
       const { payload } = data;
       const isOpen = await hasThisUserOpenAlarm(user.id);
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
