@@ -382,8 +382,13 @@ webSoсket (библиотека socket.io).
         событие: appTrackAddPoint
         тело сообщения:
         {
-          token: string,
-          payload: { tid: number, loc: [lat, lon] } // tid - айди текущего трека.
+          payload:[lat, lon],
+        }
+
+        Для отмены приложение отправляет событие: 
+        событие: appStopTrack
+        {
+          payload: null,
         }
 
       При повторном длительном нажатии не кнопку(5 сек) кнопка заливается красным 
@@ -392,20 +397,15 @@ webSoсket (библиотека socket.io).
         тело сообщения: 
           {
             token: string,
-            payload: { loc: [ lat: number, lon:number ]}, 
+            payload: [ lat: number, lon:number ], 
           }
-
-      Приложение слушает событие: srvAcceptNewAlarm
-      payload: { alarmId: number }
-      Нужно сохранить alarmId и хранить его пока тревога активна.
 
       В состоянии тревоги приложение раз в 30 сек отправляет свои координаты на сервер
       по событию: 
-        appAlarmAddPoint:
+        appAddNewPointInAlarmTrack:
         тело сообщения: 
         {
-          token: string,
-          payload: { alarmId: number, loc: [ lat: number, lon:number ]},
+          payload: [lat, lon],
         }
 
       

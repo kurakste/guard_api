@@ -10,10 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const trackAddPoint = document.getElementById('trackAddPoint');
   const stopTrack = document.getElementById('stopTrack');
   const newAlarm = document.getElementById('newAlarm');
+  const appAddNewPointInAlarmTrack = document.getElementById('appAddNewPointInAlarmTrack');
+  const appCancelAlarm = document.getElementById('appCancelAlarm');
+
   const userId = document.getElementById('userId');
   const alarmId = document.getElementById('alarmId');
   const trackUpdate = document.getElementById('trackUpdate');
-  const appAddNewPointInAlarmTrack = document.getElementById('appAddNewPointInAlarmTrack');
 
   let url = (destSelector[1].checked)
     ? 'http://localhost:3333/app-clients'
@@ -114,10 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('appAddNewPointInAlarmTrack');
         socket.emit('appAddNewPointInAlarmTrack', {
           token: 'string',
-          payload: {
-            point: [22.3333, 45.22334]
-          }
+          payload: [22.3333, 45.22334],
         });
+    }
+      
+    appCancelAlarm.onclick = () => {
+        console.log('appCancelAlarm');
+        socket.emit('appCancelAlarm');
     }
 
       // trackUpdate.onclick = () => {
