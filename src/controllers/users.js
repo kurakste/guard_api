@@ -5,8 +5,10 @@ const models = require('../../models');
 const checkAndStoreFiles = require('../helpers/checkAndStore');
 const logger = require('../helpers/logger');
 const getCode = require('../helpers/getCode');
+const cpIo = require('../socketApi');
 
 const { User } = models;
+
 
 const userController = {
   postRestorePasswordStepOne: async (ctx) => {
@@ -169,9 +171,9 @@ const userController = {
       finalUser.password = null;
 
       ctx.body = apiResponseObject(true, '', JSON.stringify(finalUser, null, '\t'));
+      cpIo.emit('srvNewUserWasCreated', finalUser);
     } catch (err) {
       if (newUser) await User.destroy({ where: { id: newUser.id } });
-
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
       logger.error(err);

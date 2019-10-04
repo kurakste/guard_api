@@ -140,3 +140,5 @@ cpIo.on('connection', (socket) => {
 server.listen(3333, () => {
   logger.info('Application is starting on port 3333');
 });
+
+module.exports = cpIo;

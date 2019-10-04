@@ -6,6 +6,8 @@ const cors = require('koa-cors');
 const router = require('./router');
 const logger = require('./helpers/logger');
 
+require('./socketApi');
+
 const app = new Koa();
 
 require('./bootstrap');
@@ -27,7 +29,6 @@ app.use(json());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-
 const apiResponseObject = require('./helpers/getApiResponseObject');
 
 app.use(async (ctx) => {
@@ -38,5 +39,3 @@ const port = process.env.PORT || 4040;
 app.listen(port, () => {
   logger.info(`http://localhost:${port}`);
 });
-
-require('./socketApi');
