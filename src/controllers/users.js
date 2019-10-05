@@ -5,7 +5,7 @@ const models = require('../../models');
 const checkAndStoreFiles = require('../helpers/checkAndStore');
 const logger = require('../helpers/logger');
 const getCode = require('../helpers/getCode');
-const cpIo = require('../socketApi');
+const { cpIOBus } = require('../socketApi');
 
 const { User } = models;
 
@@ -158,6 +158,9 @@ const userController = {
     const { files } = ctx.request;
     let newUser;
     try {
+      const checkUserInDb = await User.findOne({ where: { email: user.email } });
+      if (checkUserInDb) throw new Error('User with this email already exist.');
+
       const result = await User.create(user);
       newUser = result.dataValues;
       const pathObj = await checkAndStoreFiles(newUser.id, files);
@@ -171,7 +174,7 @@ const userController = {
       finalUser.password = null;
 
       ctx.body = apiResponseObject(true, '', JSON.stringify(finalUser, null, '\t'));
-      cpIo.emit('srvNewUserWasCreated', finalUser);
+      cpIOBus.emit('srvNewUserWasCreated', finalUser);
     } catch (err) {
       if (newUser) await User.destroy({ where: { id: newUser.id } });
       const output = apiResponseObject(false, err.message, null);
