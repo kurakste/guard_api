@@ -142,11 +142,9 @@ const userController = {
     }
   },
 
-  // TODO: There is two type of new user - appuser & control panel user.
   postNewAppUser: async (ctx) => {
     const { body } = ctx.request;
     // TODO: What about validation? Use sequelize? Write new function for it?
-    // TODO: Add email validation is user with that email exist or no.
     const {
       firstName, lastName, email, tel, password,
     } = body;
