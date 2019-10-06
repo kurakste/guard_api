@@ -111,8 +111,9 @@ const cpSocketController = {
     logger.info('cpSignIn: ', user);
     try {
       const userFromDb = await User.findOne({
-        where: { email: user.email },
+        where: { email: user.email, role: [32, 34, 36] },
       });
+      if (!userFromDb) throw new Error('Login error');
       logger.info('User from signIn: ', userFromDb.password);
       const loginResult = await bcrypt
         .compare(user.password, userFromDb.password);
