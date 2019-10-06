@@ -77,7 +77,7 @@ const userController = {
 
     try {
       const userFromDbObj = await User.findOne({
-        where: { email },
+        where: { email, role: [35, 31, 33] },
       });
       if (!userFromDbObj) {
         const msg = 'Incorrect username or password';
