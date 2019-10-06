@@ -372,27 +372,35 @@ webSocket (библиотека socket.io).
         {
           payload: [lat, lon]
         }
+        ответ:
+          srvAcceptNewTrack
 
         событие: appTrackAddPoint
         тело сообщения:
         {
           payload:[lat, lon],
         }
+        ответ:
+          srvAcceptTrackAddNewPoint
 
         Для отмены приложение отправляет событие: 
         событие: appStopTrack
         {
           payload: null,
         }
+        ответ:
+          arvAcceptAppStopTrack
 
       При повторном длительном нажатии не кнопку(5 сек) кнопка заливается красным 
       состояние тревоги. На сервер отправляется событие: 
         appNewAlarm: 
         тело сообщения: 
           {
-            token: string,
             payload: [ lat: number, lon:number ], 
           }
+        ответ:
+          srvAcceptNewAlarm
+        
 
       В состоянии тревоги приложение раз в 30 сек отправляет свои координаты на сервер
       по событию: 
@@ -401,6 +409,8 @@ webSocket (библиотека socket.io).
         {
           payload: [lat, lon],
         }
+        ответ:
+          srvAcceptAddNewPointInAlarmTrack
 
       
       Отмена тревоги вызывается в пункте меню "ОТМЕНИТЬ ТРЕВОГУ"
@@ -408,32 +418,17 @@ webSocket (библиотека socket.io).
         appCancelAlarm: 
         тело сообщения: 
         {
-          token: string,
           payload: { alarmId: number },
         }
+        ответ:
+          srvAcceptCancelAlarm
       
       Приложение узнает о том что сервер отменил тревогу по событию: 
       !!! внимание тревога может быть отменена как по инициативе пользователя 
       так и по инициативе оператора пульта охраны. В любом случае приложение
+
       получит такое сообщение:
-        srvCancelAlarm: 
-        тело сообщения:
-          {
-            alarmId: number
-          }
-
-      ДЕЙСТВИЕ КОТОРОЕ ОТМЕНЯЕТ ЗАПИСЬ трека // пока пункт в меню "ОТМЕНИТЬ ЗАПИСЬ ТРЕКА"
-      Приложение отправляет событие:
-        событие: appStopTrack
-          {
-            token: string,
-            payload: { tid: number }
-          }
-
-      В ответ ожидает от сервера событие: 
-        srvCancelTrack: 
-          тело сообщения:
-            payload: { tid: number }
+        srvOperatorCancelAlarm: 
 
       Меню: 
         ----------------------------------------------------------------------
@@ -479,5 +474,10 @@ webSocket (библиотека socket.io).
         на соответствующую сумму с указанием id пользователя. 
       -----------------------------------------
 
+
+FAQ: 
+https://api2.kurakste.ru/html/faq.html
+LICENSE:
+https://api2.kurakste.ru/html/license.html
 
 
