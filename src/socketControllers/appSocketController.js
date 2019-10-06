@@ -27,6 +27,7 @@ const socketController = {
         isActive: true,
       });
       await track.save();
+
       appSocketEventEmitter.srvAcceptNewTrack(socket, track.id);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -50,6 +51,7 @@ const socketController = {
       tmp.push([lat, lon]);
       track.track = [...tmp];
       await track.save();
+      appSocketEventEmitter.srvAcceptTrackAddNewPoint(socket);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
@@ -67,7 +69,7 @@ const socketController = {
       const track = trackArr[0];
       track.isActive = false;
       await track.save();
-      appSocketEventEmitter.srvCancelActiveTrack(socket);
+      appSocketEventEmitter.arvAcceptAppStopTrack(socket);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
@@ -98,7 +100,7 @@ const socketController = {
         ],
       });
       newAlarmWithGbr.User.password = null;
-      appSocketEventEmitter.srvAcceptNewAlarm(socket);
+      appSocketEventEmitter.srvAcceptCancelAlarm(socket);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -116,6 +118,7 @@ const socketController = {
       const alarm = await Alarm.findByPk(aid);
       alarm.track = [...alarm.track, point];
       await alarm.save();
+      appSocketEventEmitter.srvAcceptAddNewPointInAlarmTrack(socket);
       cpSocketEventEmitter.srvUpdateAlarm(cpIo, alarm.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -134,7 +137,7 @@ const socketController = {
         openAlarm.notes = 'Closed by user';
         openAlarm.save();
         cpSocketEventEmitter.srvUpdateAlarm(cpIo, openAlarm.dataValues);
-        appSocketEventEmitter.srvCancelActiveAlarm(socket);
+        appSocketEventEmitter.srvAcceptCancelAlarm(socket);
       } else {
         const msg = 'Open alarm not found.';
         appSocketEventEmitter.srvErrMessage(socket, 500, msg);
@@ -146,11 +149,15 @@ const socketController = {
     }
   },
 
-
   disconnect: (data) => {
     logger.info('disconnected: ', data);
   },
 };
+
+
+module.exports = socketController;
+
+// ====================== helpers =================================================
 
 async function getOpenAlarmObject(userId) {
   const alarms = await Alarm.findAll({
@@ -162,10 +169,6 @@ async function getOpenAlarmObject(userId) {
   if (alarms.length === 0) return null;
   return alarms[0];
 }
-
-module.exports = socketController;
-
-// ====================== helpers =================================================
 
 async function getOpenAlarmId(userId) {
   const alarms = await Alarm.findAll({

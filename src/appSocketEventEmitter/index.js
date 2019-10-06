@@ -10,21 +10,30 @@ const appSocketEventEmitter = {
     socket.emit('srvErrMessage', { message, code });
   },
 
-  srvAcceptNewTrack: (socket, tid) => {
-    socket.emit('srvAcceptNewTrack', { tid });
+  srvAcceptNewTrack: (socket) => {
+    socket.emit('srvAcceptNewTrack');
   },
 
-  srvCancelActiveTrack: (socket, tid) => {
-    socket.emit('srvCancelActiveTrack', { tid });
+  srvAcceptTrackAddNewPoint: (socket) => {
+    socket.emit('srvAcceptTrackAddNewPoint');
+  },
+
+  arvAcceptAppStopTrack: (socket) => {
+    socket.emit('arvAcceptAppStopTrack');
   },
 
   srvAcceptNewAlarm: (socket) => {
     socket.emit('srvAcceptNewAlarm');
   },
 
-  srvCancelActiveAlarm: (socket) => {
-    socket.emit('srvCancelActiveAlarm');
+  srvAcceptAddNewPointInAlarmTrack: (socket) => {
+    socket.emit('srvAcceptAddNewPointInAlarmTrack');
   },
+
+  srvAcceptCancelAlarm: (socket) => {
+    socket.emit('srvAcceptCancelAlarm');
+  },
+
 
   srvSendAppState: async (socket, user) => {
     const openTrack = await getOpenTrack(user);
@@ -35,6 +44,7 @@ const appSocketEventEmitter = {
       user, openTrack, openAlarm, alarmHistory,
     });
   },
+
 };
 
 async function getOpenTrack(user) {

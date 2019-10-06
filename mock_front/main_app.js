@@ -136,17 +136,27 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvAcceptNewTrack', function (data) {
         console.log('srvAcceptNewTrack: ', data);
       });
-      socket.on('srvCancelActiveTrack', function (data) {
-        console.log('srvCancelActiveTrack: ', data);
+      
+      socket.on('srvAcceptTrackAddNewPoint', function (data) {
+        console.log('srvAcceptTrackAddNewPoint: ');
+      });
+      
+      socket.on('arvAcceptAppStopTrack', function (data) {
+        console.log('srvAcceptAppStopTrack: ');
       });
       
       socket.on('srvAcceptNewAlarm', function (data) {
         console.log('srvAcceptNewAlarm: ', data);
       });
-      socket.on('srvCancelActiveAlarm', function (data) {
-        console.log('srvCancelActiveTrack: ', data);
+      
+      socket.on('srvAcceptAddNewPointInAlarmTrack', function (data) {
+        console.log('srvAcceptAddNewPointInAlarmTrack: ');
       });
 
+      socket.on('srvAcceptCancelAlarm', function (data) {
+        console.log('srvAcceptCancelAlarm: ');
+      });
+      
       socket.on('logger', (data) => {
         console.log('logger: ', data);
       });
