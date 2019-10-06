@@ -16,43 +16,42 @@ appSock.use(cors());
 
 const server = http.createServer(appSock.callback());
 const io = IO(server);
-const cpIo = io.of('/cp-clients');
-const appIo = io.of('/app-clients');
+const cpIOBus = io.of('/cp-clients');
+const appIOBus = io.of('/app-clients');
 
-const toSocketTransport = new ToSocketTransport({ appIo });
+const toSocketTransport = new ToSocketTransport({ appIo: appIOBus });
 logger.add(toSocketTransport);
 
 
-appIo.on('connection', async (socket) => {
+appIOBus.on('connection', async (socket) => {
   logger.info('New app user connected.');
   const params = urlParser(socket.request.url);
   const { token } = params;
   const authResult = await auth(token, socket);
   const { res, user } = authResult;
-
   if (res) {
     logger.info('New app login successful', { id: user.id });
 
     appEventEmitter.srvSendAppState(socket, user);
     const appNewTrack = appSocketController
       .appNewTrack
-      .bind(appSocketController, cpIo, socket, user);
+      .bind(appSocketController, cpIOBus, socket, user);
     const appTrackAddPoint = appSocketController
       .appTrackAddPoint
-      .bind(appSocketController, cpIo, socket, user);
+      .bind(appSocketController, cpIOBus, socket, user);
     const appStopTrack = appSocketController
       .appStopTrack
-      .bind(appSocketController, cpIo, socket, user);
+      .bind(appSocketController, cpIOBus, socket, user);
     const appNewAlarm = appSocketController
       .appNewAlarm
-      .bind(appSocketController, cpIo, socket, user);
+      .bind(appSocketController, cpIOBus, socket, user);
     const appAddNewPointInAlarmTrack = appSocketController
       .appAddNewPointInAlarmTrack
-      .bind(appSocketController, cpIo, socket, user);
+      .bind(appSocketController, cpIOBus, socket, user);
 
     const appCancelAlarm = appSocketController
       .appCancelAlarm
-      .bind(appSocketController, cpIo, socket, user);
+      .bind(appSocketController, cpIOBus, socket, user);
 
     socket.on('appNewTrack', appNewTrack);
     socket.on('appTrackAddPoint', appTrackAddPoint);
@@ -68,32 +67,32 @@ appIo.on('connection', async (socket) => {
 
 const openCpIoSockets = [];
 
-cpIo.on('connection', (socket) => {
+cpIOBus.on('connection', async (socket) => {
   const params = urlParser(socket.request.url);
   const { token } = params;
-  const authResult = auth(token, socket);
+  const authResult = await auth(token, socket);
   logger.info('user connected', params, token, authResult);
   const cpPickedUpAlarm = cpSocketController.cpPickedUpAlarm
-    .bind(cpSocketController, cpIo, socket, authResult);
+    .bind(cpSocketController, cpIOBus, socket, authResult);
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent
-    .bind(cpSocketController, cpIo, socket);
+    .bind(cpSocketController, cpIOBus, socket);
   const cpAlarmClosed = cpSocketController.cpAlarmClosed
-    .bind(cpSocketController, cpIo, socket);
+    .bind(cpSocketController, cpIOBus, socket);
   const cpAlarmDecline = cpSocketController.cpAlarmDecline
-    .bind(cpSocketController, cpIo, socket);
+    .bind(cpSocketController, cpIOBus, socket);
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
-    .bind(cpSocketController, cpIo, socket);
+    .bind(cpSocketController, cpIOBus, socket);
   const cpSignIn = cpSocketController.cpSignIn
     .bind(cpSocketController, socket);
   const cpAppUserApprove = cpSocketController.cpAppUserApprove
-    .bind(cpSocketController, socket, cpIo);
+    .bind(cpSocketController, socket, cpIOBus);
   const cpAppUserDecline = cpSocketController.cpAppUserDecline
-    .bind(cpSocketController, socket, cpIo);
+    .bind(cpSocketController, socket, cpIOBus);
   const cpCpUserApprove = cpSocketController.cpCpUserApprove
-    .bind(cpSocketController, socket, cpIo);
+    .bind(cpSocketController, socket, cpIOBus);
   const cpCpUserDecline = cpSocketController.cpCpUserDecline
-    .bind(cpSocketController, socket, cpIo);
+    .bind(cpSocketController, socket, cpIOBus);
 
   socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
   socket.on('cpSignIn', cpSignIn);
@@ -118,7 +117,7 @@ cpIo.on('connection', (socket) => {
       socket.on('cpCpUserDecline', cpCpUserDecline);
       socket.on('disconnect', () => {
         openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
-        cpEventEmitter.srvNewUserDisconnected(cpIo, id);
+        cpEventEmitter.srvNewUserDisconnected(cpIOBus, id);
         logger.info(`Cp disconnected operator with ID:${conObject.uid}`);
       });
       // TODO: rename it to srvSendAlarmListAll;
@@ -127,7 +126,7 @@ cpIo.on('connection', (socket) => {
       cpEventEmitter.srvUpdateUserList(socket, openCpIoSockets.map(el => el.id));
       cpEventEmitter.srvSendAllCpUserListForOneCpUser(socket);
       cpEventEmitter.srvSendAllAppUserListForOneCpUser(socket);
-      cpEventEmitter.srvNewUserConnected(cpIo, id);
+      cpEventEmitter.srvNewUserConnected(cpIOBus, id);
     } catch (error) {
       logger.error('error: ', error);
       cpEventEmitter.srvErrMessage(socket, 500, error.message);
@@ -141,4 +140,4 @@ server.listen(3333, () => {
   logger.info('Application is starting on port 3333');
 });
 
-module.exports = cpIo;
+module.exports = { cpIOBus, appIOBus };
