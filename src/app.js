@@ -24,6 +24,10 @@ app.use(statServer({
   rootDir: 'public/img',
   rootPath: '/img',
 }));
+app.use(statServer({
+  rootDir: 'public/html',
+  rootPath: '/html',
+}));
 app.use(cors());
 app.use(json());
 app.use(router.routes());
