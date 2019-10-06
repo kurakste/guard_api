@@ -60,6 +60,6 @@ Gbr:
   35 app user
   31 app candidate
   33 app decline
-  36 cpp user
   32 control panel candidate
   34 cpp decline
+  36 cpp user
