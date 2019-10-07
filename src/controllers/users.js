@@ -6,6 +6,7 @@ const checkAndStoreFiles = require('../helpers/checkAndStore');
 const logger = require('../helpers/logger');
 const getCode = require('../helpers/getCode');
 const { cpIOBus } = require('../socketApi');
+const sendCodeToEmail = require('../helpers/sendCodeToEmail');
 
 const { User } = models;
 
@@ -28,6 +29,7 @@ const userController = {
         { expiresIn: 60 * 30 },
       );
       const output = apiResponseObject(true, null, { restoreToken });
+      sendCodeToEmail(code, email);
       ctx.body = output;
     } catch (err) {
       const output = apiResponseObject(false, err.message, null, 500);
@@ -42,6 +44,7 @@ const userController = {
     const {
       restoreToken, code, email, password,
     } = body;
+    console.log('------------', password);
     try {
       if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
       try {
