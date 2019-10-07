@@ -7,8 +7,6 @@ async function sendCodeToEmail(code, email) {
 
   if (!(login && password)) throw new Error('MAILLOGIN, MAILPASSWORD hase to be set in .env');
 
-  console.log('login: ', login);
-
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -19,18 +17,15 @@ async function sendCodeToEmail(code, email) {
     },
   });
 
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: '<kurakste@yandex.ru>', // sender address
     to: email, // list of receivers
     subject: 'Password recovery', // Subject line
     html: `<p>Your password recovery code is: ${code}.</p>`,
   });
 
-  console.log('sendCodeToEmail: ', code, info);
   logger.info(`Code ${code} was sent to user ${email}`);
 }
 
-
 // send mail with defined transport object
-
 module.exports = sendCodeToEmail;
