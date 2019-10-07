@@ -5,7 +5,7 @@ async function sendCodeToEmail(code, email) {
   const login = process.env.MAILLOGIN;
   const password = process.env.MAILPASSWORD;
 
-  if (!(login && password)) throw new Error('MAILLOGIN, MAILPASSWORD hase to be set in .env');
+  if (!(login && password)) throw new Error('MAILLOGIN, MAILPASSWORD has to be set in .env');
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
