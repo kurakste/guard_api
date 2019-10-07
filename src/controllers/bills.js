@@ -6,7 +6,7 @@ dotenv.config();
 
 const { Bill, User } = models;
 const billingSum = -1 * parseFloat(process.env.BILLINGSUM);
-if (isNaN(billingSum)) throw new Error('BILLINGSUM doesn\'t set.');
+if (Number.isNaN(billingSum)) throw new Error('BILLINGSUM doesn\'t set.');
 
 const billController = {
   replenishment: async (ctx) => {
@@ -22,7 +22,7 @@ const billController = {
   },
 
   // TODO: replace it to console folder;
-  // TODO: нужно разобраться как часто делать биллинг и подробно описать этот процесс. 
+  // TODO: нужно разобраться как часто делать биллинг и подробно описать этот процесс.
   // потом довести до ума этот блок.
   billing: async (ctx) => {
     const { body } = ctx.request;
