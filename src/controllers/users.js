@@ -159,6 +159,7 @@ const userController = {
     const { files } = ctx.request;
     let newUser;
     try {
+      if (!password) throw new Error('Password can\'t be blank.');
       const checkUserInDb = await User.findOne({ where: { email: user.email } });
       if (checkUserInDb) throw new Error('User with this email already exist.');
 
