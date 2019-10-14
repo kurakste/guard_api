@@ -84,8 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       trackAddPoint.onclick = () => {
-        console.log('appTrackAddPoint');
-        socket.emit('appTrackAddPoint', {
+        console.log('addNewPosition');
+        // socket.emit('addNewPosition', {
+        //   payload: [23.2345, 34.34235]
+        // });
+        socket.emit('addNewPosition', {
           payload: [23.2345, 34.34235]
         });
       },
@@ -155,6 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       socket.on('srvAcceptCancelAlarm', function (data) {
         console.log('srvAcceptCancelAlarm: ');
+      });
+      
+      socket.on('srvAcceptAddNewPosition', function (data) {
+        console.log('srvAcceptAddNewPosition: ');
       });
       
       socket.on('logger', (data) => {

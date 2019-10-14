@@ -36,6 +36,9 @@ appIOBus.on('connection', async (socket) => {
     const appNewTrack = appSocketController
       .appNewTrack
       .bind(appSocketController, cpIOBus, socket, user);
+    const addNewPosition = appSocketController
+      .addNewPosition
+      .bind(appSocketController, cpIOBus, socket, user);
     const appTrackAddPoint = appSocketController
       .appTrackAddPoint
       .bind(appSocketController, cpIOBus, socket, user);
@@ -53,6 +56,7 @@ appIOBus.on('connection', async (socket) => {
       .appCancelAlarm
       .bind(appSocketController, cpIOBus, socket, user);
 
+    socket.on('addNewPosition', addNewPosition);
     socket.on('appNewTrack', appNewTrack);
     socket.on('appTrackAddPoint', appTrackAddPoint);
     socket.on('appStopTrack', appStopTrack);

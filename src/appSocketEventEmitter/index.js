@@ -10,16 +10,8 @@ const appSocketEventEmitter = {
     socket.emit('srvErrMessage', { message, code });
   },
 
-  srvAcceptNewTrack: (socket) => {
-    socket.emit('srvAcceptNewTrack');
-  },
-
-  srvAcceptTrackAddNewPoint: (socket) => {
-    socket.emit('srvAcceptTrackAddNewPoint');
-  },
-
-  arvAcceptAppStopTrack: (socket) => {
-    socket.emit('arvAcceptAppStopTrack');
+  srvAcceptAddNewPosition: (socket) => {
+    socket.emit('srvAcceptAddNewPosition');
   },
 
   srvAcceptNewAlarm: (socket) => {

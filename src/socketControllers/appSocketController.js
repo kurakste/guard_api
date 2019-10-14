@@ -1,7 +1,9 @@
 const models = require('../../models');
 const logger = require('../helpers/logger');
 
-const { Alarm, Gbr, Track } = models;
+const {
+  Alarm, Gbr, Track, sequelize,
+} = models;
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
 const appSocketEventEmitter = require('../appSocketEventEmitter');
 
@@ -9,67 +11,39 @@ const appSocketEventEmitter = require('../appSocketEventEmitter');
 const getGbrId = () => 32;
 
 const socketController = {
-  appNewTrack: async (cpIo, socket, user, data) => {
-    logger.info('appNewTrack', { data });
+
+  addNewPosition: async (cpIo, socket, user, data) => {
+    logger.info('addNewPosition', { data });
+    const { payload } = data;
+    const [lat, lon] = payload;
+
+    const myQuery = `SELECT * FROM "Tracks" AS "Track" 
+    WHERE 
+      "Track"."UserId" = ${user.id} 
+      AND "Track"."createdAt">= CURRENT_DATE;
+    `;
     try {
-      const { payload } = data;
-      const [lat, lon] = payload;
-
-      const trackObjArr = await Track.findAll({ UserId: user.id });
-      const trackArr = trackObjArr
-        .filter(el => el.isActive);
-      if (trackArr.length > 0) throw new Error(`Can't open one more track for UserId: ${user.id}`);
-
-      logger.info('appNewTrack', { user: user.id });
-      const track = await Track.build({
-        UserId: user.id,
-        track: [[lat, lon]],
-        isActive: true,
-      });
-      await track.save();
-
-      appSocketEventEmitter.srvAcceptNewTrack(socket, track.id);
-    } catch (err) {
-      appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
-      logger.error(err);
-    }
-  },
-
-  appTrackAddPoint: async (cpIo, socket, user, data) => {
-    logger.info('appNewTrack', { data });
-    try {
-      const { payload } = data;
-      const [lat, lon] = payload;
-      logger.info('appTrackAddPoint', { user: user.id });
-      const trackObjArr = await Track.findAll({ UserId: user.id });
-      const trackArr = trackObjArr
-        .filter(el => el.isActive);
-      if (trackArr.length > 1) throw new Error(`More then one active track for UserId: ${user.id}`);
-      if (trackArr.length === 0) throw new Error(`No active track found for UserId: ${user.id}`);
-      const track = trackArr[0];
-      const tmp = [...track.track];
-      tmp.push([lat, lon]);
-      track.track = [...tmp];
-      await track.save();
-      appSocketEventEmitter.srvAcceptTrackAddNewPoint(socket);
-    } catch (err) {
-      appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
-      logger.error(err.message);
-    }
-  },
-
-  appStopTrack: async (cpIo, socket, user) => {
-    try {
-      logger.info('appStopTrack', { user: user.id });
-      const trackObjArr = await Track.findAll({ UserId: user.id });
-      const trackArr = trackObjArr
-        .filter(el => el.isActive);
-      if (trackArr.length > 1) throw new Error(`More then one active track for UserId: ${user.id}`);
-      if (trackArr.length === 0) throw new Error(`No active track found for UserId: ${user.id}`);
-      const track = trackArr[0];
-      track.isActive = false;
-      await track.save();
-      appSocketEventEmitter.arvAcceptAppStopTrack(socket);
+      const res = await sequelize.query(myQuery);
+      if (res[0].length > 0) {
+        // track already created
+        if (res[0].length > 1) throw new Error(`More then one active track for UserId: ${user.id}`);
+        const { id } = res[0][0];
+        const trackObj = await Track.findByPk(id);
+        const tmp = trackObj.track;
+        tmp.push([lat, lon]);
+        trackObj.track = tmp;
+        await trackObj.save();
+        logger.info('addNewPosition', { msg: 'add new point to track', trackObj });
+      } else {
+        const track = await Track.build({
+          UserId: user.id,
+          track: [[lat, lon]],
+          isActive: true,
+        });
+        await track.save();
+        logger.info('addNewPosition', { msg: 'created new track', track });
+      }
+      appSocketEventEmitter.srvAcceptAddNewPosition(socket);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
