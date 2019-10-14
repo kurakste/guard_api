@@ -181,7 +181,7 @@ const userController = {
       if (newUser) await User.destroy({ where: { id: newUser.id } });
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      logger.error(err.message);
+      logger.error(err);
     }
   },
 
