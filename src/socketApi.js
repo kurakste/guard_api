@@ -33,17 +33,8 @@ appIOBus.on('connection', async (socket) => {
     logger.info('New app login successful', { id: user.id });
 
     appEventEmitter.srvSendAppState(socket, user);
-    const appNewTrack = appSocketController
-      .appNewTrack
-      .bind(appSocketController, cpIOBus, socket, user);
     const addNewPosition = appSocketController
       .addNewPosition
-      .bind(appSocketController, cpIOBus, socket, user);
-    const appTrackAddPoint = appSocketController
-      .appTrackAddPoint
-      .bind(appSocketController, cpIOBus, socket, user);
-    const appStopTrack = appSocketController
-      .appStopTrack
       .bind(appSocketController, cpIOBus, socket, user);
     const appNewAlarm = appSocketController
       .appNewAlarm
@@ -57,9 +48,6 @@ appIOBus.on('connection', async (socket) => {
       .bind(appSocketController, cpIOBus, socket, user);
 
     socket.on('addNewPosition', addNewPosition);
-    socket.on('appNewTrack', appNewTrack);
-    socket.on('appTrackAddPoint', appTrackAddPoint);
-    socket.on('appStopTrack', appStopTrack);
     socket.on('appNewAlarm', appNewAlarm);
     socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
     socket.on('appCancelAlarm', appCancelAlarm);
