@@ -43,6 +43,7 @@ const socketController = {
         await track.save();
         logger.info('addNewPosition', { msg: 'created new track', track });
       }
+      await addPointToOpenedAlarm(user.id, [lat, lon]);
       appSocketEventEmitter.srvAcceptAddNewPosition(socket);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -74,7 +75,7 @@ const socketController = {
         ],
       });
       newAlarmWithGbr.User.password = null;
-      appSocketEventEmitter.srvAcceptCancelAlarm(socket);
+      appSocketEventEmitter.srvAcceptNewAlarm(socket);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -163,4 +164,18 @@ async function hasThisUserOpenAlarm(userId) {
   });
   if (alarms.length > 0) return true;
   return false;
+}
+/**
+ *
+ * @param {number} userId
+ * @param {number[lat, lng]} point
+ */
+async function addPointToOpenedAlarm(userId, point) {
+  const alarm = await getOpenAlarmObject(userId);
+  if (!alarm) return null;
+  const tmp = [...alarm.track];
+  tmp.push(point);
+  alarm.track = tmp;
+  await alarm.save();
+  return true;
 }
