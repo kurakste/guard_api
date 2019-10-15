@@ -44,7 +44,6 @@ const userController = {
     const {
       restoreToken, code, email, password,
     } = body;
-    console.log('------------', password);
     try {
       if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
       try {
