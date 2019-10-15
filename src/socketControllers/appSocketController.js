@@ -83,24 +83,6 @@ const socketController = {
     }
   },
 
-  appAddNewPointInAlarmTrack: async (cpIo, socket, user, data) => {
-    try {
-      logger.info('appAddNewPointInAlarmTrack', data);
-      const { payload } = data;
-      const point = payload;
-      const aid = await getOpenAlarmId(user.id);
-      if (!aid) throw new Error(`No open alarm was found for user with id: ${user.id}`);
-      const alarm = await Alarm.findByPk(aid);
-      alarm.track = [...alarm.track, point];
-      await alarm.save();
-      appSocketEventEmitter.srvAcceptAddNewPointInAlarmTrack(socket);
-      cpSocketEventEmitter.srvUpdateAlarm(cpIo, alarm.dataValues);
-    } catch (err) {
-      appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
-      logger.error(err.message);
-    }
-  },
-
   appCancelAlarm: async (cpIo, socket, user) => {
     logger.info(`appCancelAlarm for user id: ${user.id}`);
     try {
