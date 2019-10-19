@@ -37,17 +37,29 @@ const controller = {
     return ctx.response.redirect(res.data.PaymentURL);
   },
 
-  getPaymentForm: async (ctx) => {
+  getPaymentPage: async (ctx) => {
     const params = ctx.request.query;
     const { uid } = params;
     logger.info('getPaymentForm', { uid });
     try {
       if (!uid) throw new Error('User id (uid) required in get params');
-      const pt = `${__dirname}/../views/payments/payMonthlySubscriptions.html`;
+      const pt = `${__dirname}/../views/payments/payments.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, { uid });
+      ctx.body = 'hello!';
       ctx.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
+  getPaymentForm: async (ctx) => {
+    const params = ctx.request.query;
+    const { uid } = params;
+    logger.info('getPaymentForm', { uid });
+    try {
     } catch (err) {
       logger.error(err.message);
     }
