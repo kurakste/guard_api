@@ -18,23 +18,32 @@ if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env
 const controller = {
   payMonthlySubscriptionInit: async (ctx) => {
     const url = 'https://securepay.tinkoff.ru/v2/Init';
-    // const url = 'https://www.rbc.ru';
-    const userId = 2;
-    const billingSum = parseFloat(process.env.BILLINGSUM);
-    const orderId = await addBillRecord(userId, billingSum, 'replenishment', 'tinkoff');
-    console.log('------------------->', orderId);
-    const postParams = {
-      Amount: 50000,
-      TerminalKey: terminalKey,
-      OrderId: orderId,
-    };
-    getHash(postParams);
-    const hash = getHash(postParams);
-    postParams.Token = hash;
-    const res = await axios.post(url, postParams);
-    if (!res.data.Success) throw Error('Payment API Error.');
-    if (!res.data.PaymentURL) throw Error('Payment API Error.');
-    return ctx.response.redirect(res.data.PaymentURL);
+    // TODO: make error url....
+    const failUrl = null;
+    const { body } = ctx.request;
+    const { uid } = body;
+    try {
+      if (!uid) throw new Error('User id (uid) required in get params');
+
+      logger.info('payMonthlySubscriptionInit', { uid });
+      const billingSum = parseFloat(process.env.BILLINGSUM);
+      const orderId = await addBillRecord(uid, billingSum, 'replenishment', 'tinkoff');
+      const postParams = {
+        Amount: 50000,
+        TerminalKey: terminalKey,
+        OrderId: orderId,
+      };
+      getHash(postParams);
+      const hash = getHash(postParams);
+      postParams.Token = hash;
+      const res = await axios.post(url, postParams);
+      if (!res.data.Success) throw Error('Payment API Error.');
+      if (!res.data.PaymentURL) throw Error('Payment API Error.');
+      return ctx.response.redirect(res.data.PaymentURL);
+    } catch (error) {
+      logger.error(error.message);
+      return ctx.response.redirect(failUrl);
+    }
   },
 
   getPaymentPage: async (ctx) => {
@@ -47,19 +56,7 @@ const controller = {
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, { uid });
-      ctx.body = 'hello!';
-      ctx.body = body;
-    } catch (err) {
-      logger.error(err.message);
-    }
-    return ctx;
-  },
-
-  getPaymentForm: async (ctx) => {
-    const params = ctx.request.query;
-    const { uid } = params;
-    logger.info('getPaymentForm', { uid });
-    try {
+      ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
     }
