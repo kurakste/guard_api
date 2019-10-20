@@ -12,10 +12,12 @@ const { Bill } = models;
 const terminalKey = process.env.TERMINAL_KEY;
 const terminalPassword = process.env.TERMINAL_PASSWORD;
 const NotificationURL = process.env.NOTIFICATION_URL;
+const apiUrl = process.env.API_URL;
 
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env.');
 if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.');
+if (!apiUrl) throw new Error('API_URL must be defined in env.');
 
 const controller = {
   payMonthlySubscriptionInit: async (ctx) => {
@@ -58,7 +60,7 @@ const controller = {
       const pt = `${__dirname}/../views/payments/payments.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
-      const body = Mustache.render(template, { uid });
+      const body = Mustache.render(template, { uid, apiUrl });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
