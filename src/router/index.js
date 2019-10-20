@@ -19,6 +19,7 @@ router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.post('/pay-monthly-subscription', paymentController.payMonthlySubscriptionInit);
 router.get('/get-payment-page', paymentController.getPaymentPage);
+router.post('/payment-notification', paymentController.postPaymentNotification);
 // -------------
 
 module.exports = router;

@@ -11,7 +11,7 @@ const { Bill } = models;
 
 const terminalKey = process.env.TERMINAL_KEY;
 const terminalPassword = process.env.TERMINAL_PASSWORD;
-const NotificationURL = process.env.NOTIFICATION_URL
+const NotificationURL = process.env.NOTIFICATION_URL;
 
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env.');
@@ -64,6 +64,11 @@ const controller = {
       logger.error(err.message);
     }
     return ctx;
+  },
+
+  postPaymentNotification: async (ctx) => {
+    const { body } = ctx.request;
+    console.log('==========>', body);
   },
 };
 
