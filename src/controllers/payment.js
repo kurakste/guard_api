@@ -11,9 +11,11 @@ const { Bill } = models;
 
 const terminalKey = process.env.TERMINAL_KEY;
 const terminalPassword = process.env.TERMINAL_PASSWORD;
+const NotificationURL = process.env.NOTIFICATION_URL
 
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env.');
+if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.');
 
 const controller = {
   payMonthlySubscriptionInit: async (ctx) => {
@@ -31,6 +33,7 @@ const controller = {
       const postParams = {
         Amount: 50000,
         TerminalKey: terminalKey,
+        NotificationURL,
         OrderId: orderId,
       };
       getHash(postParams);
