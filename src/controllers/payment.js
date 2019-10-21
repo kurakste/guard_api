@@ -71,6 +71,7 @@ const controller = {
   postPaymentNotification: async (ctx) => {
     const { body } = ctx.request;
     console.log('==========>', body);
+    ctx.response.body = 'OK';
   },
 };
 
