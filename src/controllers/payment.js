@@ -70,6 +70,15 @@ const controller = {
 
   postPaymentNotification: async (ctx) => {
     const { body } = ctx.request;
+    const { success, OrderId } = body;
+
+    const bill = await Bill.findByPk(45);
+    console.log(bill);
+
+    if (bill) {
+      bill.isPaymentFinished = success;
+      bill.save();
+    }
     console.log('==========>', body);
     ctx.response.body = 'OK';
   },
@@ -111,6 +120,7 @@ async function addBillRecord(userId, sum, operationType, comment) {
     sum,
     operationType,
     comment,
+    isPaymentFinished: null,
   });
   await billRecord.save();
   // TODO - update balance in user!!!
