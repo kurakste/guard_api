@@ -72,14 +72,12 @@ const controller = {
     const { body } = ctx.request;
     const { success, OrderId } = body;
 
-    const bill = await Bill.findByPk(45);
-    console.log(bill);
+    const bill = await Bill.findByPk(OrderId);
 
     if (bill) {
       bill.isPaymentFinished = success;
       bill.save();
     }
-    console.log('==========>', body);
     ctx.response.body = 'OK';
   },
 };

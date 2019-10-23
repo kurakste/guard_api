@@ -4,9 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     operationType: DataTypes.STRING,
     sum:DataTypes.NUMERIC,
     comment: DataTypes.STRING,
+    isPaymentFinished: DataTypes.BOOLEAN,
   }, {});
-  User.associate = function(models) {
-    User.hasMany(models.Bill);
-  };
+  // User.associate = function(models) {
+  //   User.hasMany(models.Bill);
+  // };
   return User;
 };
