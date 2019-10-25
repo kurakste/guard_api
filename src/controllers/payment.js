@@ -8,11 +8,12 @@ const models = require('../../models');
 
 const { Bill } = models;
 
-
 const terminalKey = process.env.TERMINAL_KEY;
 const terminalPassword = process.env.TERMINAL_PASSWORD;
 const NotificationURL = process.env.NOTIFICATION_URL;
 const apiUrl = process.env.API_URL;
+const tinkoffUrl = 'https://securepay.tinkoff.ru/v2/Init';
+const failUrl = `${apiUrl}/error.html`;
 
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env.');
@@ -20,40 +21,35 @@ if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.'
 if (!apiUrl) throw new Error('API_URL must be defined in env.');
 
 const controller = {
+
   payMonthlySubscriptionInit: async (ctx) => {
-    const url = 'https://securepay.tinkoff.ru/v2/Init';
-    // TODO: make error url....
-    const failUrl = null;
     const { body } = ctx.request;
     const { uid } = body;
-    try {
-      if (!uid) throw new Error('User id (uid) required in get params');
+    const billingSum = parseFloat(process.env.BILLINGSUM);
+    const resUrl = await paySubscription(uid, billingSum);
+    return ctx.response.redirect(resUrl);
+  },
 
-      logger.info('payMonthlySubscriptionInit', { uid });
-      const billingSum = parseFloat(process.env.BILLINGSUM);
-      const orderId = await addBillRecord(uid, billingSum, 'replenishment', 'tinkoff');
-      const postParams = {
-        Amount: 50000,
-        TerminalKey: terminalKey,
-        NotificationURL,
-        OrderId: orderId,
-      };
-      getHash(postParams);
-      const hash = getHash(postParams);
-      postParams.Token = hash;
-      const res = await axios.post(url, postParams);
-      if (!res.data.Success) throw Error('Payment API Error.');
-      if (!res.data.PaymentURL) throw Error('Payment API Error.');
-      return ctx.response.redirect(res.data.PaymentURL);
-    } catch (error) {
-      logger.error(error.message);
-      return ctx.response.redirect(failUrl);
-    }
+  paySixMonth: async (ctx) => {
+    const { body } = ctx.request;
+    const { uid } = body;
+    const billingSum = parseFloat(process.env.BILLINGSUM);
+    const resUrl = await paySubscription(uid, 6 * billingSum);
+    return ctx.response.redirect(resUrl);
+  },
+
+  payOneYear: async (ctx) => {
+    const { body } = ctx.request;
+    const { uid } = body;
+    const billingSum = parseFloat(process.env.BILLINGSUM);
+    const resUrl = await paySubscription(uid, 12 * billingSum);
+    return ctx.response.redirect(resUrl);
   },
 
   getPaymentPage: async (ctx) => {
     const params = ctx.request.query;
     const { uid } = params;
+    console.log('user id: ---->>>>>', uid);
     logger.info('getPaymentForm', { uid });
     try {
       if (!uid) throw new Error('User id (uid) required in get params');
@@ -103,7 +99,6 @@ function getHash(input) {
     return acc;
   }, []);
   arr.push({ Password: terminalPassword });
-  console.log('====>', arr);
   const sorted = arr.sort(compare);
   const concated = sorted
     .map(el => el[Object.keys(el)[0]])
@@ -124,6 +119,32 @@ async function addBillRecord(userId, sum, operationType, comment) {
   // TODO - update balance in user!!!
   const out = billRecord.id;
   return out;
+}
+
+async function paySubscription(uid, sum) {
+  try {
+    if (!uid) throw new Error('User id (uid) required in get params');
+
+    logger.info('payMonthlySubscriptionInit', { uid });
+
+    const orderId = await addBillRecord(uid, sum, 'replenishment', 'tinkoff');
+    const postParams = {
+      Amount: sum * 100,
+      TerminalKey: terminalKey,
+      NotificationURL,
+      OrderId: orderId,
+    };
+    getHash(postParams);
+    const hash = getHash(postParams);
+    postParams.Token = hash;
+    const res = await axios.post(tinkoffUrl, postParams);
+    if (!res.data.Success) throw Error('Payment API Error.');
+    if (!res.data.PaymentURL) throw Error('Payment API Error.');
+    return res.data.PaymentURL;
+  } catch (error) {
+    logger.error(error.message);
+    return failUrl;
+  }
 }
 
 module.exports = controller;
