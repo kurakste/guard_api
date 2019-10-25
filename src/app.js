@@ -3,14 +3,15 @@ const koaBody = require('koa-body');
 const json = require('koa-json');
 const statServer = require('koa-static-server');
 const cors = require('koa-cors');
+const dotenv = require('dotenv');
 const router = require('./router');
 const logger = require('./helpers/logger');
+
+dotenv.config();
 
 require('./socketApi');
 
 const app = new Koa();
-
-require('./bootstrap');
 
 app.use(koaBody({
   formidable: {
