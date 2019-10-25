@@ -18,6 +18,8 @@ router.get('/user/:id', userController.getUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.post('/pay-monthly-subscription', paymentController.payMonthlySubscriptionInit);
+router.post('/pay-six-month', paymentController.paySixMonth);
+router.post('/pay-one-year', paymentController.payOneYear);
 router.get('/get-payment-page', paymentController.getPaymentPage);
 router.post('/payment-notification', paymentController.postPaymentNotification);
 // -------------
