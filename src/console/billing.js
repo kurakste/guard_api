@@ -33,7 +33,7 @@ async function addBillingRecordById(id) {
 }
 
 async function updateBallanceById(id) {
-  const sum = await Bill.sum('sum', { where: { UserId: id } });
+  const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
   const user = await User.findByPk(id);
   user.lowBallance = (sum < 0);
   user.balance = sum;
