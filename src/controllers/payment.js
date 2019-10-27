@@ -1,3 +1,4 @@
+require('dotenv').config();
 const axios = require('axios');
 const crypto = require('crypto');
 const Mustache = require('mustache');
@@ -6,7 +7,7 @@ const logger = require('../helpers/logger');
 
 const models = require('../../models');
 
-const { Bill } = models;
+const { Bill, User } = models;
 
 const terminalKey = process.env.TERMINAL_KEY;
 const terminalPassword = process.env.TERMINAL_PASSWORD;
@@ -72,11 +73,22 @@ const controller = {
 
     if (bill) {
       bill.isPaymentFinished = success;
-      bill.save();
+      await bill.save();
+      await updateBallanceById(bill.UserId);
     }
     ctx.response.body = 'OK';
   },
 };
+
+async function updateBallanceById(id) {
+  const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
+  const user = await User.findByPk(id);
+  user.lowBallance = (sum < 0);
+  user.balance = sum;
+  await user.save();
+  console.log('done updateBallanceById for id: ', id);
+  return null;
+}
 
 function compare(a, b) {
   const aKeys = Object.keys(a);
