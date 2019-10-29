@@ -8,7 +8,6 @@ const {
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
 const appSocketEventEmitter = require('../appSocketEventEmitter');
 
-// TODO: Write real function)
 async function getRegionId(lat, lon, socket) {
   const key = process.env.GGKEY;
   try {
@@ -77,7 +76,6 @@ const socketController = {
         status: 0,
         track: [[lat, lon]],
       };
-      // payload.GbrId = await getGbrId(lat, lon, socket);
       const regionId = await getRegionId(lat, lon, socket);
       const alarm = await Alarm.create(alarmData);
       const gbr = await Gbr.findAll({ where: { regionId } });
@@ -141,18 +139,6 @@ async function getOpenAlarmObject(userId) {
   if (alarms.length === 0) return null;
   return alarms[0];
 }
-
-// async function getOpenAlarmId(userId) {
-//   const alarms = await Alarm.findAll({
-//     where: {
-//       UserId: userId, closedAt: null,
-//     },
-//   });
-//   if (alarms.length > 1) throw new Error(`More then one open
-//   alarm for user with id : ${userId}`);
-//   if (alarms.length === 0) return null;
-//   return alarms[0].id;
-// }
 
 async function hasThisUserOpenAlarm(userId) {
   const alarms = await Alarm.findAll({
