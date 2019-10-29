@@ -1,3 +1,4 @@
+const decoder = require('google-geo-decoder');
 const models = require('../../models');
 const logger = require('../helpers/logger');
 
@@ -8,7 +9,20 @@ const cpSocketEventEmitter = require('../cpSocketEventEmitter');
 const appSocketEventEmitter = require('../appSocketEventEmitter');
 
 // TODO: Write real function)
-const getGbrId = () => 32;
+async function getRegionId(lat, lon, socket) {
+  const key = process.env.GGKEY;
+  try {
+    const geoData = await decoder(lat, lon, key);
+    const { lev1 } = geoData;
+    const gbrs = await Gbr.findAll({ where: { regionName: lev1 } });
+    if (!gbrs.length) return 0; // gbrs not found in this region;
+    return gbrs[0].regionId; // All gbrs with one regionName must have common region id;
+  } catch (err) {
+    appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
+    logger.error(err.message);
+  }
+  return 0;
+}
 
 const socketController = {
 
@@ -63,9 +77,10 @@ const socketController = {
         status: 0,
         track: [[lat, lon]],
       };
-      payload.GbrId = getGbrId(alarmData);
+      // payload.GbrId = await getGbrId(lat, lon, socket);
+      const regionId = await getRegionId(lat, lon, socket);
       const alarm = await Alarm.create(alarmData);
-      const gbr = await Gbr.findAll({ where: { regionId: getGbrId() } });
+      const gbr = await Gbr.findAll({ where: { regionId } });
       await alarm.addGbr(gbr);
       const newAlarmWithGbr = await Alarm.findOne({
         where: { id: alarm.id },
@@ -75,7 +90,7 @@ const socketController = {
         ],
       });
       newAlarmWithGbr.User.password = null;
-      appSocketEventEmitter.srvAcceptNewAlarm(socket);
+      appSocketEventEmitter.srvAcceptNewAlarm(socket, newAlarmWithGbr.dataValues);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
@@ -127,16 +142,17 @@ async function getOpenAlarmObject(userId) {
   return alarms[0];
 }
 
-async function getOpenAlarmId(userId) {
-  const alarms = await Alarm.findAll({
-    where: {
-      UserId: userId, closedAt: null,
-    },
-  });
-  if (alarms.length > 1) throw new Error(`More then one open alarm for user with id : ${userId}`);
-  if (alarms.length === 0) return null;
-  return alarms[0].id;
-}
+// async function getOpenAlarmId(userId) {
+//   const alarms = await Alarm.findAll({
+//     where: {
+//       UserId: userId, closedAt: null,
+//     },
+//   });
+//   if (alarms.length > 1) throw new Error(`More then one open
+//   alarm for user with id : ${userId}`);
+//   if (alarms.length === 0) return null;
+//   return alarms[0].id;
+// }
 
 async function hasThisUserOpenAlarm(userId) {
   const alarms = await Alarm.findAll({

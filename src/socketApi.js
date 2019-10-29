@@ -39,9 +39,9 @@ appIOBus.on('connection', async (socket) => {
     const appNewAlarm = appSocketController
       .appNewAlarm
       .bind(appSocketController, cpIOBus, socket, user);
-    const appAddNewPointInAlarmTrack = appSocketController
-      .appAddNewPointInAlarmTrack
-      .bind(appSocketController, cpIOBus, socket, user);
+    // const appAddNewPointInAlarmTrack = appSocketController
+    //   .appAddNewPointInAlarmTrack
+    //   .bind(appSocketController, cpIOBus, socket, user);
 
     const appCancelAlarm = appSocketController
       .appCancelAlarm
@@ -49,7 +49,7 @@ appIOBus.on('connection', async (socket) => {
 
     socket.on('addNewPosition', addNewPosition);
     socket.on('appNewAlarm', appNewAlarm);
-    socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
+    // socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
     socket.on('appCancelAlarm', appCancelAlarm);
     socket.on('disconnect', appSocketController.disconnect);
   } else {
