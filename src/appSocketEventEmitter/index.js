@@ -14,8 +14,8 @@ const appSocketEventEmitter = {
     socket.emit('srvAcceptAddNewPosition');
   },
 
-  srvAcceptNewAlarm: (socket) => {
-    socket.emit('srvAcceptNewAlarm');
+  srvAcceptNewAlarm: (socket, data) => {
+    socket.emit('srvAcceptNewAlarm', data);
   },
 
   srvAcceptCancelAlarm: (socket) => {
