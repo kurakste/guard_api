@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const models = require('../../models');
+const logger = require('../helpers/logger');
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ async function doBilling() {
   await Promise.all(a);
   const promBunch = users.map(el => updateBallanceById(el.id));
   await Promise.all(promBunch);
-  console.log('===---- Done');
+  logger.info('doBilling done well');
   return null;
 }
 
@@ -28,7 +29,7 @@ async function addBillingRecordById(id) {
   bill.operationType = 'Daily billing';
   bill.isPaymentFinished = true;
   await bill.save();
-  console.log('done addBillingRecordById for id: ', id);
+  logger.info('Done addBillingRecordById', { id });
   return null;
 }
 
@@ -38,7 +39,7 @@ async function updateBallanceById(id) {
   user.lowBallance = (sum < 0);
   user.balance = sum;
   await user.save();
-  console.log('done updateBallanceById for id: ', id);
+  logger.info('done updateBallanceById for id:', { id });
   return null;
 }
 
