@@ -3,27 +3,204 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Пополнить баланс.</title>
+  <meta name="format-detection" content="telephone=no">
+  <title>Kia</title>
+  <!-- <link rel="stylesheet" href="css/styles.css"> -->
 </head>
 
 <body>
-  <p>Внести оплату за один месяц</p>
-  <form action="{{apiUrl}}/pay-monthly-subscription" method="post">
-    <input type='hidden' name='uid' id="uid" value='{{uid}}'>
-    <button type="submit">Оплатить месяц</button>
-  </form>
-  <p>Внести оплату за 6 месяцев</p>
-  <form action="{{apiUrl}}/pay-six-month" method="post">
-    <input type='hidden' name='uid' id="uid" value='{{uid}}'>
-    <button type="submit">Оплатить 6 мес</button>
-  </form>
-  <p>Внести оплату за 12 месяцев</p>
-  <form action="{{apiUrl}}/pay-one-year" method="post">
-    <input type='hidden' name='uid' id="uid" value='{{uid}}'>
-    <button type="submit">Оплатить 6 мес</button>
-  </form>
+  <div class="container-buy">
+    <div class="container-header">
+      <div class="header-buy"><a href="#"><img src="img/arrow.png">
+          <p>Назад</p>
+        </a>
+        <div class="help">
+          <h1>Оформить подписку</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container-main">
+      <div class="main-buy"><a href="#">i</a>
+        <div class="icon-div"><img src="img/icon.svg"></div>
+        <div class="text-div">
+          <p>Мой телохранитель</p>
+          <div class="button-div">
+            <form action="{{apiUrl}}/pay-monthly-subscription" method="post">
+              <input type='hidden' name='uid' id="uid" value='{{uid}}'>
+              <button>
+                <p>500 Руб.</p>
+                <p>1 месяц</p>
+              </button>
+              <form action="{{apiUrl}}/pay-six-month" method="post">
+                <input type='hidden' name='uid' id="uid" value='{{uid}}'>
+                <button>
+                  <p>3 000 Руб.</p>
+                  <p>6 месяц</p>
+                </button>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+<style>
+  $bcg-color: #000;
+  $font-family: "Calibri",
+  san-serif;
+  $font-size: 20px;
+  $font-color: #fff;
+  $container-padding: 60px;
+  $font-size-mobile: 20px;
+
+  .container-main {
+    display: flex;
+    justify-content: flex-start !important;
+    background-color: $bcg-color;
+
+    .main-buy {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80%;
+      border-right: 3px solid #ffffff;
+      border-bottom: 3px solid #ffffff;
+      border-top: 3px solid #ffffff;
+      border-radius: 0 20px 20px 0;
+
+      a {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border-radius: 50%;
+        padding: 5px 10px 5px 10px;
+        background-color: #ffffff;
+        text-decoration: none;
+        font-family: $font-family;
+        color: #000000;
+        font-size: 14px;
+      }
+
+      a:active,
+      :link {
+        color: #000000;
+      }
+
+      .icon-div {
+        padding-top: 50px;
+        padding-bottom: 50px;
+        padding-right: 20px;
+
+        img {
+          text-align: center;
+          width: 100px;
+        }
+      }
+
+      .text-div {
+        p {
+          font-family: $font-family;
+          color: $font-color;
+          font-size: $font-size;
+          text-align: center;
+        }
+
+        .button-div {
+          width: 100%;
+          padding-top: 30px;
+
+          form {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            button {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              background-color: $bcg-color;
+              border: 1px solid $font-color;
+              border-radius: 8px;
+              flex-basis: 45%;
+
+              p {
+                font-family: $font-family;
+                color: $font-color;
+                font-size: 16px;
+                font-weight: normal;
+              }
+
+              p:last-child {
+                font-size: 10px;
+                font-weight: lighter;
+              }
+            }
+
+            button:last-child {
+              flex-basis: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    .container-main {
+      .main-buy {
+        width: 100%;
+
+        a {
+          padding: 4px 10px 4px 10px;
+          top: 3px;
+          right: 3px;
+        }
+
+        .icon-div {
+          padding-top: 30px;
+          padding-bottom: 30px;
+
+          img {
+            width: 60px;
+          }
+
+        }
+
+        .text-div {
+          padding-bottom: 20px;
+
+          p {
+            font-size: 16px;
+
+          }
+
+          .button-div {
+            padding-top: 10px;
+
+            button {
+              width: 20%;
+              height: 30%;
+            }
+
+            p {
+              font-weight: lighter !important;
+              font-size: 10px !important;
+            }
+
+            p:last-child {
+              font-size: 8px !important;
+            }
+          }
+        }
+      }
+    }
+
+  }
+</style>
 
 </html>
