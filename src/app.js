@@ -26,8 +26,16 @@ app.use(statServer({
   rootPath: '/img',
 }));
 app.use(statServer({
+  rootDir: 'public/css',
+  rootPath: '/css',
+}));
+app.use(statServer({
   rootDir: 'public/html',
   rootPath: '/html',
+}));
+app.use(statServer({
+  rootDir: 'public/assets',
+  rootPath: '/assets',
 }));
 app.use(cors());
 app.use(json());
