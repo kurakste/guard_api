@@ -4,6 +4,7 @@ const router = new Router();
 const rootController = require('../controllers/root');
 const userController = require('../controllers/users');
 const paymentController = require('../controllers/payment');
+const staticController = require('../controllers/static');
 
 
 router.get('/', rootController.root);
@@ -19,6 +20,7 @@ router.post('/pay-six-month', paymentController.paySixMonth);
 router.post('/pay-one-year', paymentController.payOneYear);
 router.get('/get-payment-page', paymentController.getPaymentPage);
 router.post('/payment-notification', paymentController.postPaymentNotification);
+router.get('/agreement', staticController.getAgreementPage);
 // -------------
 
 module.exports = router;
