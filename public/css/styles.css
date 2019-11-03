@@ -453,9 +453,15 @@
         font-size: 16px !important; } }
 
 .container-agreement {
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   background-color: #000;
   padding-left: 60px;
-  padding-right: 60px; }
+  padding-right: 60px; 
+  text-align: justify;
+
+}
 
 .agreement-main {
   display: -webkit-box;
@@ -498,7 +504,10 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-agreement {
-    padding: 0; }
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
     .container-agreement h1 {
       font-family: "Calibri", san-serif;
       font-size: 25px;
