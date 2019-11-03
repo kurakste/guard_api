@@ -453,7 +453,7 @@
         font-size: 16px !important; } }
 
 .container-agreement {
-  background-color: white;
+  background-color: #000;
   padding-left: 60px;
   padding-right: 60px; }
 
@@ -468,33 +468,33 @@
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
   flex-direction: column;
-  background-color: white; }
+  background-color: #000; }
   .agreement-main h1 {
     font-family: "Calibri", san-serif;
     font-size: 28px;
     font-weight: bold;
-    color: #000000;
+    color: #fff;
     text-align: center; }
   .agreement-main h2 {
     font-family: "Calibri", san-serif;
     font-size: 25px;
     font-weight: bold;
-    color: #000000; }
+    color: #fff; }
   .agreement-main h3 {
     font-family: "Calibri", san-serif;
     font-size: 23px;
     font-weight: bold;
-    color: #000000; }
+    color: #fff; }
   .agreement-main h4 {
     font-family: "Calibri", san-serif;
     font-size: 20px;
     font-weight: bold;
-    color: #000000; }
+    color: #fff; }
   .agreement-main p {
     font-family: "Calibri", san-serif;
     font-size: 18px;
     font-weight: normal;
-    color: #000000; }
+    color: #fff; }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-agreement {
@@ -570,47 +570,45 @@
       font-size: 20px;
       text-align: center; }
     .container-main .main-buy .text-div .button-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
       width: 100%;
       padding-top: 30px; }
-      .container-main .main-buy .text-div .button-div form {
+      .container-main .main-buy .text-div .button-div form button {
         display: -webkit-box;
         display: -webkit-flex;
         display: flex;
-        -webkit-box-pack: justify;
-        -webkit-justify-content: space-between;
-        justify-content: space-between;
-        width: 100%; }
-        .container-main .main-buy .text-div .button-div form button {
-          display: -webkit-box;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-box-orient: vertical;
-          -webkit-box-direction: normal;
-          -webkit-flex-direction: column;
-          flex-direction: column;
-          -webkit-box-pack: center;
-          -webkit-justify-content: center;
-          justify-content: center;
-          -webkit-box-align: center;
-          -webkit-align-items: center;
-          align-items: center;
-          background-color: #000;
-          border: 1px solid #fff;
-          -webkit-border-radius: 8px;
-          border-radius: 8px;
-          -webkit-flex-basis: 45%;
-          flex-basis: 45%; }
-          .container-main .main-buy .text-div .button-div form button p {
-            font-family: "Calibri", san-serif;
-            color: #fff;
-            font-size: 16px;
-            font-weight: normal; }
-          .container-main .main-buy .text-div .button-div form button p:last-child {
-            font-size: 10px;
-            font-weight: lighter; }
-        .container-main .main-buy .text-div .button-div form button:last-child {
-          -webkit-flex-basis: 50%;
-          flex-basis: 50%; }
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        background-color: #000;
+        border: 1px solid #fff;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        width: 70px;
+        height: 40px; }
+        .container-main .main-buy .text-div .button-div form button p {
+          font-family: "Calibri", san-serif;
+          color: #fff;
+          font-size: 16px;
+          font-weight: normal; }
+        .container-main .main-buy .text-div .button-div form button p:last-child {
+          font-size: 10px;
+          font-weight: lighter; }
+      .container-main .main-buy .text-div .button-div form button:last-child {
+        -webkit-flex-basis: 50%;
+        flex-basis: 50%; }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-main .main-buy {
@@ -631,8 +629,8 @@
       .container-main .main-buy .text-div .button-div {
         padding-top: 10px; }
         .container-main .main-buy .text-div .button-div button {
-          width: 20%;
-          height: 30%; }
+          width: 50px !important;
+          height: 30px !important; }
         .container-main .main-buy .text-div .button-div p {
           font-weight: lighter !important;
           font-size: 10px !important; }
