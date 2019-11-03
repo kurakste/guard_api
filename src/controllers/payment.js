@@ -25,6 +25,7 @@ const controller = {
 
   payMonthlySubscriptionInit: async (ctx) => {
     const { body } = ctx.request;
+    console.log('----------------->', body);
     const { uid } = body;
     const billingSum = parseFloat(process.env.BILLINGSUM);
     const resUrl = await paySubscription(uid, billingSum);
@@ -50,7 +51,6 @@ const controller = {
   getPaymentPage: async (ctx) => {
     const params = ctx.request.query;
     const { uid } = params;
-    console.log('user id: ---->>>>>', uid);
     logger.info('getPaymentForm', { uid });
     try {
       if (!uid) throw new Error('User id (uid) required in get params');
