@@ -37,6 +37,10 @@ app.use(statServer({
   rootDir: 'public/assets',
   rootPath: '/assets',
 }));
+app.use(statServer({
+  rootDir: 'public/scripts',
+  rootPath: '/scripts',
+}));
 app.use(cors());
 app.use(json());
 app.use(router.routes());
