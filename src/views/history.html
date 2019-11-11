@@ -20,31 +20,17 @@
       </div>
       <div class="container-main-call">
         <div class="answer-section">
-          <button class="accordion">03 августа,в 6:32<br>ул. Долгопрудного, дом 26<img class="rotate" src="{{apiUrl}}/assets/dropdown.svg"></button>
+          {{#alarms}}
+          <button class="accordion">{{createdAt}}
+            <br>
+              сменить здесь адрес 1 
+            <img class="rotate" src="{{apiUrl}}/assets/dropdown.svg">
+          </button>
           <div class="panel">
-            <p>Координаты: 162.00, 186.32</p>
-            <p>Вызов завершен</p>
+            <p>Координаты: {{lat}}, {{lng}}</p>
+            <p>{{notes}}</p>
           </div>
-          <button class="accordion">02 августа, в 12:32<br>ул. Долгопрудного, дом 26<img class="rotate" src="{{apiUrl}}/assets/dropdown.svg"></button>
-          <div class="panel">
-            <p>Координаты: 162.00, 186.32</p>
-            <p>Вызов завершен</p>
-          </div>
-          <button class="accordion">01 августа, в 18:32<br>ул. Долгопрудного, дом 26<img class="rotate" src="{{apiUrl}}/assets/dropdown.svg"></button>
-          <div class="panel">
-            <p>Координаты: 162.00, 186.32</p>
-            <p>Вызов завершен</p>
-          </div>
-          <button class="accordion">01 августа, в 19:32<br>ул. Долгопрудного, дом 26<img class="rotate" src="{{apiUrl}}/assets/dropdown.svg"></button>
-          <div class="panel">
-            <p>Координаты: 162.00, 186.32</p>
-            <p>Вызов завершен</p>
-          </div>
-          <button class="accordion">01 августа, в 20:32<br>ул. Долгопрудного, дом 26<img class="rotate" src="{{apiUrl}}/assets/dropdown.svg"></button>
-          <div class="panel">
-            <p>Координаты: 162.00, 186.32</p>
-            <p>Вызов завершен</p>
-          </div>
+          {{/alarms}}
         </div>
       </div>
       <script src="{{apiUrl}}/scripts/script.js"></script>

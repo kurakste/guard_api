@@ -21,7 +21,7 @@ router.post('/pay-one-year', paymentController.payOneYear);
 router.get('/get-payment-page', paymentController.getPaymentPage);
 router.post('/payment-notification', paymentController.postPaymentNotification);
 router.get('/agreement', staticController.getAgreementPage);
-router.get('/history', staticController.getHistoryPage);
+router.get('/history/:id', staticController.getHistoryPage);
 // -------------
 
 module.exports = router;
