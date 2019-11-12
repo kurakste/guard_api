@@ -54,11 +54,13 @@ const controller = {
     // console.log(alarms);
     try {
       const user = await User.findByPk(id);
-      const { img } = user;
+      const { img, balance } = user;
       const pt = `${__dirname}/../views/account.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
-      const body = Mustache.render(template, { apiUrl, img, id });
+      const body = Mustache.render(template, {
+        apiUrl, img, id, balance,
+      });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
