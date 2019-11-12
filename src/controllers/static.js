@@ -4,7 +4,7 @@ const fs = require('fs');
 const logger = require('../helpers/logger');
 const models = require('../../models');
 
-const { Alarm } = models;
+const { Alarm, User } = models;
 
 const apiUrl = process.env.API_URL;
 
@@ -35,12 +35,30 @@ const controller = {
       [output.lat, output.lng] = zeroPoint;
       return output;
     });
-    // console.log(alarms);
     try {
       const pt = `${__dirname}/../views/history.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, { apiUrl, alarms });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+  getAccountPage: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
+    logger.info('getAccountPage', { id });
+
+    // console.log(alarms);
+    try {
+      const user = await User.findByPk(id);
+      const { img } = user;
+      const pt = `${__dirname}/../views/account.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl, img, id });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);

@@ -15,12 +15,13 @@ router.post('/restore-password-step-two', userController.postRestorePasswordStep
 router.get('/user/:id', userController.getUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
+router.get('/get-payment-page/:id', paymentController.getPaymentPage);
 router.post('/pay-monthly-subscription', paymentController.payMonthlySubscriptionInit);
 router.post('/pay-six-month', paymentController.paySixMonth);
 router.post('/pay-one-year', paymentController.payOneYear);
-router.get('/get-payment-page', paymentController.getPaymentPage);
 router.post('/payment-notification', paymentController.postPaymentNotification);
 router.get('/agreement', staticController.getAgreementPage);
+router.get('/account/:id', staticController.getAccountPage);
 router.get('/history/:id', staticController.getHistoryPage);
 // -------------
 

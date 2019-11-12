@@ -25,39 +25,38 @@ const controller = {
 
   payMonthlySubscriptionInit: async (ctx) => {
     const { body } = ctx.request;
-    console.log('----------------->', body);
-    const { uid } = body;
+    const { id } = body;
     const billingSum = parseFloat(process.env.BILLINGSUM);
-    const resUrl = await paySubscription(uid, billingSum);
+    const resUrl = await paySubscription(id, billingSum);
     return ctx.response.redirect(resUrl);
   },
 
   paySixMonth: async (ctx) => {
     const { body } = ctx.request;
-    const { uid } = body;
+    const { id } = body;
     const billingSum = parseFloat(process.env.BILLINGSUM);
-    const resUrl = await paySubscription(uid, 6 * billingSum);
+    const resUrl = await paySubscription(id, 6 * billingSum);
     return ctx.response.redirect(resUrl);
   },
 
   payOneYear: async (ctx) => {
     const { body } = ctx.request;
-    const { uid } = body;
+    const { id } = body;
     const billingSum = parseFloat(process.env.BILLINGSUM);
-    const resUrl = await paySubscription(uid, 12 * billingSum);
+    const resUrl = await paySubscription(id, 12 * billingSum);
     return ctx.response.redirect(resUrl);
   },
 
   getPaymentPage: async (ctx) => {
-    const params = ctx.request.query;
-    const { uid } = params;
-    logger.info('getPaymentForm', { uid });
+    const { params } = ctx;
+    const { id } = params;
+    logger.info('getPaymentForm', { id });
     try {
-      if (!uid) throw new Error('User id (uid) required in get params');
+      if (!id) throw new Error('User id (id) required in URL');
       const pt = `${__dirname}/../views/payments/payments.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
-      const body = Mustache.render(template, { uid, apiUrl });
+      const body = Mustache.render(template, { id, apiUrl });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
@@ -86,7 +85,7 @@ async function updateBallanceById(id) {
   user.lowBallance = (sum < 0);
   user.balance = sum;
   await user.save();
-  console.log('done updateBallanceById for id: ', id);
+  logger.info('done updateBallanceById for id: ', id);
   return null;
 }
 
