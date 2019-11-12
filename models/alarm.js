@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     closedAt: DataTypes.DATE,
     createdAt: DataTypes.DATE,
     notes: DataTypes.TEXT,
+    address: DataTypes.TEXT,
   }, {});
   alarm.associate = function (models) {
     // associations can be defined here
