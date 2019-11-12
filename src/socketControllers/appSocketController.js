@@ -8,31 +8,6 @@ const {
 const cpSocketEventEmitter = require('../cpSocketEventEmitter');
 const appSocketEventEmitter = require('../appSocketEventEmitter');
 
-async function getRegionIdAndAddress(lat, lon, socket) {
-  const key = process.env.GGKEY;
-  try {
-    const geoData = await decoder(lat, lon, key);
-    const {
-      postalCode,
-      country,
-      lev1,
-      lev2,
-      lev3,
-      route,
-      streetNumber,
-    } = geoData;
-    const address = `${country}, ${postalCode}, ${lev1}, ${lev2}, ${lev3}, ${route}, ${streetNumber}`;
-    const gbrs = await Gbr.findAll({ where: { regionName: lev1 } });
-    if (!gbrs.length) return 0; // gbrs not found in this region;
-    console.log('=====================>', address);
-    return [gbrs[0].regionId, address]; // All gbrs with one regionName must have common region id;
-  } catch (err) {
-    appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
-    logger.error(err.message);
-  }
-  return [0, 0];
-}
-
 const socketController = {
 
   addNewPosition: async (cpIo, socket, user, data) => {
@@ -82,7 +57,6 @@ const socketController = {
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
       const [lat, lon] = payload;
       const [regionId, address] = await getRegionIdAndAddress(lat, lon, socket);
-      console.log('+++++++++++++++++++', address);
       const alarmData = {
         UserId: user.id,
         status: 0,
@@ -140,6 +114,31 @@ const socketController = {
 module.exports = socketController;
 
 // ====================== helpers =================================================
+
+async function getRegionIdAndAddress(lon, lat, socket) {
+  const key = process.env.GGKEY;
+  try {
+    const geoData = await decoder(lon, lat, key);
+    const {
+      postalCode,
+      country,
+      lev1,
+      lev2,
+      lev3,
+      route,
+      streetNumber,
+    } = geoData;
+    const address = `${country}, ${postalCode}, ${lev1}, ${lev2}, ${lev3}, ${route}, ${streetNumber}`;
+    const gbrs = await Gbr.findAll({ where: { regionName: lev1 } });
+    if (!gbrs.length) return 0; // gbrs not found in this region;
+    console.log('=====================>', address);
+    return [gbrs[0].regionId, address]; // All gbrs with one regionName must have common region id;
+  } catch (err) {
+    appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
+    logger.error(err.message);
+  }
+  return [0, 0];
+}
 
 async function getOpenAlarmObject(userId) {
   const alarms = await Alarm.findAll({

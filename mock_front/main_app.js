@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('appNewAlarm');
         socket.emit('appNewAlarm', {
           token: 'string',
-          payload: [55.749054, 52.457500]
+          payload: [55.762325, 52.417567]
         });
       }
 
