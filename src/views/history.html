@@ -27,7 +27,7 @@
             <img class="rotate" src="{{apiUrl}}/assets/dropdown.svg">
           </button>
           <div class="panel">
-            <p>Координаты: {{lat}}, {{lng}}</p>
+            <p>Координаты:  <a class='ml1' href="https://maps.google.com/?ll={{lat}},{{lng}}"> {{lat}}, {{lng}}</a> </p>
             <p>{{notes}}</p>
           </div>
           {{/alarms}}
@@ -36,4 +36,7 @@
       <script src="{{apiUrl}}/scripts/script.js"></script>
     </div>
   </body>
+  <style>
+      .ml1 { margin-left: 10px;}
+  </style>
 </html>
