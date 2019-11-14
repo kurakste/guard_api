@@ -7,7 +7,6 @@ const logger = require('../helpers/logger');
 
 const { Bill, User } = models;
 
-
 const apiUrl = process.env.API_URL;
 const NotificationURL = process.env.NOTIFICATION_URL;
 const terminalKey = process.env.TERMINAL_KEY;
@@ -21,20 +20,20 @@ if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env
 if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.');
 if (!apiUrl) throw new Error('API_URL must be defined in env.')
 
-
 const paymentService = {
   paySubscription: async (uid, sum) => {
     try {
       if (!uid) throw new Error('User id (uid) required in get params');
-
       logger.info('payMonthlySubscriptionInit', { uid });
-
+      const uidAsStr = `${uid}`;
       const orderId = await addBillRecord(uid, sum, 'replenishment', 'tinkoff');
       const postParams = {
         Amount: sum * 100,
         TerminalKey: terminalKey,
         NotificationURL,
         OrderId: orderId,
+        Recurrent: 'Y',
+        CustomerKey: uidAsStr,
       };
       getHash(postParams);
       const hash = getHash(postParams);
@@ -42,6 +41,7 @@ const paymentService = {
       const res = await axios.post(tinkoffUrl, postParams);
       if (!res.data.Success) throw Error('Payment API Error.');
       if (!res.data.PaymentURL) throw Error('Payment API Error.');
+      console.log('=========================>', res.data);
       return res.data.PaymentURL;
     } catch (error) {
       logger.error(error.message);

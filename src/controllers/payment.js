@@ -1,8 +1,8 @@
+require('dotenv').config();
 const Mustache = require('mustache');
 const fs = require('fs');
 const paymentService = require('../services/payment.service');
 const logger = require('../helpers/logger');
-require('dotenv').config();
 
 const apiUrl = process.env.API_URL;
 
