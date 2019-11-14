@@ -17,7 +17,7 @@ const terminalPassword = process.env.TERMINAL_PASSWORD;
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env.');
 if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.');
-if (!apiUrl) throw new Error('API_URL must be defined in env.')
+if (!apiUrl) throw new Error('API_URL must be defined in env.');
 
 const paymentService = {
   paySubscription: async (uid, sum) => {
