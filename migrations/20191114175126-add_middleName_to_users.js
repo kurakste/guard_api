@@ -2,15 +2,13 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    up: (queryInterface, Sequelize) => {
-      return queryInterface.addColumn(
-        'Users',
-        'middleName',
-        {
-          type: Sequelize.STRING,
-        }
-      )
-    };
+    return queryInterface.addColumn(
+      'Users',
+      'middleName',
+      {
+        type: Sequelize.STRING,
+      }
+    )
   },
 
   down: (queryInterface, Sequelize) => {
