@@ -53,6 +53,8 @@ const controller = {
     const { body } = ctx.request;
     const { success, OrderId } = body;
 
+    console.log('get payment status: ', body);
+
     await paymentService.setPaymentStatus(success, OrderId);
     ctx.response.body = 'OK';
   },
