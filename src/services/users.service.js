@@ -114,23 +114,6 @@ const userService = {
     const data = dataObj.map(el => el.dataValues);
     return data;
   },
-
-  // declineUser: async (id) => {
-  //   const [updated] = await User.update({ role: 33 }, { where: { id } });
-  //   if (updated === 0) throw new Error('Record not found in DB.');
-  //   const updatedUser = await User.findByPk(id);
-  //   const newUser = updatedUser.dataValues;
-  //   return { ...newUser };
-  // },
-
-  // verifyUser: async (id) => {
-  //   console.log('id is ==========>', id);
-  //   const [updated] = await User.update({ role: 35 }, { where: { id } });
-  //   if (updated === 0) throw new Error('Record not found in DB.');
-  //   const updatedUser = await User.findByPk(id);
-  //   return { ...updatedUser.dataValues };
-  // },
-
-};
+}
 
 module.exports = userService;
