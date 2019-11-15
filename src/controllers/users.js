@@ -49,7 +49,6 @@ const userController = {
       ctx.body = output;
       return ctx;
     } catch (err) {
-      console.log('error================>', err.name);
       const output = apiResponseObject(false, err.message, null, err.code);
       ctx.body = output;
       logger.error('postSignIn: ', err);
@@ -105,37 +104,6 @@ const userController = {
       logger.error(err.message);
     }
   },
-
-  // postDeclineAppUser: async (ctx) => {
-  //   const { body } = ctx.request;
-  //   const { id } = body;
-  //   logger.info('id: ', id);
-  //   try {
-  //     const newUser = await userService.declineUser(id);
-  //     const output = apiResponseObject(true, '', newUser);
-  //     ctx.body = JSON.stringify(output, null, '\t');
-  //     return ctx;
-  //   } catch (err) {
-  //     const output = apiResponseObject(false, err.message, null);
-  //     ctx.body = output;
-  //     logger.error(err.message);
-  //     return ctx;
-  //   }
-  // },
-
-  // postVerifyAppUser: async (ctx) => {
-  //   const { body } = ctx.request;
-  //   const { id } = body;
-  //   try {
-  //     const newUser = await userService.verifyUser(id);
-  //     const output = apiResponseObject(true, '', newUser);
-  //     ctx.body = JSON.stringify(output, null, '\t');
-  //   } catch (err) {
-  //     const output = apiResponseObject(false, err.message, null);
-  //     ctx.body = output;
-  //     logger.error(err.message);
-  //   }
-  // },
 
 };
 
