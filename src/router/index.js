@@ -23,6 +23,7 @@ router.post('/payment-notification', paymentController.postPaymentNotification);
 router.get('/agreement', staticController.getAgreementPage);
 router.get('/account/:id', staticController.getAccountPage);
 router.get('/history/:id', staticController.getHistoryPage);
+router.get('/test', paymentController.getTest);
 // -------------
 
 module.exports = router;

@@ -56,6 +56,14 @@ const paymentService = {
       await updateBallanceById(bill.UserId);
     }
   },
+
+  test: async () => {
+    const uid = 1;
+    const rebillId = '123456789';
+    await storeRebillId(uid, rebillId);
+    // clearRebillId(uid);
+    console.log('================>', await isRebillIdSet(uid));
+  },
 };
 
 async function addBillRecord(userId, sum, operationType, comment) {
@@ -109,6 +117,40 @@ async function updateBallanceById(id) {
   await user.save();
   logger.info('done updateBallanceById for id: ', id);
   return null;
+}
+/**
+ *
+ * @param {*} userId
+ * @param {*} rebillId // need for recurrent payment:
+ * https://oplata.tinkoff.ru/landing/develop/documentation/
+ */
+async function storeRebillId(userId, rebillId) {
+  logger.info(`storeRebillId fired with id: ${userId} and rebillId: ${rebillId}`);
+  if (!rebillId) throw new Error('Rebuild required.');
+  await User.update(
+    { rebillId },
+    {
+      where: { id: userId },
+    },
+  );
+}
+
+async function clearRebillId(userId) {
+  logger.info(`clearRebillId fired with id: ${userId}`);
+  await User.update(
+    { rebillId: null },
+    {
+      where: { id: userId },
+    },
+  );
+}
+
+async function isRebillIdSet(userId) {
+  logger.info(`isRebillIdSet fired with id: ${userId}`);
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error(`User with id: ${userId} not found`);
+  const { rebillId } = user;
+  return !!rebillId;
 }
 
 module.exports = paymentService;

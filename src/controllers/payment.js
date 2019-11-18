@@ -58,6 +58,10 @@ const controller = {
     await paymentService.setPaymentStatus(success, OrderId);
     ctx.response.body = 'OK';
   },
+
+  getTest: async () => {
+    paymentService.test();
+  },
 };
 
 

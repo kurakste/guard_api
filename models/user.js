@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     notes: DataTypes.TEXT,
     balance: DataTypes.NUMERIC,
     autoSubscriptions: DataTypes.BOOLEAN, 
-    lowBallance: DataTypes.BOOLEAN, 
+    lowBallance: DataTypes.BOOLEAN,
+    rebillId: DataTypes.INTEGER, 
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Alarm);
