@@ -24,24 +24,8 @@ const paymentService = {
     try {
       if (!uid) throw new Error('User id (uid) required in get params');
       logger.info('payMonthlySubscriptionInit', { uid });
-      const uidAsStr = `${uid}`;
-      const orderId = await addBillRecord(uid, sum, 'replenishment', 'tinkoff');
-      const postParams = {
-        Amount: sum * 100,
-        TerminalKey: terminalKey,
-        NotificationURL,
-        OrderId: orderId,
-        Recurrent: 'Y',
-        CustomerKey: uidAsStr,
-      };
-      getHash(postParams);
-      const hash = getHash(postParams);
-      postParams.Token = hash;
-      const res = await axios.post(tinkoffUrl, postParams);
-      if (!res.data.Success) throw Error('Payment API Error.');
-      if (!res.data.PaymentURL) throw Error('Payment API Error.');
-      console.log('=========================>', res.data);
-      return res.data.PaymentURL;
+      const returnUrl = await makeInitPayment(uid, sum);
+      return returnUrl;
     } catch (error) {
       logger.error(error.message);
       return failUrl;
@@ -151,6 +135,26 @@ async function isRebillIdSet(userId) {
   if (!user) throw new Error(`User with id: ${userId} not found`);
   const { rebillId } = user;
   return !!rebillId;
+}
+async function makeInitPayment(uid, sum) {
+  const uidAsStr = `${uid}`;
+  const orderId = await addBillRecord(uid, sum, 'replenishment', 'tinkoff');
+  const postParams = {
+    Amount: sum * 100,
+    TerminalKey: terminalKey,
+    NotificationURL,
+    OrderId: orderId,
+    Recurrent: 'Y',
+    CustomerKey: uidAsStr,
+  };
+  getHash(postParams);
+  const hash = getHash(postParams);
+  postParams.Token = hash;
+  const res = await axios.post(tinkoffUrl, postParams);
+  if (!res.data.Success) throw Error('Payment API Error.');
+  if (!res.data.PaymentURL) throw Error('Payment API Error.');
+  console.log('=========================>', res.data);
+  return res.data.PaymentURL;
 }
 
 module.exports = paymentService;
