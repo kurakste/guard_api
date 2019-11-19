@@ -226,7 +226,7 @@ async function makeRecurrentPayment(uid, sum) {
   };
   const hash2 = getHash(postRecurrentParam);
   postRecurrentParam.Token = hash2;
-  const res2 = await axios.post(recurrentUrl, postParams);
+  const res2 = await axios.post(recurrentUrl, postRecurrentParam);
 
   console.log('res 2 =========================>', res2.data);
 
