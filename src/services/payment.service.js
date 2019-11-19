@@ -213,7 +213,7 @@ async function makeRecurrentPayment(uid, sum) {
   postParams.Token = hash;
   const res = await axios.post(initUrl, postParams);
 
-  console.log('res  =========================>', res2.data);
+  console.log('res  =========================>', res.data);
   if (!res.data.Success) throw Error('Payment API Error.');
   if (!res.data.PaymentURL) throw Error('Payment API Error.');
   const { PaymentId } = res.data;
