@@ -6,7 +6,7 @@ module.exports = {
       'Users',
       'rebillId',
       {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
       }
     )
   },

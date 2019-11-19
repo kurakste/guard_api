@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     balance: DataTypes.NUMERIC,
     autoSubscriptions: DataTypes.BOOLEAN, 
     lowBallance: DataTypes.BOOLEAN,
-    rebillId: DataTypes.INTEGER, 
+    rebillId: DataTypes.BIGINT, 
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Alarm);
