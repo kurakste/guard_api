@@ -131,7 +131,6 @@ async function getRegionIdAndAddress(lon, lat, socket) {
     const address = `${country}, ${postalCode}, ${lev1}, ${lev2}, ${lev3}, ${route}, ${streetNumber}`;
     const gbrs = await Gbr.findAll({ where: { regionName: lev1 } });
     if (!gbrs.length) return 0; // gbrs not found in this region;
-    console.log('=====================>', address);
     return [gbrs[0].regionId, address]; // All gbrs with one regionName must have common region id;
   } catch (err) {
     appSocketEventEmitter.srvErrMessage(socket, 500, err.message);

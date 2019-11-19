@@ -52,9 +52,7 @@ const paymentService = {
   },
 
   storeRebillIdForUser: async (OrderId, rebillId) => {
-    console.log('+++++orderId:', OrderId);
     const userId = await getUserIdByOrderId(OrderId);
-    console.log('--------------->userId:::', userId);
     const user = await User.findByPk(userId);
     if (!user) {
       throw new Error(
@@ -67,18 +65,13 @@ const paymentService = {
   },
 
   test: async () => {
-    const uid = 1;
-    const rebillId = '123456789';
-    await storeRebillId(uid, rebillId);
     // clearRebillId(uid);
-    console.log('================>', await isRebillIdSet(uid));
   },
 };
 
 async function getUserIdByOrderId(orderId) {
   const order = await Bill.findByPk(orderId);
   if (!order) throw new Error(`Order with id: ${orderId} not found.`);
-  console.log('-----UserId------->', order);
   return order.UserId;
 }
 

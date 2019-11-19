@@ -51,7 +51,6 @@ const controller = {
     const { id } = params;
     logger.info('getAccountPage', { id });
 
-    // console.log(alarms);
     try {
       const user = await User.findByPk(id);
       const { img, balance } = user;
