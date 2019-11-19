@@ -52,7 +52,9 @@ const paymentService = {
   },
 
   storeRebillIdForUser: async (OrderId, rebillId) => {
+    console.log('+++++orderId:', OrderId);
     const userId = await getUserIdByOrderId(OrderId);
+    console.log('--------------->userId:::', userId);
     const user = await User.findByPk(userId);
     if (!user) {
       throw new Error(
@@ -76,6 +78,7 @@ const paymentService = {
 async function getUserIdByOrderId(orderId) {
   const order = Bill.findByPk(orderId);
   if (!order) throw new Error(`Order with id: ${orderId} not found.`);
+  console.log('-----UserId------->', order.UserId);
   return order.UserId;
 }
 
