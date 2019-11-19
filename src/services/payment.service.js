@@ -76,7 +76,7 @@ const paymentService = {
 async function getUserIdByOrderId(orderId) {
   const order = Bill.findByPk(orderId);
   if (!order) throw new Error(`Order with id: ${orderId} not found.`);
-  return order.id;
+  return order.UserId;
 }
 
 async function addBillRecord(userId, sum, operationType, comment) {
