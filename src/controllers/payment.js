@@ -55,11 +55,11 @@ const controller = {
    */
   postPaymentNotification: async (ctx) => {
     const { body } = ctx.request;
-    const { success, OrderId, RebillId } = body;
+    const { Success, OrderId, RebillId } = body;
 
     console.log('get payment status: ', body);
 
-    await paymentService.setPaymentStatus(success, OrderId);
+    await paymentService.setPaymentStatus(Success, OrderId);
     if (RebillId) {
       // This is first recurrent payment(init method) we has to save RebuildId
       // for this user.
