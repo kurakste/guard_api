@@ -58,7 +58,7 @@ const controller = {
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, {
-        apiUrl, img, id, balance,
+        apiUrl, img, id, balance, user,
       });
       ctx.response.body = body;
     } catch (err) {

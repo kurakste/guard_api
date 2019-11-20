@@ -23,8 +23,9 @@
           <div class="prof-pic">
             <div class="profile-image"><img src="{{apiUrl}}/img/{{img}}"></div>
             <div class="shadow"></div>
-            <p>Иванов Александр<br>Алексеевич</p>
-            <p>Текущий баланс: {{balance}} руб.</p>
+            <p>{{ user.firstName }} {{ user.middleName }}<br>{{ user.lastName }}</p>
+            <br style="margin: 10px"/> 
+            <p>Текущий баланс: {{ balance }} руб.</p>
           </div>
           <div class="prof-settings">
             <div>
