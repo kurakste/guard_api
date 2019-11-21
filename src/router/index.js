@@ -6,7 +6,6 @@ const userController = require('../controllers/users');
 const paymentController = require('../controllers/payment');
 const staticController = require('../controllers/static');
 
-
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
 router.post('/sign-in', userController.postSignIn);
