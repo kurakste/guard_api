@@ -83,6 +83,23 @@ const controller = {
     }
     return ctx;
   },
+  getSuccessPage: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
+    logger.info('getHelpPage', { id });
+
+    try {
+      const pt = `${__dirname}/../views/success.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
 
 };
 
