@@ -33,7 +33,7 @@ const paymentService = {
       } else {
         const result = await makeRecurrentPayment(uid, sum);
         console.log('result =====>', result);
-        returnUrl = `${apiUrl}/account/${uid}`;
+        returnUrl = result;
       }
 
       return returnUrl;
