@@ -24,7 +24,8 @@ router.get('/account/:id', staticController.getAccountPage);
 router.get('/history/:id', staticController.getHistoryPage);
 router.get('/help/:id', staticController.getHelpPage);
 router.get('/test', paymentController.getTest);
-router.get('/success', staticController.getSuccessPage);
+router.get('/success', staticController.getPaymentSuccessPage);
+router.get('/error', staticController.getPaymentErrorPage);
 // -------------
 
 module.exports = router;
