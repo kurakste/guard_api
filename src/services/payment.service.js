@@ -215,24 +215,26 @@ async function makeRecurrentPayment(uid, sum) {
   const res = await axios.post(initUrl, postParams);
 
   console.log('res  =========================>', res.data);
-  if (!res.data.Success) throw Error('Payment API Error.');
-  if (!res.data.PaymentURL) throw Error('Payment API Error.');
-  const { PaymentId } = res.data;
-  if (!PaymentId) throw new Error('PaymentId is required');
+  if (res.data.Success) {
+    if (!res.data.PaymentURL) throw Error('Payment API Error.');
+    const { PaymentId } = res.data;
+    if (!PaymentId) throw new Error('PaymentId is required');
 
-  const postRecurrentParam = {
-    TerminalKey: terminalKey,
-    PaymentId,
-    RebillId: rebillId,
-  };
-  const hash2 = getHash(postRecurrentParam);
-  postRecurrentParam.Token = hash2;
-  const res2 = await axios.post(recurrentUrl, postRecurrentParam);
+    const postRecurrentParam = {
+      TerminalKey: terminalKey,
+      PaymentId,
+      RebillId: rebillId,
+    };
+    const hash2 = getHash(postRecurrentParam);
+    postRecurrentParam.Token = hash2;
+    const res2 = await axios.post(recurrentUrl, postRecurrentParam);
+    logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
+    console.log('res 2 =========================>', res2.data);
+    return `${apiUrl}/success`;
+  }
 
-  console.log('res 2 =========================>', res2.data);
-
-
-  return res.data.PaymentURL;
+  logger.error(`Payment API Error. with user: ${uid} & sum: ${sum}`);
+  return `${apiUrl}/error`;
 }
 
 module.exports = paymentService;
