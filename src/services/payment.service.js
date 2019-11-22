@@ -35,7 +35,7 @@ const paymentService = {
       } else {
         const result = await makeRecurrentPayment(uid, sum);
         console.log('result =====>', result);
-        returnUrl = result;
+        returnUrl = result ? `${apiUrl}/success` : `${apiUrl}/error`;
       }
 
       return returnUrl;
@@ -75,12 +75,12 @@ const paymentService = {
     // securityCallCast
     const recurrentAvailable = isRecurrentPaymentAvailable(userId);
     if (!recurrentAvailable) {
-      logger.error(`payForSecurityCall: user(${userId} trying to pay with out rebillID)`)
+      logger.error(`payForSecurityCall: user(${userId} trying to pay with out rebillID)`);
       return false;
     }
 
     const sum = securityCallCast;
-    const result = await makeRecurrentPayment(userId, sum);
+    const result = await makeRecurrentPayment(userId, sum, 'paymentForCall');
 
     if (!result) {
       logger.error(`payForSecurityCall: user(${userId} trying to pay and failed.`);
@@ -229,13 +229,13 @@ async function makeRecurrentPayment(uid, sum, type) {
   logger.info(`makeRecurrentPayment is fired with userId: ${uid}, sum: ${sum}`);
   const optype = type || 'replenishment';
   const uidAsStr = `${uid}`;
-  const orderId = await addBillRecord(uid, sum, optype, 'tinkoff');
   const rebillId = await getRebillId(uid);
   if (!rebillId) {
     logger.error(`makeRecurrentPayment: userId: ${uid} has no rebillId`);
     return false;
   }
   console.log(' --------------- rebill id is: ', rebillId);
+  const orderId = await addBillRecord(uid, sum, optype, 'tinkoff');
 
   const postParams = {
     Amount: sum * 100,
@@ -265,13 +265,17 @@ async function makeRecurrentPayment(uid, sum, type) {
     const res2 = await axios.post(recurrentUrl, postRecurrentParam);
     logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
     console.log('res 2 =========================>', res2.data);
+    if (res.data) {
+      if (!bill) throw Error(`Bill with id: ${orderId} not found`);
+      const bill = await Bill.findByPk(orderId);
+      bill.isPaymentFinished = true;
+      await bill.save();
+    }
     return res2.Success;
-    // return `${apiUrl}/success`;
   }
 
   logger.error(`Payment API Error. with user: ${uid} & sum: ${sum}`);
   return false;
-  // return `${apiUrl}/error`;
 }
 
 module.exports = paymentService;
