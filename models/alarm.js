@@ -2,6 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   const alarm = sequelize.define('Alarm', {
     UserId: DataTypes.INTEGER,
+    subscriptionIsPaid: DataTypes.BOOLEAN,
+    callIsPaid: DataTypes.BOOLEAN,
     track: DataTypes.JSON,
     regionId: DataTypes.INTEGER,
     status: DataTypes.INTEGER,

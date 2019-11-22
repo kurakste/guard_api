@@ -8,6 +8,7 @@ const logger = require('../helpers/logger');
 const { Bill, User } = models;
 
 const apiUrl = process.env.API_URL;
+const securityCallCast = process.env.SECURITY_CALL_COST;
 const NotificationURL = process.env.NOTIFICATION_URL;
 const terminalKey = process.env.TERMINAL_KEY;
 const initUrl = 'https://securepay.tinkoff.ru/v2/Init';
@@ -19,13 +20,14 @@ if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!terminalPassword) throw new Error('TERMINAL_PASSWORD must be defined in env.');
 if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.');
 if (!apiUrl) throw new Error('API_URL must be defined in env.');
+if (!securityCallCast) throw new Error('Security call cast must be set in .env');
 
 const paymentService = {
   paySubscription: async (uid, sum) => {
     try {
       if (!uid) throw new Error('User id (uid) required');
       logger.info('paySubscription', { uid });
-      const rebillSet = await isRebillIdSet(uid);
+      const rebillSet = await isRecurrentPaymentAvailable(uid);
       logger.info(`paySubscription rebillSet: ${rebillSet}`);
       let returnUrl = null;
       if (!rebillSet) {
@@ -68,7 +70,28 @@ const paymentService = {
   test: async () => {
     // clearRebillId(uid);
   },
+
+  payForSecurityCall: async (userId) => {
+    // securityCallCast
+    const recurrentAvailable = isRecurrentPaymentAvailable(userId);
+    if (!recurrentAvailable) {
+      logger.error(`payForSecurityCall: user(${userId} trying to pay with out rebillID)`)
+      return false;
+    }
+
+    const sum = securityCallCast;
+    const result = await makeRecurrentPayment(userId, sum);
+
+    if (!result) {
+      logger.error(`payForSecurityCall: user(${userId} trying to pay and failed.`);
+      return false;
+    }
+
+    return true;
+  },
 };
+
+// ========================= helpers ===========================================
 
 async function getUserIdByOrderId(orderId) {
   const order = await Bill.findByPk(orderId);
@@ -161,8 +184,8 @@ async function updateBallanceById(id) {
 //   );
 // }
 
-async function isRebillIdSet(userId) {
-  logger.info(`isRebillIdSet fired with id: ${userId}`);
+async function isRecurrentPaymentAvailable(userId) {
+  logger.info(`isRecurrentPaymentAvailable fired with id: ${userId}`);
   const user = await User.findByPk(userId);
   if (!user) throw new Error(`User with id: ${userId} not found`);
   const { rebillId } = user;
@@ -197,11 +220,23 @@ async function makeInitPayment(uid, sum) {
   return res.data.PaymentURL;
 }
 
-async function makeRecurrentPayment(uid, sum) {
+/**
+ * @param {*} uid User id
+ * @param {*} sum amount of money
+ * @param {*} type Operation type: 1) replenishment, 2) paymentForCall
+ */
+async function makeRecurrentPayment(uid, sum, type) {
   logger.info(`makeRecurrentPayment is fired with userId: ${uid}, sum: ${sum}`);
+  const optype = type || 'replenishment';
   const uidAsStr = `${uid}`;
-  const orderId = await addBillRecord(uid, sum, 'replenishment', 'tinkoff');
+  const orderId = await addBillRecord(uid, sum, optype, 'tinkoff');
   const rebillId = await getRebillId(uid);
+  if (!rebillId) {
+    logger.error(`makeRecurrentPayment: userId: ${uid} has no rebillId`);
+    return false;
+  }
+  console.log(' --------------- rebill id is: ', rebillId);
+
   const postParams = {
     Amount: sum * 100,
     TerminalKey: terminalKey,
@@ -230,11 +265,13 @@ async function makeRecurrentPayment(uid, sum) {
     const res2 = await axios.post(recurrentUrl, postRecurrentParam);
     logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
     console.log('res 2 =========================>', res2.data);
-    return `${apiUrl}/success`;
+    return res2.Success;
+    // return `${apiUrl}/success`;
   }
 
   logger.error(`Payment API Error. with user: ${uid} & sum: ${sum}`);
-  return `${apiUrl}/error`;
+  return false;
+  // return `${apiUrl}/error`;
 }
 
 module.exports = paymentService;

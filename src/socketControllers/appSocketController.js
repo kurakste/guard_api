@@ -1,6 +1,7 @@
 const decoder = require('google-geo-decoder');
 const models = require('../../models');
 const logger = require('../helpers/logger');
+const paymentService = require('../services/payment.service');
 
 const {
   Alarm, Gbr, Track, sequelize,
@@ -57,11 +58,13 @@ const socketController = {
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
       const [lat, lon] = payload;
       const [regionId, address] = await getRegionIdAndAddress(lat, lon, socket);
+      const isPaid = await paymentService.payForSecurityCall(user.id);
       const alarmData = {
         UserId: user.id,
         status: 0,
         track: [[lat, lon]],
         address,
+        callIsPaid: isPaid,
       };
       const alarm = await Alarm.create(alarmData);
       const gbr = await Gbr.findAll({ where: { regionId } });
