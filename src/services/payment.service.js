@@ -31,7 +31,8 @@ const paymentService = {
       if (!rebillSet) {
         returnUrl = makeInitPayment(uid, sum);
       } else {
-        await makeRecurrentPayment(uid, sum);
+        const result = await makeRecurrentPayment(uid, sum);
+        console.log('result =====>', result);
         returnUrl = `${apiUrl}/account/${uid}`;
       }
 
