@@ -139,26 +139,26 @@ async function updateBallanceById(id) {
  * @param {*} rebillId // need for recurrent payment:
  * https://oplata.tinkoff.ru/landing/develop/documentation/
  */
-async function storeRebillId(userId, rebillId) {
-  logger.info(`storeRebillId fired with id: ${userId} and rebillId: ${rebillId}`);
-  if (!rebillId) throw new Error('Rebuild required.');
-  await User.update(
-    { rebillId },
-    {
-      where: { id: userId },
-    },
-  );
-}
+// async function storeRebillId(userId, rebillId) {
+//   logger.info(`storeRebillId fired with id: ${userId} and rebillId: ${rebillId}`);
+//   if (!rebillId) throw new Error('Rebuild required.');
+//   await User.update(
+//     { rebillId },
+//     {
+//       where: { id: userId },
+//     },
+//   );
+// }
 
-async function clearRebillId(userId) {
-  logger.info(`clearRebillId fired with id: ${userId}`);
-  await User.update(
-    { rebillId: null },
-    {
-      where: { id: userId },
-    },
-  );
-}
+// async function clearRebillId(userId) {
+//   logger.info(`clearRebillId fired with id: ${userId}`);
+//   await User.update(
+//     { rebillId: null },
+//     {
+//       where: { id: userId },
+//     },
+//   );
+// }
 
 async function isRebillIdSet(userId) {
   logger.info(`isRebillIdSet fired with id: ${userId}`);

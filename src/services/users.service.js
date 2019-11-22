@@ -114,6 +114,6 @@ const userService = {
     const data = dataObj.map(el => el.dataValues);
     return data;
   },
-}
+};
 
 module.exports = userService;
