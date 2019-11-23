@@ -128,6 +128,6 @@ module.exports = userService;
 function checkAndStoreBase64toImgFile(userId, str, imgType) {
   const imgPath = `${userId}_${imgType}.jpg`;
   const buf = Buffer.from(str, 'base64');
-  fs.writeFileSync(`public/img/${userId}_${imgType}${imgPath}.jpg`, buf);
+  fs.writeFileSync(`public/img/${imgPath}`, buf);
   return imgPath;
 }
