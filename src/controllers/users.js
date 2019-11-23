@@ -76,7 +76,8 @@ const userController = {
     const {
       firstName, lastName, email, tel, password, img, pasImg1, pasImg2,
     } = body;
-    // const { files } = ctx.request;
+    // img will be sent in this string format: 'image/jpeg;base64,/9j/4AAQS...'
+
     try {
       const finalUser = await userService
         .addNewUser(
@@ -85,9 +86,9 @@ const userController = {
           email,
           tel,
           password,
-          img,
-          pasImg1,
-          pasImg2,
+          img.split(',')[1],
+          pasImg1.split(',')[1],
+          pasImg2.split(',')[1],
         );
       ctx.body = apiResponseObject(
         true,
