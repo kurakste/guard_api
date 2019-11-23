@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
 
 const NotActiveUserError = require('./errors/NotActiveUserError');
 const EmailNotFound = require('./errors/EmailNotFound');
@@ -8,7 +9,7 @@ const { User } = require('../../models');
 const getCode = require('../helpers/getCode');
 const sendCodeToEmail = require('../helpers/sendCodeToEmail');
 const logger = require('../helpers/logger');
-const checkAndStoreFiles = require('../helpers/checkAndStore');
+// const checkAndStoreFiles = require('../helpers/checkAndStore');
 
 const userService = {
   getUser: async (id) => {
@@ -80,7 +81,7 @@ const userService = {
     return [userForSend, token];
   },
 
-  addNewUser: async (firstName, lastName, email, tel, password, files) => {
+  addNewUser: async (firstName, lastName, email, tel, password, img, pasImg1, pasImg2) => {
     if ((!password)) throw new Error('Password can\'t be blank.');
     const cryptPassword = await bcrypt.hash(password, 10);
     const user = {
@@ -93,11 +94,14 @@ const userService = {
     const result = await User.create(user);
     const newUser = result.dataValues;
     try {
-      const pathObj = await checkAndStoreFiles(newUser.id, files);
+      // const pathObj = await checkAndStoreFiles(newUser.id, files);
+      const imgPath = checkAndStoreBase64toImgFile(newUser.id, img);
+      const pasImg1Path = checkAndStoreBase64toImgFile(newUser.id, pasImg1);
+      const pasImg2Path = checkAndStoreBase64toImgFile(newUser.id, pasImg2);
       await User.update({
-        img: pathObj.img,
-        pasImg1: pathObj.pasImg1,
-        pasImg2: pathObj.pasImg2,
+        img: imgPath,
+        pasImg1: pasImg1Path,
+        pasImg2: pasImg2Path,
       }, { where: { id: newUser.id } });
       const finalUserObj = await User.findByPk(newUser.id);
       const finalUser = finalUserObj.dataValues;
@@ -117,3 +121,12 @@ const userService = {
 };
 
 module.exports = userService;
+
+// ================ helpers ===========================
+
+async function checkAndStoreBase64toImgFile(userId, str) {
+  const buf = Buffer.from(str, 'base64');
+  fs.writeFileSync('', buf);
+  const imgPath = `${userId}_img.jpg`;
+  return imgPath;
+}

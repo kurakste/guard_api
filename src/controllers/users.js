@@ -74,12 +74,21 @@ const userController = {
     const { body } = ctx.request;
     // TODO: What about validation? Use sequelize? Write new function for it?
     const {
-      firstName, lastName, email, tel, password,
+      firstName, lastName, email, tel, password, img, pasImg1, pasImg2,
     } = body;
-    const { files } = ctx.request;
+    // const { files } = ctx.request;
     try {
       const finalUser = await userService
-        .addNewUser(firstName, lastName, email, tel, password, files);
+        .addNewUser(
+          firstName,
+          lastName,
+          email,
+          tel,
+          password,
+          img,
+          pasImg1,
+          pasImg2,
+        );
       ctx.body = apiResponseObject(
         true,
         '',
