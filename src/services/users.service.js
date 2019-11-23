@@ -95,9 +95,9 @@ const userService = {
     const newUser = result.dataValues;
     try {
       // const pathObj = await checkAndStoreFiles(newUser.id, files);
-      const imgPath = checkAndStoreBase64toImgFile(newUser.id, img);
-      const pasImg1Path = checkAndStoreBase64toImgFile(newUser.id, pasImg1);
-      const pasImg2Path = checkAndStoreBase64toImgFile(newUser.id, pasImg2);
+      const imgPath = checkAndStoreBase64toImgFile(newUser.id, img, 'img');
+      const pasImg1Path = checkAndStoreBase64toImgFile(newUser.id, pasImg1, 'pasImg1');
+      const pasImg2Path = checkAndStoreBase64toImgFile(newUser.id, pasImg2, 'pasImg2');
       await User.update({
         img: imgPath,
         pasImg1: pasImg1Path,
