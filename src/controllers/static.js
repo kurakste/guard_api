@@ -117,6 +117,36 @@ const controller = {
     return ctx;
   },
 
+  getUnsubscribeSuccessPage: async (ctx) => {
+    logger.info('getUnsubscribeSuccessPage');
+
+    try {
+      const pt = `${__dirname}/../views/subscriptionSuccess.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
+  getUnsubscribeErrorPage: async (ctx) => {
+    logger.info('getUnsubscribeErrorPage');
+
+    try {
+      const pt = `${__dirname}/../views/subscriptionError.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
 
 };
 
