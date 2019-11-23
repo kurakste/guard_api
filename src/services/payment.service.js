@@ -93,7 +93,7 @@ const paymentService = {
   unsubscribeAndRemoveData: async (uid) => {
     const res = await clearRebillId(uid);
     return res;
-  }
+  },
 };
 
 // ========================= helpers ===========================================
