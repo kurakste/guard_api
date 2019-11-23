@@ -89,6 +89,11 @@ const paymentService = {
 
     return true;
   },
+
+  unsubscribeAndRemoveData: async (uid) => {
+    const res = await clearRebillId(uid);
+    return res;
+  }
 };
 
 // ========================= helpers ===========================================
@@ -174,15 +179,21 @@ async function updateBallanceById(id) {
 //   );
 // }
 
-// async function clearRebillId(userId) {
-//   logger.info(`clearRebillId fired with id: ${userId}`);
-//   await User.update(
-//     { rebillId: null },
-//     {
-//       where: { id: userId },
-//     },
-//   );
-// }
+async function clearRebillId(userId) {
+  logger.info(`clearRebillId fired with id: ${userId}`);
+  try {
+    await User.update(
+      { rebillId: null },
+      {
+        where: { id: userId },
+      },
+    );
+  } catch (err) {
+    logger.error(`clearRebillId: error for user: ${userId}: ${err.message}`);
+    return false;
+  }
+  return true;
+}
 
 async function isRecurrentPaymentAvailable(userId) {
   logger.info(`isRecurrentPaymentAvailable fired with id: ${userId}`);

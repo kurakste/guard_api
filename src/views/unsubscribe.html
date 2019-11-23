@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
+  <title>Kia</title>
+  <link rel="stylesheet" href="{{apiUrl}}/css/styles.css">
+</head>
+
+<body>
+  <div class="container-buy">
+    <div class="container-header">
+      <div class="header-buy"><a href="#"><img src="{{apiUrl}}/assets/arrow.png">
+          <p>Назад</p>
+        </a>
+        <div class="help">
+          <h1>Отказаться от подписки</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container-main">
+      <div class="main-buy"><a href="#">i</a>
+        <div class="icon-div"><img src="{{apiUrl}}/assets/icon.svg"></div>
+        <div class="text-div">
+          <p>Я отказываюсь от автоматической подписки. </p>
+          <div class="button-div">
+            <form action="{{apiUrl}}/unsubscribe-done" method="post">
+              <input type='hidden' name='userId' id="userId" value='{{id}}'>
+              <button type='submit'>
+                <p>Отписаться</p>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

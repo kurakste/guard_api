@@ -69,6 +69,27 @@ const controller = {
     ctx.response.body = 'OK';
   },
 
+  getUnsubscribePage: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
+    const pt = `${__dirname}/../views/unsubscribe.html`;
+    const template = fs.readFileSync(pt).toString('utf8');
+    Mustache.parse(template);
+    const body = Mustache.render(template, { id, apiUrl });
+    ctx.response.body = body;
+  },
+
+  postUnsubscribe: async (ctx) => {
+    const { body } = ctx.request;
+    const { userId } = body;
+    logger.log('postUnsubscribe: start for user', { userId });
+    const res = paymentService.unsubscribeAndRemoveData(userId);
+    const redirectionUrl = res
+      ? `${apiUrl}/success-unsubscribe`
+      : `${apiUrl}/fail-unsubscribe`;
+    return ctx.response.redirect(redirectionUrl);
+  },
+
   getTest: async () => {
     paymentService.test();
   },

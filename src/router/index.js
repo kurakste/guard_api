@@ -25,6 +25,8 @@ router.get('/history/:id', staticController.getHistoryPage);
 router.get('/help/:id', staticController.getHelpPage);
 router.get('/test', paymentController.getTest);
 router.get('/success', staticController.getPaymentSuccessPage);
+router.get('/unsubscribe/:id', paymentController.getUnsubscribePage);
+router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/error', staticController.getPaymentErrorPage);
 // -------------
 
