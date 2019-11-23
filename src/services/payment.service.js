@@ -266,8 +266,8 @@ async function makeRecurrentPayment(uid, sum, type) {
     logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
     console.log('res 2 =========================>', res2.data);
     if (res.data) {
-      if (!bill) throw Error(`Bill with id: ${orderId} not found`);
       const bill = await Bill.findByPk(orderId);
+      if (!bill) throw Error(`Bill with id: ${orderId} not found`);
       bill.isPaymentFinished = true;
       await bill.save();
     }
