@@ -108,6 +108,7 @@ const userService = {
       finalUser.password = null;
       return finalUser;
     } catch (err) {
+      logger.error('addNewUser', { error: err.message });
       if (newUser) await User.destroy({ where: { id: newUser.id } });
       throw new Error(err.message);
     }
@@ -124,7 +125,7 @@ module.exports = userService;
 
 // ================ helpers ===========================
 
-async function checkAndStoreBase64toImgFile(userId, str) {
+function checkAndStoreBase64toImgFile(userId, str) {
   const buf = Buffer.from(str, 'base64');
   fs.writeFileSync('', buf);
   const imgPath = `${userId}_img.jpg`;
