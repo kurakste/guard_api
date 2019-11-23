@@ -265,13 +265,15 @@ async function makeRecurrentPayment(uid, sum, type) {
     const res2 = await axios.post(recurrentUrl, postRecurrentParam);
     logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
     console.log('res 2 =========================>', res2.data);
-    if (res.data) {
+    if (res2 && res2.data) {
+      const { Success } = res2.data;
       const bill = await Bill.findByPk(orderId);
       if (!bill) throw Error(`Bill with id: ${orderId} not found`);
       bill.isPaymentFinished = true;
       await bill.save();
+      return Success;
     }
-    return res2.Success;
+    return false;
   }
 
   logger.error(`Payment API Error. with user: ${uid} & sum: ${sum}`);
