@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
-const { isBase64image } = require('isbase64image');
+const { isBase64Image } = require('isbase64image');
 
 const NotActiveUserError = require('./errors/NotActiveUserError');
 const EmailNotFound = require('./errors/EmailNotFound');
@@ -128,7 +128,7 @@ module.exports = userService;
 // ================ helpers ===========================
 
 function checkAndStoreBase64toImgFile(userId, str, imgType) {
-  const ext = isBase64image(str);
+  const ext = isBase64Image(str);
   if (!ext) return 'not_valid_image.png';
   const imgPath = `${userId}_${imgType}.${ext}`;
   const buf = Buffer.from(str, 'base64');
