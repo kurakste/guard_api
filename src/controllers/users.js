@@ -76,7 +76,7 @@ const userController = {
     const {
       firstName, lastName, email, tel, password, img, pasImg1, pasImg2,
     } = body;
-    // img will be sent in this string format: 'image/jpeg;base64,/9j/4AAQS...'
+    // img will be sent in this string format: 'image/jpeg;base64,/9j/4AQS...'
 
     try {
       const finalUser = await userService

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
+const isBase64image = require('isbase64image');
 
 const NotActiveUserError = require('./errors/NotActiveUserError');
 const EmailNotFound = require('./errors/EmailNotFound');
@@ -9,6 +10,7 @@ const { User } = require('../../models');
 const getCode = require('../helpers/getCode');
 const sendCodeToEmail = require('../helpers/sendCodeToEmail');
 const logger = require('../helpers/logger');
+
 // const checkAndStoreFiles = require('../helpers/checkAndStore');
 
 const userService = {
@@ -126,7 +128,9 @@ module.exports = userService;
 // ================ helpers ===========================
 
 function checkAndStoreBase64toImgFile(userId, str, imgType) {
-  const imgPath = `${userId}_${imgType}.jpg`;
+  const ext = isBase64image(str);
+  if (!ext) return 'not_valid_image.png';
+  const imgPath = `${userId}_${imgType}.${ext}`;
   const buf = Buffer.from(str, 'base64');
   fs.writeFileSync(`public/img/${imgPath}`, buf);
   return imgPath;
