@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
-const isBase64image = require('isbase64image');
+const { isBase64image } = require('isbase64image');
 
 const NotActiveUserError = require('./errors/NotActiveUserError');
 const EmailNotFound = require('./errors/EmailNotFound');
