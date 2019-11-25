@@ -23,7 +23,9 @@
     <div class="container-main-call">
       <div class="answer-section">
         {{#alarms}}
-        <button class="accordion">03 августа,в 6:32<br>ул. Долгопрудного, дом 26<img class="rotate"
+        <button class="accordion">{{createdAt}}
+          <br>
+          {{address}} <img class="rotate"
             src="{{apiUrl}}/assets/dropdown.svg"></button>
         <div class="panel">
           <p>Координаты:<a 

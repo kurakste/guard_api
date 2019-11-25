@@ -35,11 +35,16 @@ const controller = {
       [output.lat, output.lng] = zeroPoint;
       return output;
     });
+    const formatedAlarms = alarms.map(el => {
+      const out = { ...el };
+      out.createdAt = el.createdAt.toLocaleDateString();
+      return out;
+    });
     try {
       const pt = `${__dirname}/../views/history.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
-      const body = Mustache.render(template, { apiUrl, alarms });
+      const body = Mustache.render(template, { apiUrl, alarms: formatedAlarms });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
