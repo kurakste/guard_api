@@ -147,6 +147,23 @@ const controller = {
     return ctx;
   },
 
+  getProfileEditPage: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
+    logger.info('getProfileEditPage', { id });
+    const user = await User.findByPk(id);
+    try {
+      if (!user) throw new Error('User not found.');
+      const pt = `${__dirname}/../views/profileEditPage.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl, user });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
 
 };
 

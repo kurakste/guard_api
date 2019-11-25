@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no">
+    <title></title>
+    <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
+  </head>
+  <body>
+    <div class="container-buy">
+      <div class="container-redaction">
+        <div class="header-redaction">
+          <div class="help">
+            <h1>Редактировать Профиль</h1>
+          </div>
+        </div>
+      </div>
+      <div class="container-main-redaction">
+        <div class="redaction-main"><a class="prof-pic-redaction" href="#">
+            <div class="profile-image-redaction"><img src="{{apiUrl}}/img/{{user.img}}"></div></a>
+          <div class="prof-settings-redaction">
+            <div class="first-redaction">
+              <input type="text" placeholder="Редактировать Имя" value={{user.firstName}}>
+            </div>
+            <div class="second-redaction">
+              <input type="text" placeholder="Редактировать Фамилия" value={{user.lastName}}>
+            </div>
+            <div class="third-redaction">
+              <input type="text" placeholder="Редактировать Отчество" value={{user.middleName}}>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

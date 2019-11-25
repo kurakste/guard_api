@@ -12,6 +12,7 @@ router.post('/sign-in', userController.postSignIn);
 router.post('/restore-password-step-one', userController.postRestorePasswordStepOne);
 router.post('/restore-password-step-two', userController.postRestorePasswordStepTwo);
 router.get('/user/:id', userController.getUser);
+router.delete('/user/:id', userController.deleteUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.get('/get-payment-page/:id', paymentController.getPaymentPage);
@@ -23,13 +24,13 @@ router.get('/agreement', staticController.getAgreementPage);
 router.get('/account/:id', staticController.getAccountPage);
 router.get('/history/:id', staticController.getHistoryPage);
 router.get('/help/:id', staticController.getHelpPage);
+router.get('/edit-profile-page/:id', staticController.getProfileEditPage);
 router.get('/test', paymentController.getTest);
 router.get('/success', staticController.getPaymentSuccessPage);
 router.get('/unsubscribe/:id', paymentController.getUnsubscribePage);
 router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/success-unsubscribe', staticController.getUnsubscribeSuccessPage);
 router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
-router.delete('/user/:id', userController.deleteUser);
 router.get('/error', staticController.getPaymentErrorPage);
 // -------------
 
