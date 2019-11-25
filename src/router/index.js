@@ -12,6 +12,7 @@ router.post('/sign-in', userController.postSignIn);
 router.post('/restore-password-step-one', userController.postRestorePasswordStepOne);
 router.post('/restore-password-step-two', userController.postRestorePasswordStepTwo);
 router.get('/user/:id', userController.getUser);
+router.patch('/user/:id', userController.patchUser);
 router.delete('/user/:id', userController.deleteUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);

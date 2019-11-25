@@ -129,6 +129,25 @@ const userController = {
     }
   },
 
+  patchUser: async (ctx) => {
+    const { body } = ctx.request;
+    const { params } = ctx;
+    const { id } = params;
+    logger.info('patchUser: ', { id, body });
+    const { firstName, lastName, middleName } = body;
+    try {
+      const user = await userService.patchUser(id, firstName, lastName, middleName);
+      user.password = null;
+      const output = apiResponseObject(true, null, user);
+      ctx.body = JSON.stringify(output);
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
 };
 
 module.exports = userController;
