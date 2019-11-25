@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="format-detection" content="telephone=no">
-    <title>Kia</title>
-    <link rel="stylesheet" href="{{apiUrl}}/css/styles.css">
-  </head>
-  <body>
-    <div class="container">
-      <div class="container-header">
-        <div class="header-call"><a href="#"><img src="img/arrow.png">
-            <p>Назад</p></a>
-          <div class="help">
-            <h1>История вызовов</h1>
-          </div>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
+  <title>Kia</title>
+  <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="container-header">
+      <div class="header-call">
+        <div class="help">
+          <h1>История вызовов</h1>
         </div>
       </div>
-      <div class="container-main-call">
-        <div class="answer-section">
-          {{#alarms}}
-          <button class="accordion">{{createdAt}}
-            <br>
-              {{address}} 
-            <img class="rotate" src="{{apiUrl}}/assets/dropdown.svg">
-          </button>
-          <div class="panel">
-            <p>Координаты:  <a class='ml1' href="https://maps.google.com/?ll={{lat}},{{lng}}"> {{lat}}, {{lng}}</a> </p>
-            <p>{{notes}}</p>
-          </div>
-          {{/alarms}}
-        </div>
-      </div>
-      <script src="{{apiUrl}}/scripts/script.js"></script>
     </div>
-  </body>
-  <style>
-      .ml1 { margin-left: 10px;}
-  </style>
+    <div class="container-main-call">
+      <div class="answer-section">
+        {{#alarms}}
+        <button class="accordion">03 августа,в 6:32<br>ул. Долгопрудного, дом 26<img class="rotate"
+            src="{{apiUrl}}/assets/dropdown.svg"></button>
+        <div class="panel">
+          <p>Координаты:<a 
+            style="margin-left: 10px;"
+            class='ml1' 
+            href="https://maps.google.com/?ll={{lat}},{{lng}}"> {{lat}}, {{lng}}</a> </p>
+          <p>{{notes}}</p>
+        </div>
+        {{/alarms}}
+      </div>
+    </div>
+    <script src="{{apiUrl}}/scripts/script.js"></script>
+  </div>
+</body>
+
 </html>
