@@ -28,11 +28,11 @@ router.get('/help/:id', staticController.getHelpPage);
 router.get('/edit-profile-page/:id', staticController.getProfileEditPage);
 router.get('/test', paymentController.getTest);
 router.get('/success', staticController.getPaymentSuccessPage);
+router.get('/error', staticController.getPaymentErrorPage);
 router.get('/unsubscribe/:id', paymentController.getUnsubscribePage);
 router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/success-unsubscribe', staticController.getUnsubscribeSuccessPage);
 router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
-router.get('/error', staticController.getPaymentErrorPage);
 // -------------
 
 module.exports = router;
