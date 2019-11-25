@@ -115,6 +115,20 @@ const userController = {
     }
   },
 
+  deleteUser: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
+    try {
+      const result = await userService.deleteUser(id);
+      const output = apiResponseObject(result, '', '');
+      ctx.body = JSON.stringify(output, null, '\t');
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      logger.error(err.message);
+    }
+  },
+
 };
 
 module.exports = userController;

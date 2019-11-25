@@ -21,6 +21,11 @@ const userService = {
     return user;
   },
 
+  deleteUser: async (id) => {
+    const result = await User.destroy({ where: { id } });
+    return !!result;
+  },
+
   getRestorePasswordTokenAndSendCodeToUsersEmail: async (email) => {
     const userFromDbObj = await User.findOne({
       where: { email },

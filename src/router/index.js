@@ -29,6 +29,7 @@ router.get('/unsubscribe/:id', paymentController.getUnsubscribePage);
 router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/success-unsubscribe', staticController.getUnsubscribeSuccessPage);
 router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
+router.delete('/user/:id', userController.deleteUser);
 router.get('/error', staticController.getPaymentErrorPage);
 // -------------
 
