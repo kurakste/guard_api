@@ -30,6 +30,10 @@ app.use(statServer({
   rootPath: '/css',
 }));
 app.use(statServer({
+  rootDir: 'public/font',
+  rootPath: '/font',
+}));
+app.use(statServer({
   rootDir: 'public/html',
   rootPath: '/html',
 }));

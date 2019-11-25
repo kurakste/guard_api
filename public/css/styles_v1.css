@@ -401,7 +401,7 @@
           -webkit-border-radius: 50%;
           border-radius: 50%;
           padding: 15px;
-          background-image: url("../img/edit.png");
+          background-image: url("../assets/edit.png");
           background-repeat: no-repeat;
           background-size: 15px;
           background-position: center; }
@@ -411,7 +411,7 @@
           -webkit-border-radius: 50%;
           border-radius: 50%;
           padding: 15px;
-          background-image: url("../img/plus.png");
+          background-image: url("../assets/plus.png");
           background-repeat: no-repeat;
           background-size: 15px;
           background-position: center; }
@@ -421,7 +421,7 @@
           -webkit-border-radius: 50%;
           border-radius: 50%;
           padding: 15px;
-          background-image: url("../img/exit.png");
+          background-image: url("../assets/exit.png");
           background-repeat: no-repeat;
           background-size: 15px;
           background-position: center; }

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="format-detection" content="telephone=no">
     <title>Kia</title>
-    <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
+    <link rel="stylesheet" href="{{apiUrl}}/css/styles.css">
   </head>
   <body>
     <div class="container">
@@ -23,6 +23,8 @@
             <div class="profile-image"><img src="{{apiUrl}}/img/{{img}}"></div>
             <div class="shadow"></div>
             <p>{{ user.firstName }} {{ user.middleName }}<br>{{ user.lastName }}</p>
+            <br style="margin: 10px"/> 
+            <p>Текущий баланс: {{ balance }} руб.</p>
           </div>
           <div class="prof-settings">
             <div>
@@ -32,7 +34,7 @@
               <div class="plus-img"></div><a href="{{apiUrl}}/get-payment-page/{{id}}">Подписка</a>
             </div>
             <div>
-              <div class="exit-img"></div><a href="#">Отказаться от подписки</a>
+              <div class="exit-img"></div><a href="#">Выход</a>
             </div>
           </div>
         </div>
