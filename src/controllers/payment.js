@@ -2,25 +2,38 @@ require('dotenv').config();
 const Mustache = require('mustache');
 const fs = require('fs');
 const paymentService = require('../services/payment.service');
+const subscriptionService = require('../subscriptions/subscription.service');
 const logger = require('../helpers/logger');
 
 const apiUrl = process.env.API_URL;
 
 const controller = {
 
-  payMonthlySubscriptionInit: async (ctx) => {
+  payMonthly: async (ctx) => {
+    const { body } = ctx.request;
+    // id is the user id here
+    const { id } = body;
+    const subscriptionCost = await subscriptionService.getMonthlyCost();
+
+    const resUrl = await paymentService.paySubscription(id, subscriptionCost);
+    // это нужно делать после подтверждения банка.
+    // if (result) userService.setSubscription(id, subscriptionIds.month);
+    return ctx.response.redirect(resUrl);
+  },
+
+  payThreeMonth: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    const billingSum = parseFloat(process.env.BILLINGSUM);
-    const resUrl = await paymentService.paySubscription(id, billingSum);
+    const subscriptionCost = await subscriptionService.getThreeMonthCost();
+    const resUrl = await paymentService.paySubscription(id, subscriptionCost);
     return ctx.response.redirect(resUrl);
   },
 
   paySixMonth: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    const billingSum = parseFloat(process.env.BILLINGSUM);
-    const resUrl = await paymentService.paySubscription(id, 6 * billingSum);
+    const subscriptionCost = await subscriptionService.getSixMonthCost();
+    const resUrl = await paymentService.paySubscription(id, subscriptionCost);
     return ctx.response.redirect(resUrl);
   },
 
@@ -56,8 +69,7 @@ const controller = {
   postPaymentNotification: async (ctx) => {
     const { body } = ctx.request;
     const { Success, OrderId, RebillId } = body;
-
-    console.log('get payment status: ', body);
+    logger.log('get payment status', { body });
 
     await paymentService.setPaymentStatus(Success, OrderId);
     if (RebillId) {
