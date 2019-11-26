@@ -17,8 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.TEXT,
   }, {});
   alarm.associate = function (models) {
-    // associations can be defined here
-
     alarm.belongsToMany(models.Gbr, { through: 'GbrsToAlarms', onDelete: 'cascade' });
     alarm.belongsTo(models.User);
 
