@@ -2,6 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 const crypto = require('crypto');
 const models = require('../../models');
+const userService = require('../services/users.service');
 
 const logger = require('../helpers/logger');
 
@@ -31,9 +32,9 @@ const paymentService = {
       logger.info(`paySubscription rebillSet: ${rebillSet}`);
       let returnUrl = null;
       if (!rebillSet) {
-        returnUrl = makeInitPayment(uid, sum);
+        returnUrl = makeInitPayment(uid, sum, 'subscriptionPayment');
       } else {
-        const result = await makeRecurrentPayment(uid, sum);
+        const result = await makeRecurrentPayment(uid, sum, 'subscriptionPayment');
         returnUrl = result ? `${apiUrl}/success` : `${apiUrl}/error`;
       }
       return returnUrl;
@@ -45,10 +46,14 @@ const paymentService = {
 
   setPaymentStatus: async (status, orderId) => {
     const bill = await Bill.findByPk(orderId);
+    if (!bill) throw Error(`Bill with id: ${orderId} not found`);
     if (bill) {
       bill.isPaymentFinished = status;
       await bill.save();
-      await updateBallanceById(bill.UserId);
+      if (bill.operationType === 'subscriptionPayment') {
+        await userService.updateSubscriptionStatus(bill.UserId, orderId);
+      }
+      // await updateBallanceById(bill.UserId);
     }
   },
 
@@ -151,15 +156,15 @@ function compare(a, b) {
   return 0;
 }
 
-async function updateBallanceById(id) {
-  const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
-  const user = await User.findByPk(id);
-  user.lowBallance = (sum < 0);
-  user.balance = sum;
-  await user.save();
-  logger.info('done updateBallanceById for id: ', id);
-  return null;
-}
+// async function updateBallanceById(id) {
+//   const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
+//   const user = await User.findByPk(id);
+//   user.lowBallance = (sum < 0);
+//   user.balance = sum;
+//   await user.save();
+//   logger.info('done updateBallanceById for id: ', id);
+//   return null;
+// }
 /**
  *
  * @param {*} userId
@@ -209,10 +214,10 @@ async function getRebillId(userId) {
   return rebillId;
 }
 
-async function makeInitPayment(uid, sum) {
+async function makeInitPayment(uid, sum, type) {
   logger.info(`makeInitPayment is fired with userId: ${uid}, sum: ${sum}`);
   const uidAsStr = `${uid}`;
-  const orderId = await addBillRecord(uid, sum, 'replenishment', 'tinkoff');
+  const orderId = await addBillRecord(uid, sum, type, 'tinkoff');
   const postParams = {
     Amount: sum * 100,
     TerminalKey: terminalKey,
@@ -234,9 +239,8 @@ async function makeInitPayment(uid, sum) {
  * @param {*} sum amount of money
  * @param {*} type Operation type: 1) replenishment, 2) paymentForCall
  */
-async function makeRecurrentPayment(uid, sum, type) {
+async function makeRecurrentPayment(uid, sum, optype) {
   logger.info(`makeRecurrentPayment is fired with userId: ${uid}, sum: ${sum}`);
-  const optype = type || 'replenishment';
   const uidAsStr = `${uid}`;
   const rebillId = await getRebillId(uid);
   if (!rebillId) {
@@ -276,10 +280,8 @@ async function makeRecurrentPayment(uid, sum, type) {
     console.log('res 2 =========================>', res2.data);
     if (res2 && res2.data) {
       const { Success } = res2.data;
-      const bill = await Bill.findByPk(orderId);
-      if (!bill) throw Error(`Bill with id: ${orderId} not found`);
-      bill.isPaymentFinished = true;
-      await bill.save();
+      // if (Success)
+      await paymentService.setPaymentStatus(Success, orderId);
       return Success;
     }
     return false;

@@ -140,6 +140,19 @@ const userService = {
     const data = dataObj.map(el => el.dataValues);
     return data;
   },
+
+  updateSubscriptionStatus: async (userId, subscriptionId) => {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      logger.error('Not found user in updateSubscriptionStatus', { userId });
+      return false;
+    }
+    user.subscriptionId = subscriptionId;
+    user.isSubscribeActive = true;
+    user.subscriptionStartsAt = Date.now();
+    await user.save();
+    return true;
+  },
 };
 
 module.exports = userService;

@@ -42,12 +42,16 @@ const subscriptionService = {
   },
 
 };
+
 // ==================== private ===============================
 async function subscriptionCost(subscriptionId) {
   try {
-    logger.log('subscriptionService', { subscriptionId });
+    logger.info('subscriptionCost', { subscriptionId });
     const subscription = await Subscription.findByPk(subscriptionId);
-    if (!Subscription) return false;
+    if (!subscription) {
+      logger.error('subscriptionCost doesn\'t find subscription data.', { subscriptionId });
+      return false;
+    }
     const { cost } = subscription;
     if (!cost) return false;
     return cost;
