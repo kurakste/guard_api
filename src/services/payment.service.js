@@ -34,10 +34,8 @@ const paymentService = {
         returnUrl = makeInitPayment(uid, sum);
       } else {
         const result = await makeRecurrentPayment(uid, sum);
-        console.log('result =====>', result);
         returnUrl = result ? `${apiUrl}/success` : `${apiUrl}/error`;
       }
-
       return returnUrl;
     } catch (error) {
       logger.error(error.message);
