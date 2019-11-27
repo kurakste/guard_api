@@ -43,7 +43,7 @@ const cpSocketController = {
     logger.info('cpAppUserApprove', user);
     const { id } = user;
     try {
-      const [updated] = await User.update({ role: 35 }, { where: { id } });
+      const [updated] = await User.update({ role: 35, active: true }, { where: { id } });
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
@@ -78,7 +78,7 @@ const cpSocketController = {
     logger.info('cpCpUserApprove', user);
     const { id } = user;
     try {
-      const [updated] = await User.update({ role: 36 }, { where: { id } });
+      const [updated] = await User.update({ role: 36, active: true }, { where: { id } });
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
