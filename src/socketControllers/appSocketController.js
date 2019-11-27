@@ -12,7 +12,7 @@ const appSocketEventEmitter = require('../appSocketEventEmitter');
 const socketController = {
 
   addNewPosition: async (cpIo, socket, user, data) => {
-    logger.info('addNewPosition', { data });
+    logger.info('addNewPosition', { user: user.id });
     const { payload } = data;
     const [lat, lon] = payload;
 
