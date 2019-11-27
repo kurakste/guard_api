@@ -102,11 +102,14 @@ const userService = {
     return [userForSend, token];
   },
 
-  addNewUser: async (firstName, lastName, email, tel, password, img, pasImg1, pasImg2) => {
+  addNewUser: async (
+    firstName, lastName, middleName,
+    email, tel, password, img, pasImg1, pasImg2,
+  ) => {
     if ((!password)) throw new Error('Password can\'t be blank.');
     const cryptPassword = await bcrypt.hash(password, 10);
     const user = {
-      firstName, lastName, email, tel, password: cryptPassword, role: 31, active: false, notes: '',
+      firstName, lastName, middleName, email, tel, password: cryptPassword, role: 31, active: false, notes: '',
     };
 
     const checkUserInDb = await User.findOne({ where: { email: user.email } });
