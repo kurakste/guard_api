@@ -109,7 +109,7 @@ const cpSocketController = {
   cpSignIn: async (socket, data) => {
     const { payload } = data;
     const user = payload;
-    logger.info('cpSignIn: ', user);
+    logger.info('cpSignIn: ', { iGetThisUser: user });
     try {
       const userFromDb = await User.findOne({
         where: { email: user.email, role: [32, 34, 36] },
