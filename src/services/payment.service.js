@@ -24,7 +24,7 @@ if (!apiUrl) throw new Error('API_URL must be defined in env.');
 if (!securityCallCast) throw new Error('Security call cast must be set in .env');
 
 const paymentService = {
-  paySubscription: async (uid, sum) => {
+  paySubscription: async (uid, sum, subscriptionId) => {
     try {
       if (!uid) throw new Error('User id (uid) required');
       logger.info('paySubscription', { uid });
@@ -32,9 +32,9 @@ const paymentService = {
       logger.info(`paySubscription rebillSet: ${rebillSet}`);
       let returnUrl = null;
       if (!rebillSet) {
-        returnUrl = makeInitPayment(uid, sum, 'subscriptionPayment');
+        returnUrl = makeInitPayment(uid, sum, 'subscriptionPayment', subscriptionId);
       } else {
-        const result = await makeRecurrentPayment(uid, sum, 'subscriptionPayment');
+        const result = await makeRecurrentPayment(uid, sum, 'subscriptionPayment', subscriptionId);
         returnUrl = result ? `${apiUrl}/success` : `${apiUrl}/error`;
       }
       return returnUrl;
@@ -51,7 +51,7 @@ const paymentService = {
       bill.isPaymentFinished = status;
       await bill.save();
       if (bill.operationType === 'subscriptionPayment') {
-        await userService.updateSubscriptionStatus(bill.UserId, orderId);
+        await userService.updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
       }
       // await updateBallanceById(bill.UserId);
     }
@@ -107,13 +107,14 @@ async function getUserIdByOrderId(orderId) {
   return order.UserId;
 }
 
-async function addBillRecord(userId, sum, operationType, comment) {
+async function addBillRecord(userId, sum, operationType, comment, subscriptionId) {
   const billRecord = await Bill.build({
     UserId: userId,
     sum,
     operationType,
     comment,
     isPaymentFinished: null,
+    subscriptionId,
   });
   await billRecord.save();
   // TODO - update balance in user!!!
@@ -214,10 +215,11 @@ async function getRebillId(userId) {
   return rebillId;
 }
 
-async function makeInitPayment(uid, sum, type) {
+async function makeInitPayment(uid, sum, type, subscriptionId) {
+  console.log('=================>', subscriptionId);
   logger.info(`makeInitPayment is fired with userId: ${uid}, sum: ${sum}`);
   const uidAsStr = `${uid}`;
-  const orderId = await addBillRecord(uid, sum, type, 'tinkoff');
+  const orderId = await addBillRecord(uid, sum, type, 'tinkoff', subscriptionId);
   const postParams = {
     Amount: sum * 100,
     TerminalKey: terminalKey,
@@ -239,7 +241,7 @@ async function makeInitPayment(uid, sum, type) {
  * @param {*} sum amount of money
  * @param {*} type Operation type: 1) replenishment, 2) paymentForCall
  */
-async function makeRecurrentPayment(uid, sum, optype) {
+async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
   logger.info(`makeRecurrentPayment is fired with userId: ${uid}, sum: ${sum}`);
   const uidAsStr = `${uid}`;
   const rebillId = await getRebillId(uid);
@@ -248,7 +250,7 @@ async function makeRecurrentPayment(uid, sum, optype) {
     return false;
   }
   console.log(' --------------- rebill id is: ', rebillId);
-  const orderId = await addBillRecord(uid, sum, optype, 'tinkoff');
+  const orderId = await addBillRecord(uid, sum, optype, 'tinkoff', subscriptionId);
 
   const postParams = {
     Amount: sum * 100,

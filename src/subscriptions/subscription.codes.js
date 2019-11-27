@@ -1,6 +1,6 @@
 module.exports = {
-  month: 2,
-  threeMonth: 3,
-  sixMonth: 4,
-  year: 5,
+  month: 1,
+  threeMonth: 2,
+  sixMonth: 3,
+  year: 4,
 };

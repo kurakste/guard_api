@@ -13,9 +13,8 @@ const controller = {
     const { body } = ctx.request;
     // id is the user id here
     const { id } = body;
-    const subscriptionCost = await subscriptionService.getMonthlyCost();
-
-    const resUrl = await paymentService.paySubscription(id, subscriptionCost);
+    const [subscriptionCost, subscriptionId] = await subscriptionService.getMonthlyCost();
+    const resUrl = await paymentService.paySubscription(id, subscriptionCost, subscriptionId);
     // это нужно делать после подтверждения банка.
     // if (result) userService.setSubscription(id, subscriptionIds.month);
     return ctx.response.redirect(resUrl);
@@ -24,24 +23,24 @@ const controller = {
   payThreeMonth: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    const subscriptionCost = await subscriptionService.getThreeMonthCost();
-    const resUrl = await paymentService.paySubscription(id, subscriptionCost);
+    const [subscriptionCost, subscriptionId] = await subscriptionService.getThreeMonthCost();
+    const resUrl = await paymentService.paySubscription(id, subscriptionCost, subscriptionId);
     return ctx.response.redirect(resUrl);
   },
 
   paySixMonth: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    const subscriptionCost = await subscriptionService.getSixMonthCost();
-    const resUrl = await paymentService.paySubscription(id, subscriptionCost);
+    const [subscriptionCost, subscriptionId] = await subscriptionService.getSixMonthCost();
+    const resUrl = await paymentService.paySubscription(id, subscriptionCost, subscriptionId);
     return ctx.response.redirect(resUrl);
   },
 
   payOneYear: async (ctx) => {
     const { body } = ctx.request;
     const { id } = body;
-    const billingSum = parseFloat(process.env.BILLINGSUM);
-    const resUrl = await paymentService.paySubscription(id, 12 * billingSum);
+    const [subscriptionCost, subscriptionId] = await subscriptionService.getSixMonthCost();
+    const resUrl = await paymentService.payOneYear(id, subscriptionCost, subscriptionId);
     return ctx.response.redirect(resUrl);
   },
 
@@ -69,7 +68,7 @@ const controller = {
   postPaymentNotification: async (ctx) => {
     const { body } = ctx.request;
     const { Success, OrderId, RebillId } = body;
-    logger.log('get payment status', { body });
+    logger.info('get payment status', { body });
 
     await paymentService.setPaymentStatus(Success, OrderId);
     if (RebillId) {
@@ -94,7 +93,7 @@ const controller = {
   postUnsubscribe: async (ctx) => {
     const { body } = ctx.request;
     const { userId } = body;
-    logger.log('postUnsubscribe: start for user', { userId });
+    logger.info('postUnsubscribe: start for user', { userId });
     const res = paymentService.unsubscribeAndRemoveData(userId);
     const redirectionUrl = res
       ? `${apiUrl}/success-unsubscribe`
@@ -103,7 +102,6 @@ const controller = {
   },
 
   getTest: async () => {
-    paymentService.test();
   },
 };
 

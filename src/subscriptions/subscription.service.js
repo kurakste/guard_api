@@ -11,34 +11,34 @@ const subscriptionService = {
       throw new Error(`Subscription cost 0 
         for subscription id: ${subscriptionIds.month}`);
     }
-    return cost;
+    return [cost, subscriptionIds.month];
   },
 
   getThreeMonthCost: async () => {
     const cost = await subscriptionCost(subscriptionIds.threeMonth);
     if (!cost) {
       throw new Error(`Subscription cost 0 
-        for subscription id: ${subscriptionIds.month}`);
+        for subscription id: ${subscriptionIds.threeMonth}`);
     }
-    return cost;
+    return [cost, subscriptionIds.threeMonth];
   },
 
   getSixMonthCost: async () => {
     const cost = await subscriptionCost(subscriptionIds.sixMonth);
     if (!cost) {
       throw new Error(`Subscription cost 0 
-        for subscription id: ${subscriptionIds.month}`);
+        for subscription id: ${subscriptionIds.sixMonth}`);
     }
-    return cost;
+    return [cost, subscriptionIds.sixMonth];
   },
 
   getOneYear: async () => {
     const cost = await subscriptionCost(subscriptionIds.year);
     if (!cost) {
       throw new Error(`Subscription cost 0 
-        for subscription id: ${subscriptionIds.month}`);
+        for subscription id: ${subscriptionIds.year}`);
     }
-    return cost;
+    return [cost, subscriptionIds.year];
   },
 
 };
