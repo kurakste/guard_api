@@ -58,7 +58,6 @@ const socketController = {
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
       const [lat, lon] = payload;
       const [regionId, address] = await getRegionIdAndAddress(lat, lon, socket);
-      console.log('----------->', regionId, address);
       const isPaid = await paymentService.payForSecurityCall(user.id);
       const alarmData = {
         UserId: user.id,
@@ -70,6 +69,7 @@ const socketController = {
       const alarm = await Alarm.create(alarmData);
       const gbr = await Gbr.findAll({ where: { regionId } });
       await alarm.addGbr(gbr);
+
       const newAlarmWithGbr = await Alarm.findOne({
         where: { id: alarm.id },
         include: [
