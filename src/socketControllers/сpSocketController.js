@@ -47,7 +47,7 @@ const cpSocketController = {
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
-      cpIo.emit('srvUpdateOneCpUser', newUser);
+      cpIo.emit('srvUpdateAppCpUser', newUser);
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
@@ -57,6 +57,7 @@ const cpSocketController = {
   cpAppUserDecline: async (socket, cpIo, data) => {
     const { payload } = data;
     const user = payload;
+    console.log('---------------->', data);
     logger.info('cpAppUserDecline', user);
     const { id } = user;
     try {
@@ -64,7 +65,7 @@ const cpSocketController = {
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
-      cpIo.emit('srvUpdateOneCpUser', newUser);
+      cpIo.emit('srvUpdateOneAppUser', newUser);
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
