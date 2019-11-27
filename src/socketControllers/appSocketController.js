@@ -32,7 +32,7 @@ const socketController = {
         tmp.push([lat, lon]);
         trackObj.track = tmp;
         await trackObj.save();
-        logger.info('addNewPosition', { msg: 'add new point to track', trackObj });
+        logger.info('addNewPosition', { msg: 'add new point to track' });
       } else {
         const track = await Track.build({
           UserId: user.id,

@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       btnAppUserApprove.onclick = () => {
+        console.log('btnAppUserApprove',document.getElementById('uid').value);
         const user = {
           id: document.getElementById('uid').value,
         };
