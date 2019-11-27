@@ -26,7 +26,7 @@ logger.add(toSocketTransport);
 appIOBus.on('connection', async (socket) => {
   const params = urlParser(socket.request.url);
   const { token } = params;
-  logger.info('New app user connected with params:' { params });
+  logger.info('New app user connected with params:', { params });
   const authResult = await auth(token, socket);
   const { res, user } = authResult;
   if (res) {
