@@ -114,12 +114,12 @@ const cpSocketController = {
       const userFromDb = await User.findOne({
         where: { email: user.email, role: [32, 34, 36] },
       });
-      if (!userFromDb) throw new Error('Login error');
+      if (!userFromDb) throw new Error('Login error 1');
       logger.info('User from signIn: ', userFromDb.password);
       const loginResult = await bcrypt
         .compare(user.password, userFromDb.password);
       logger.info('login result: ', loginResult);
-      if (!loginResult) throw new Error('Login error');
+      if (!loginResult) throw new Error('Login error 2');
       if (!userFromDb.active) {
         const msg = 'User doesn\'t active. Contact the server administrator';
         cpSocketEmitter.srvErrMessage(socket, 8, msg);
