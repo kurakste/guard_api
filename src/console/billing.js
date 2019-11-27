@@ -4,43 +4,65 @@ const logger = require('../helpers/logger');
 
 dotenv.config();
 
-const { User, Bill } = models;
-const fullBillingSum = process.env.BILLINGSUM;
-const dailyBillingSum = fullBillingSum / 30;
+const { User, Subscription } = models;
 
 async function doBilling() {
   const users = await User.findAll({
-    where: { role: 35, active: true, lowBallance: false },
+    where: { role: 35, isSubscribeActive: true },
   });
+  console.log('=+++++++++++++++++++++++++');
 
-  const a = users.map(el => addBillingRecordById(el.id));
+  const a = users.map(el => updateIsSubscribeActiveStatus(
+    el.id,
+    el.subscriptionId,
+    el.subscriptionStartsAt,
+  ));
   await Promise.all(a);
-  const promBunch = users.map(el => updateBallanceById(el.id));
-  await Promise.all(promBunch);
-  logger.info('doBilling done well');
+  logger.info(`Billing system: processed ${a.length} users. Work done.`);
   return null;
 }
 
-async function addBillingRecordById(id) {
-  const bill = new Bill();
-  bill.UserId = id;
-  bill.sum = -1 * dailyBillingSum;
-  bill.comment = 'Daily billing';
-  bill.operationType = 'Daily billing';
-  bill.isPaymentFinished = true;
-  await bill.save();
-  logger.info('Done addBillingRecordById', { id });
-  return null;
+async function updateIsSubscribeActiveStatus(userId, subscriptionId, subscriptionStartsAt) {
+  const subscription = await Subscription.findByPk(subscriptionId);
+  const { lifeTime } = subscription;
+  const today = new Date();
+  const dataStart = new Date(subscriptionStartsAt);
+  const daysPass = Math.ceil(
+    Math.abs(
+      (dataStart.getTime() - today.getTime()) / (1000 * 3600 * 24) - 1,
+    ),
+  );
+  const daysLeft = lifeTime - daysPass;
+  if (daysLeft <= 0) {
+    const user = await User.findByPk(userId);
+    user.isSubscribeActive = false;
+    await user.save();
+  }
+  console.log(subscriptionId, subscriptionStartsAt, lifeTime, daysPass, daysLeft);
+  // TODO: Add automatic subscription's extension.
+
 }
 
-async function updateBallanceById(id) {
-  const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
-  const user = await User.findByPk(id);
-  user.lowBallance = (sum < 0);
-  user.balance = sum;
-  await user.save();
-  logger.info('done updateBallanceById for id:', { id });
-  return null;
-}
+// async function addBillingRecordById(id) {
+//   const bill = new Bill();
+//   bill.UserId = id;
+//   bill.sum = -1 * dailyBillingSum;
+//   bill.comment = 'Daily billing';
+//   bill.operationType = 'Daily billing';
+//   bill.isPaymentFinished = true;
+//   await bill.save();
+//   logger.info('Done addBillingRecordById', { id });
+//   return null;
+// }
+
+// async function updateBallanceById(id) {
+//   const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
+//   const user = await User.findByPk(id);
+//   user.lowBallance = (sum < 0);
+//   user.balance = sum;
+//   await user.save();
+//   logger.info('done updateBallanceById for id:', { id });
+//   return null;
+// }
 
 module.exports = doBilling;

@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="format-detection" content="telephone=no">
-    <title>Kia</title>
-    <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
-  </head>
-  <body>
-    <div class="container-buy">
-      <div class="container-header">
-        <div class="header-buy">
-          <div class="help">
-            <h1>Оформить подписку</h1>
-          </div>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
+  <title>Kia</title>
+  <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
+</head>
+
+<body>
+  <div class="container-buy">
+    <div class="container-header">
+      <div class="header-buy">
+        <div class="help">
+          <h1>Оформить подписку</h1>
         </div>
       </div>
-      <div class="container-main">
-        <div class="main-buy"><a href="#">i</a>
-          <div class="icon-div"><img src="{{apiUrl}}/assets/icon.svg"></div>
-          <div class="text-div">
-            <p>Мой телохранитель</p>
-            <div class="button-div">
-              <form>
-                <button>
-                  <p>500 Руб.</p>
-                  <p>1 месяц</p>
-                </button>
-              </form>
-              <form>
-                <button>
-                  <p>6000 Руб.</p>
-                  <p>1 год</p>
-                </button>
-              </form>
-            </div>
+    </div>
+    <div class="container-main">
+      <div class="main-buy"><a href="#">i</a>
+        <div class="icon-div"><img src="{{apiUrl}}/assets/icon.svg"></div>
+        <div class="text-div">
+          <p>ЯВБезопасности</p>
+          <div class="button-div">
+            <form action="{{apiUrl}}/pay-monthly-subscription" method="post">
+              <input type='hidden' name='id' id="id" value='{{id}}'>
+              <button>
+                <p>580 Руб.</p>
+                <p>1 месяц</p>
+              </button>
+            </form>
+            <form action="{{apiUrl}}/pay-three-month" method="post">
+              <input type='hidden' name='id' id="id" value='{{id}}'>
+              <button>
+                <p>1490 Руб.</p>
+                <p>3 мес</p>
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

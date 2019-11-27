@@ -5,9 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     sum:DataTypes.NUMERIC,
     comment: DataTypes.STRING,
     isPaymentFinished: DataTypes.BOOLEAN,
+    subscriptionId: DataTypes.INTEGER,
   }, {});
-  // User.associate = function(models) {
-  //   User.hasMany(models.Bill);
-  // };
   return User;
 };
