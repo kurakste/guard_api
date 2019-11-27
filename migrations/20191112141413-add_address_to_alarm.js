@@ -6,7 +6,7 @@ module.exports = {
       'Alarms',
       'address',
       {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       }
     )
   },
