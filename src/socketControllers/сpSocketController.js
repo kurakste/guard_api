@@ -47,7 +47,7 @@ const cpSocketController = {
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
-      cpIo.emit('srvUpdateAppCpUser', newUser);
+      cpIo.emit('srvApproveAppUser', newUser);
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
@@ -58,14 +58,14 @@ const cpSocketController = {
     const { payload } = data;
     const user = payload;
     console.log('---------------->', data);
-    logger.info('cpAppUserDecline', user);
+    logger.info('srvDeclineAppUser', user);
     const { id } = user;
     try {
       const [updated] = await User.update({ role: 33 }, { where: { id } });
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
-      cpIo.emit('srvUpdateOneAppUser', newUser);
+      cpIo.emit('srvDeclineCpUser', newUser);
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
@@ -82,7 +82,7 @@ const cpSocketController = {
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
-      cpIo.emit('srvUpdateOneCpUser', newUser);
+      cpIo.emit('srvUpdateCpUser', newUser);
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
@@ -99,7 +99,7 @@ const cpSocketController = {
       if (updated === 0) throw new Error('Record not found in DB.');
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
-      cpIo.emit('srvUpdateOneCpUser', newUser);
+      cpIo.emit('srvDeclineCpUser', newUser);
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
