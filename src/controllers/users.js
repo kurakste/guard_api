@@ -74,7 +74,12 @@ const userController = {
 
   postNewAppUser: async (ctx) => {
     const { body } = ctx.request;
-    logger.info('postNewAppUser: ', { body });
+    const bodyForLog = { ...body };
+    bodyForLog.img = null;
+    bodyForLog.pasImg1 = null;
+    bodyForLog.pasImg2 = null;
+
+    logger.info('postNewAppUser: ', { bodyForLog });
     // TODO: What about validation? Use sequelize? Write new function for it?
     const {
       firstName, lastName, middleName, email, tel, password, img, pasImg1, pasImg2,
@@ -103,7 +108,7 @@ const userController = {
     } catch (err) {
       const output = apiResponseObject(false, err.message, null);
       ctx.body = output;
-      logger.error(err);
+      logger.error(err.message);
     }
   },
 
