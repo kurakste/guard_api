@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     cost: DataTypes.NUMERIC,
     lifeTime: DataTypes.INTEGER,
     active: DataTypes.BOOLEAN,
+    fixId: DataTypes.INTEGER,
   }, {});
   return Subscription;
 };
