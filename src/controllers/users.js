@@ -7,6 +7,7 @@ const userController = {
   postRestorePasswordStepOne: async (ctx) => {
     const { body } = ctx.request;
     const { email } = body;
+    logger.info('postRestorePasswordStepOne: ', { body });
     try {
       const restoreToken = await userService.getRestorePasswordTokenAndSendCodeToUsersEmail(email);
       ctx.body = apiResponseObject(true, null, { restoreToken });
@@ -59,6 +60,7 @@ const userController = {
   getUser: async (ctx) => {
     const { params } = ctx;
     const { id } = params;
+    logger.info('getUser: ', { params });
     try {
       const user = await userService.getUser(id);
       const output = apiResponseObject(true, '', user);
@@ -72,6 +74,7 @@ const userController = {
 
   postNewAppUser: async (ctx) => {
     const { body } = ctx.request;
+    logger.info('postNewAppUser: ', { body });
     // TODO: What about validation? Use sequelize? Write new function for it?
     const {
       firstName, lastName, middleName, email, tel, password, img, pasImg1, pasImg2,
@@ -105,6 +108,7 @@ const userController = {
   },
 
   getNewAppUsers: async (ctx) => {
+    logger.info('getNewAppUsers: ');
     try {
       const data = await userService.getNewAppUsers();
       const output = apiResponseObject(true, '', data);
@@ -119,6 +123,7 @@ const userController = {
   deleteUser: async (ctx) => {
     const { params } = ctx;
     const { id } = params;
+    logger.info('deleteUser: ', { params });
     try {
       const result = await userService.deleteUser(id);
       const output = apiResponseObject(result, '', '');
@@ -134,7 +139,7 @@ const userController = {
     const { body } = ctx.request;
     const { params } = ctx;
     const { id } = params;
-    logger.info('patchUser: ', { id, body });
+    logger.info('patchUser: ', { params });
     const { firstName, lastName, middleName } = body;
     try {
       const user = await userService.patchUser(id, firstName, lastName, middleName);

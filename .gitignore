@@ -8,3 +8,4 @@ config
 uploads
 mock_front/track.html
 config/config.json
+log
