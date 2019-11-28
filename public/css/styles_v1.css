@@ -7,7 +7,8 @@
   justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
-  align-items: center; }
+  align-items: center;
+  overflow: hidden; }
   .container-main-failure .failure-main {
     display: -webkit-box;
     display: -webkit-flex;
@@ -66,7 +67,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-main-failure {
@@ -80,6 +81,39 @@
         text-align: center; }
         .container-main-failure .failure-main .failure-text p {
           font-size: 16px; } }
+
+.container-footer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%; }
+  .container-footer .footer {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0; }
+    .container-footer .footer .next {
+      width: 100%; }
+      .container-footer .footer .next a {
+        background-color: #494949;
+        width: 100%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        font-family: "FuturicaLt", san-serif;
+        font-size: 20px;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 0; }
 
 .header-account {
   display: -webkit-box;
@@ -111,7 +145,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .header-account {
@@ -132,7 +166,8 @@
 
 .container-buy {
   background-color: #000;
-  height: 100vw;
+  height: -webkit-calc(100vh - 20px);
+  height: calc(100vh - 20px);
   width: 100%;
   margin: 0;
   padding: 0; }
@@ -166,7 +201,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-buy {
@@ -227,7 +262,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container {
@@ -254,11 +289,13 @@
 
 .container {
   background-color: #000;
-  height: 100vw;
+  height: -webkit-calc(100vh - 20px);
+  height: calc(100vh - 20px);
   width: 100%;
   margin: 0;
   padding-left: 60px;
-  padding-right: 60px; }
+  padding-right: 60px;
+  overflow-y: hidden; }
 
 .header-help {
   display: -webkit-box;
@@ -289,7 +326,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container {
@@ -311,7 +348,8 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000; }
+  background-color: #000;
+  overflow: hidden; }
   .container-main-account .account-main {
     display: -webkit-box;
     display: -webkit-flex;
@@ -401,7 +439,7 @@
           -webkit-border-radius: 50%;
           border-radius: 50%;
           padding: 15px;
-          background-image: url("../assets/edit.png");
+          background-image: url("../img/edit.png");
           background-repeat: no-repeat;
           background-size: 15px;
           background-position: center; }
@@ -411,7 +449,7 @@
           -webkit-border-radius: 50%;
           border-radius: 50%;
           padding: 15px;
-          background-image: url("../assets/plus.png");
+          background-image: url("../img/plus.png");
           background-repeat: no-repeat;
           background-size: 15px;
           background-position: center; }
@@ -421,7 +459,7 @@
           -webkit-border-radius: 50%;
           border-radius: 50%;
           padding: 15px;
-          background-image: url("../assets/exit.png");
+          background-image: url("../img/exit.png");
           background-repeat: no-repeat;
           background-size: 15px;
           background-position: center; }
@@ -497,7 +535,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-agreement {
@@ -568,53 +606,128 @@
       .container-main .main-buy .icon-div img {
         text-align: center;
         width: 100px; }
-    .container-main .main-buy .text-div p {
-      font-family: "FuturicaLt", san-serif;
-      color: #fff;
-      font-size: 20px;
-      text-align: center; }
-    .container-main .main-buy .text-div .button-div {
+    .container-main .main-buy .text-div {
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
-      -webkit-box-pack: justify;
-      -webkit-justify-content: space-between;
-      justify-content: space-between;
-      width: 115%;
-      padding-top: 30px; }
-      .container-main .main-buy .text-div .button-div form button {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      width: 60%; }
+      .container-main .main-buy .text-div p {
+        font-family: "FuturicaLt", san-serif;
+        color: #fff;
+        font-size: 20px;
+        text-align: center; }
+      .container-main .main-buy .text-div .button-div {
         display: -webkit-box;
         display: -webkit-flex;
         display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        flex-direction: column;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        width: 115%;
+        padding-top: 30px; }
+        .container-main .main-buy .text-div .button-div form button {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -webkit-flex-direction: column;
+          flex-direction: column;
+          -webkit-box-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          background-color: #000;
+          border: 1px solid #fff;
+          -webkit-border-radius: 8px;
+          border-radius: 8px;
+          padding: 5px 20px; }
+          .container-main .main-buy .text-div .button-div form button p {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            font-family: "FuturicaLt", san-serif;
+            color: #fff;
+            font-size: 16px;
+            font-weight: normal; }
+          .container-main .main-buy .text-div .button-div form button p:last-child {
+            font-size: 10px;
+            font-weight: lighter; }
+        .container-main .main-buy .text-div .button-div form button:last-child {
+          -webkit-flex-basis: 50%;
+          flex-basis: 50%; }
+
+@media (min-width: 480px) and (max-width: 1390px) {
+  .container-main .main-buy {
+    width: 80%; }
+    .container-main .main-buy a {
+      padding: 4px 10px 4px 10px;
+      top: 3px;
+      right: 3px; }
+    .container-main .main-buy .icon-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      padding-top: 30px;
+      padding-bottom: 30px; }
+      .container-main .main-buy .icon-div img {
+        width: 60px; }
+    .container-main .main-buy .text-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      padding-bottom: 0;
+      padding-top: 20px; }
+      .container-main .main-buy .text-div p {
+        font-size: 16px; }
+      .container-main .main-buy .text-div .button-div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        padding-top: 10px;
+        width: 120%;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         justify-content: center;
         -webkit-box-align: center;
         -webkit-align-items: center;
         align-items: center;
-        background-color: #000;
-        border: 1px solid #fff;
-        -webkit-border-radius: 8px;
-        border-radius: 8px;
-        padding: 5px 20px; }
-        .container-main .main-buy .text-div .button-div form button p {
-          display: -webkit-box;
-          display: -webkit-flex;
-          display: flex;
-          font-family: "FuturicaLt", san-serif;
-          color: #fff;
-          font-size: 16px;
-          font-weight: normal; }
-        .container-main .main-buy .text-div .button-div form button p:last-child {
-          font-size: 10px;
-          font-weight: lighter; }
-      .container-main .main-buy .text-div .button-div form button:last-child {
-        -webkit-flex-basis: 50%;
-        flex-basis: 50%; }
+        -webkit-flex-shrink: 1;
+        flex-shrink: 1;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap; }
+        .container-main .main-buy .text-div .button-div form {
+          display: -webkit-box !important;
+          display: -webkit-flex !important;
+          display: flex !important;
+          -webkit-box-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          padding-bottom: 10px; }
+        .container-main .main-buy .text-div .button-div button {
+          padding: 5px 10px !important;
+          width: 200px !important;
+          height: 80% !important; }
+        .container-main .main-buy .text-div .button-div p {
+          font-weight: lighter !important;
+          font-size: 16px !important; }
+        .container-main .main-buy .text-div .button-div p:last-child {
+          font-size: 13px !important; } }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-main .main-buy {
@@ -624,25 +737,61 @@
       top: 3px;
       right: 3px; }
     .container-main .main-buy .icon-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
       padding-top: 30px;
       padding-bottom: 30px; }
       .container-main .main-buy .icon-div img {
         width: 60px; }
     .container-main .main-buy .text-div {
-      padding-bottom: 20px; }
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      padding-bottom: 0;
+      padding-top: 20px; }
       .container-main .main-buy .text-div p {
         font-size: 16px; }
       .container-main .main-buy .text-div .button-div {
-        padding-top: 10px; }
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        padding-top: 10px;
+        width: 200%; }
+        .container-main .main-buy .text-div .button-div form {
+          display: -webkit-box !important;
+          display: -webkit-flex !important;
+          display: flex !important;
+          -webkit-box-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          padding-bottom: 10px; }
         .container-main .main-buy .text-div .button-div button {
           padding: 5px 10px !important;
           width: auto !important;
           height: auto !important; }
         .container-main .main-buy .text-div .button-div p {
           font-weight: lighter !important;
-          font-size: 10px !important; }
+          font-size: 16px !important; }
         .container-main .main-buy .text-div .button-div p:last-child {
-          font-size: 8px !important; } }
+          font-size: 12px !important; } }
 
 .container-main-call {
   display: -webkit-box;
@@ -651,7 +800,8 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000; }
+  background-color: #000;
+  overflow: hidden; }
 
 .answer-section {
   display: -webkit-box;
@@ -777,7 +927,8 @@
   justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
-  align-items: center; }
+  align-items: center;
+  overflow: hidden; }
 
 .main-help {
   display: -webkit-box;
@@ -860,7 +1011,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .header-redaction {
@@ -880,7 +1031,8 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000; }
+  background-color: #000;
+  overflow: hidden; }
   .container-main-redaction .redaction-main {
     display: -webkit-box;
     display: -webkit-flex;
@@ -975,7 +1127,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .header-setting {
@@ -1001,7 +1153,8 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000; }
+  background-color: #000;
+  overflow: hidden; }
   .container-main-setting .setting-main {
     display: -webkit-box;
     display: -webkit-flex;
@@ -1111,7 +1264,8 @@
   justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
-  align-items: center; }
+  align-items: center;
+  overflow: hidden; }
   .container-main-success .success-main {
     display: -webkit-box;
     display: -webkit-flex;
@@ -1169,7 +1323,7 @@
 
 @font-face {
   font-family: FuturicaLt;
-  src: url(../font/calibril.ttf); }
+  src: url(../font/a_FuturicaLt-Thin_2302.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-main-success {

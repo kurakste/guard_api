@@ -1,29 +1,14 @@
-.header-account {
+.container-main-failure {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding-top: 50px;
-  padding-bottom: 30px; }
-  .header-account a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 35%;
-    flex-basis: 35%;
-    text-decoration: none !important;
-    outline: none; }
-    .header-account a p {
-      font-family: "Calibri", san-serif;
-      font-size: 20px;
-      color: #fff;
-      padding-left: 5px;
-      margin: 0; }
-  .header-account img {
-    height: 10px; }
-  .header-account .help {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
+  .container-main-failure .failure-main {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -33,28 +18,105 @@
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%; }
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    padding-top: 50px;
+    width: 60%; }
+    .container-main-failure .failure-main .failure-image {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      padding-bottom: 30px; }
+      .container-main-failure .failure-main .failure-image img {
+        max-height: 300px; }
+    .container-main-failure .failure-main .failure-text {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      text-align: center; }
+      .container-main-failure .failure-main .failure-text p {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        font-family: "FuturicaLt", san-serif;
+        font-size: 25px;
+        color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .container-main-failure {
+    padding-left: 5px;
+    padding-right: 5px; }
+    .container-main-failure .failure-main {
+      width: 100%; }
+      .container-main-failure .failure-main .failure-image img {
+        max-height: 100px; }
+      .container-main-failure .failure-main .failure-text {
+        text-align: center; }
+        .container-main-failure .failure-main .failure-text p {
+          font-size: 16px; } }
+
+.header-account {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
+  .header-account .help {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center; }
     .header-account .help h1 {
       font-weight: normal;
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 38px;
       color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .header-account {
     padding-top: 5px; }
-    .header-account a {
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-basis: 20%;
-      flex-basis: 20%; }
-      .header-account a p {
-        font-size: 13px; }
     .header-account .help {
-      -webkit-flex-basis: 60%;
-      flex-basis: 60%;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center; }
@@ -79,27 +141,13 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding-top: 50px; }
-  .header-buy a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%;
-    text-decoration: none !important;
-    outline: none;
-    padding-left: 15px; }
-    .header-buy a p {
-      font-family: "Calibri", san-serif;
-      font-size: 20px;
-      color: #fff;
-      padding-left: 5px;
-      margin: 0; }
-  .header-buy img {
-    height: 10px; }
+  padding-top: 50px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
   .header-buy .help {
     display: -webkit-box;
     display: -webkit-flex;
@@ -109,14 +157,16 @@
     justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%; }
+    align-items: center; }
     .header-buy .help h1 {
       font-weight: normal;
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 38px;
       color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-buy {
@@ -126,18 +176,7 @@
   .header-buy {
     padding-top: 5px;
     padding-bottom: 10px; }
-    .header-buy a {
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-basis: 10%;
-      flex-basis: 10%;
-      padding-left: 5px; }
-      .header-buy a p {
-        font-size: 13px; }
     .header-buy .help {
-      -webkit-flex-basis: 65%;
-      flex-basis: 65%;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center; }
@@ -163,26 +202,13 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding-top: 50px; }
-  .header-call a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%;
-    text-decoration: none !important;
-    outline: none; }
-    .header-call a p {
-      font-family: "Calibri", san-serif;
-      font-size: 20px;
-      color: #fff;
-      padding-left: 5px;
-      margin: 0; }
-  .header-call img {
-    height: 10px; }
+  padding-top: 50px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
   .header-call .help {
     display: -webkit-box;
     display: -webkit-flex;
@@ -192,14 +218,16 @@
     justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%; }
+    align-items: center; }
     .header-call .help h1 {
       font-weight: normal;
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 38px;
       color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container {
@@ -208,14 +236,6 @@
     background-color: #000; }
   .header-call {
     padding-top: 5px; }
-    .header-call a {
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-basis: 20%;
-      flex-basis: 20%; }
-      .header-call a p {
-        font-size: 13px; }
     .header-call .help {
       -webkit-flex-basis: 70%;
       flex-basis: 70%;
@@ -244,26 +264,13 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding-top: 50px; }
-  .header-help a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 40%;
-    flex-basis: 40%;
-    text-decoration: none !important;
-    outline: none; }
-    .header-help a p {
-      font-family: "Calibri", san-serif;
-      font-size: 20px;
-      color: #fff;
-      padding-left: 5px;
-      margin: 0; }
-  .header-help img {
-    height: 10px; }
+  padding-top: 50px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
   .header-help .help {
     display: -webkit-box;
     display: -webkit-flex;
@@ -273,31 +280,23 @@
     justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 20%;
-    flex-basis: 20%; }
+    align-items: center; }
     .header-help .help h1 {
       font-weight: normal;
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 38px;
       color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container {
     height: 100vh;
     padding: 0 5px 0 5px;
     background-color: #000; }
-  .header-help a {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-flex-basis: 20%;
-    flex-basis: 20%; }
-    .header-help a p {
-      font-size: 13px; }
   .header-help .help {
-    -webkit-flex-basis: 60%;
-    flex-basis: 60%;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
     justify-content: center; }
@@ -364,7 +363,7 @@
         -webkit-box-align: center;
         -webkit-align-items: center;
         align-items: center;
-        font-family: "Calibri", san-serif;
+        font-family: "FuturicaLt", san-serif;
         font-size: 16px;
         color: #fff;
         margin: 0; }
@@ -436,7 +435,7 @@
           -webkit-flex-basis: 80%;
           flex-basis: 80%;
           padding-left: 15px;
-          font-family: "Calibri", san-serif;
+          font-family: "FuturicaLt", san-serif;
           font-size: 20px;
           color: #fff;
           margin: 0;
@@ -470,38 +469,42 @@
   flex-direction: column;
   background-color: #000; }
   .agreement-main h1 {
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-size: 28px;
     font-weight: bold;
     color: #fff;
     text-align: center; }
   .agreement-main h2 {
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-size: 25px;
     font-weight: bold;
     color: #fff; }
   .agreement-main h3 {
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-size: 23px;
     font-weight: bold;
     color: #fff; }
   .agreement-main h4 {
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-size: 20px;
     font-weight: bold;
     color: #fff; }
   .agreement-main p {
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-size: 18px;
     font-weight: normal;
     color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .container-agreement {
     padding-left: 10px;
     padding-right: 10px; }
     .container-agreement h1 {
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 25px;
       font-weight: normal;
       text-align: left; }
@@ -512,7 +515,7 @@
       font-size: 16px;
       font-weight: bold; }
     .container-agreement h4 {
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 16px;
       font-weight: bold; }
     .container-agreement p {
@@ -553,7 +556,7 @@
       padding: 5px 10px 5px 10px;
       background-color: #ffffff;
       text-decoration: none;
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       color: #000000;
       font-size: 14px; }
     .container-main .main-buy a:active, .container-main .main-buy :link {
@@ -566,7 +569,7 @@
         text-align: center;
         width: 100px; }
     .container-main .main-buy .text-div p {
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       color: #fff;
       font-size: 20px;
       text-align: center; }
@@ -577,7 +580,7 @@
       -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
       justify-content: space-between;
-      width: 100%;
+      width: 115%;
       padding-top: 30px; }
       .container-main .main-buy .text-div .button-div form button {
         display: -webkit-box;
@@ -597,10 +600,12 @@
         border: 1px solid #fff;
         -webkit-border-radius: 8px;
         border-radius: 8px;
-        width: 70px;
-        height: 40px; }
+        padding: 5px 20px; }
         .container-main .main-buy .text-div .button-div form button p {
-          font-family: "Calibri", san-serif;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          font-family: "FuturicaLt", san-serif;
           color: #fff;
           font-size: 16px;
           font-weight: normal; }
@@ -683,7 +688,7 @@
     text-align: left;
     outline: none;
     font-size: 16px;
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
@@ -724,7 +729,7 @@
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
   .panel p {
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-style: normal;
     font-weight: normal;
     font-size: -webkit-calc(14px + (16 - 14) * ((100vw - 320px) / (1600 - 320)));
@@ -793,7 +798,7 @@
     align-items: center;
     border-top: 1px solid #ffffff;
     padding: 9px 0 9px 0;
-    font-family: "Calibri", san-serif;
+    font-family: "FuturicaLt", san-serif;
     font-size: 25px;
     color: #fff;
     margin: 0; }
@@ -802,6 +807,7 @@
     border-bottom: none;
     border-left: none;
     border-right: none;
+    font-family: "FuturicaLt", san-serif;
     background-color: #000;
     padding: 9px 0 9px 0;
     outline: none;
@@ -824,6 +830,116 @@
     .main-help p {
       font-size: 16px; } }
 
+.header-redaction {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
+  .header-redaction .help {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center; }
+    .header-redaction .help h1 {
+      font-weight: normal;
+      font-family: "FuturicaLt", san-serif;
+      font-size: 38px;
+      color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .header-redaction {
+    padding-top: 5px; }
+    .header-redaction .help {
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center; }
+      .header-redaction .help h1 {
+        font-weight: normal;
+        font-size: 25px; } }
+
+.container-main-redaction {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  background-color: #000; }
+  .container-main-redaction .redaction-main {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 50%; }
+    .container-main-redaction .redaction-main .prof-pic-redaction {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center; }
+      .container-main-redaction .redaction-main .prof-pic-redaction .profile-image-redaction img {
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px; }
+    .container-main-redaction .redaction-main .prof-settings-redaction {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      padding-top: 20px; }
+      .container-main-redaction .redaction-main .prof-settings-redaction .first-redaction {
+        padding-bottom: 20px; }
+      .container-main-redaction .redaction-main .prof-settings-redaction .second-redaction {
+        padding-bottom: 20px; }
+      .container-main-redaction .redaction-main .prof-settings-redaction input {
+        background-color: #494949;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        padding: 5px 45px;
+        outline: none;
+        border: none;
+        color: #fff;
+        font-family: "FuturicaLt", san-serif; }
+
 * {
   padding: 0;
   margin: 0;
@@ -834,27 +950,13 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding-top: 50px; }
-  .header-setting a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%;
-    text-decoration: none !important;
-    outline: none;
-    padding-left: 15px; }
-    .header-setting a p {
-      font-family: "Calibri", san-serif;
-      font-size: 20px;
-      color: #fff;
-      padding-left: 5px;
-      margin: 0; }
-  .header-setting img {
-    height: 10px; }
+  padding-top: 50px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
   .header-setting .help {
     display: -webkit-box;
     display: -webkit-flex;
@@ -864,31 +966,22 @@
     justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-basis: 30%;
-    flex-basis: 30%; }
+    align-items: center; }
     .header-setting .help h1 {
       font-weight: normal;
-      font-family: "Calibri", san-serif;
+      font-family: "FuturicaLt", san-serif;
       font-size: 38px;
       color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .header-setting {
     padding-top: 5px;
     padding-bottom: 10px; }
-    .header-setting a {
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-basis: 10%;
-      flex-basis: 10%;
-      padding-left: 5px; }
-      .header-setting a p {
-        font-size: 13px; }
     .header-setting .help {
-      -webkit-flex-basis: 65%;
-      flex-basis: 65%;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center; }
@@ -945,7 +1038,7 @@
         -webkit-align-items: center;
         align-items: center;
         padding: 9px 0 9px 0;
-        font-family: "Calibri", san-serif;
+        font-family: "FuturicaLt", san-serif;
         font-size: 16px;
         color: #fff;
         margin: 0; }
@@ -1008,3 +1101,84 @@
     padding-right: 10px; }
   .setting-main {
     width: 100% !important; } }
+
+.container-main-success {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center; }
+  .container-main-success .success-main {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    padding-top: 50px;
+    width: 50%; }
+    .container-main-success .success-main .success-image {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      padding-bottom: 30px; }
+      .container-main-success .success-main .success-image img {
+        max-height: 300px; }
+    .container-main-success .success-main .success-text {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center; }
+      .container-main-success .success-main .success-text p {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        font-family: "FuturicaLt", san-serif;
+        font-size: 25px;
+        color: #fff; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .container-main-success {
+    padding-left: 5px;
+    padding-right: 5px; }
+    .container-main-success .success-main {
+      width: 100%; }
+      .container-main-success .success-main .success-image img {
+        max-height: 100px; }
+      .container-main-success .success-main .success-text {
+        text-align: center;
+        font-size: 12px; } }
