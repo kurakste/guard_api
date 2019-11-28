@@ -12,7 +12,7 @@ const appSocketEventEmitter = require('../appSocketEventEmitter');
 const socketController = {
 
   addNewPosition: async (cpIo, socket, user, data) => {
-    logger.info('addNewPosition', { user: user.id });
+    // logger.info('addNewPosition', { user: user.id });
     const { payload } = data;
     const [lat, lon] = payload;
 
@@ -120,6 +120,7 @@ module.exports = socketController;
 // ====================== helpers =================================================
 
 async function getRegionIdAndAddress(lon, lat, socket) {
+  logger.info('getRegionIdAndAddress', { lon, lat, socket });
   const key = process.env.GGKEY;
   try {
     const geoData = await decoder(lon, lat, key);
@@ -169,6 +170,7 @@ async function hasThisUserOpenAlarm(userId) {
  * @param {number[lat, lng]} point
  */
 async function addPointToOpenedAlarm(userId, point) {
+  logger.info('addPointToOpenedAlarm', { userId, point });
   const alarm = await getOpenAlarmObject(userId);
   if (!alarm) return null;
   const tmp = [...alarm.track];
