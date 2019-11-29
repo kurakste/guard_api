@@ -1,3 +1,6 @@
+body {
+  background: #111
+}
 .container-main-failure {
   display: -webkit-box;
   display: -webkit-flex;
@@ -165,7 +168,7 @@
   box-sizing: border-box; }
 
 .container-buy {
-  background-color: #000;
+  background-color: #111;
   height: -webkit-calc(100vh - 20px);
   height: calc(100vh - 20px);
   width: 100%;
@@ -207,7 +210,7 @@
   .container-buy {
     height: 100vh;
     padding: 0 10px 0 10px;
-    background-color: #000; }
+    background-color: #111; }
   .header-buy {
     padding-top: 5px;
     padding-bottom: 10px; }
@@ -226,7 +229,7 @@
   box-sizing: border-box; }
 
 .container {
-  background-color: #000;
+  background-color: #111;
   height: 100vw;
   width: 100%;
   margin: 0;
@@ -268,7 +271,7 @@
   .container {
     height: 100vh;
     padding: 0 10px 0 10px;
-    background-color: #000; }
+    background-color: #111; }
   .header-call {
     padding-top: 5px; }
     .header-call .help {
@@ -288,7 +291,7 @@
   box-sizing: border-box; }
 
 .container {
-  background-color: #000;
+  background-color: #111;
   height: -webkit-calc(100vh - 20px);
   height: calc(100vh - 20px);
   width: 100%;
@@ -332,7 +335,7 @@
   .container {
     height: 100vh;
     padding: 0 5px 0 5px;
-    background-color: #000; }
+    background-color: #111; }
   .header-help .help {
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -348,7 +351,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000;
+  background-color: #111;
   overflow: hidden; }
   .container-main-account .account-main {
     display: -webkit-box;
@@ -490,7 +493,7 @@
         font-size: 16px !important; } }
 
 .container-agreement {
-  background-color: #000;
+  background-color: #111;
   padding-left: 60px;
   padding-right: 60px; }
 
@@ -505,7 +508,7 @@
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
   flex-direction: column;
-  background-color: #000; }
+  background-color: #111; }
   .agreement-main h1 {
     font-family: "FuturicaLt", san-serif;
     font-size: 28px;
@@ -567,7 +570,7 @@
   -webkit-box-pack: start !important;
   -webkit-justify-content: flex-start !important;
   justify-content: flex-start !important;
-  background-color: #000; }
+  background-color: #111; }
   .container-main .main-buy {
     position: relative;
     display: -webkit-box;
@@ -643,7 +646,7 @@
           -webkit-box-align: center;
           -webkit-align-items: center;
           align-items: center;
-          background-color: #000;
+          background-color: #111;
           border: 1px solid #fff;
           -webkit-border-radius: 8px;
           border-radius: 8px;
@@ -800,7 +803,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000;
+  background-color: #111;
   overflow: hidden; }
 
 .answer-section {
@@ -818,7 +821,7 @@
   -webkit-flex-direction: column;
   flex-direction: column;
   width: 50%;
-  background-color: #000; }
+  background-color: #111; }
   .answer-section .accordion {
     display: -webkit-box;
     display: -webkit-flex;
@@ -842,7 +845,7 @@
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
-    background-color: #000; }
+    background-color: #111; }
   .answer-section .active-answer, .answer-section .accordion:hover, .answer-section :focus, .answer-section :active {
     outline: none !important; }
   .answer-section .active-answer {
@@ -868,7 +871,7 @@
 .panel {
   display: none;
   width: 100%;
-  background-color: #000;
+  background-color: #111;
   overflow: hidden;
   padding-left: 10px;
   border-bottom: 1px solid #ffffff;
@@ -959,7 +962,7 @@
     border-left: none;
     border-right: none;
     font-family: "FuturicaLt", san-serif;
-    background-color: #000;
+    background-color: #111;
     padding: 9px 0 9px 0;
     outline: none;
     color: #fff; }
@@ -976,7 +979,7 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .main-help {
-    background-color: #000;
+    background-color: #111;
     padding-top: 10px; }
     .main-help p {
       font-size: 16px; } }
@@ -1031,7 +1034,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000;
+  background-color: #111;
   overflow: hidden; }
   .container-main-redaction .redaction-main {
     display: -webkit-box;
@@ -1153,7 +1156,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  background-color: #000;
+  background-color: #111;
   overflow: hidden; }
   .container-main-setting .setting-main {
     display: -webkit-box;
