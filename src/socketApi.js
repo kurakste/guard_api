@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const cors = require('koa-cors');
+const cors = require('@koa/cors');
 const http = require('http');
 const IO = require('socket.io');
 const urlParser = require('url-parameter-parser');
