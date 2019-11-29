@@ -120,7 +120,7 @@ module.exports = socketController;
 // ====================== helpers =================================================
 
 async function getRegionIdAndAddress(lon, lat, socket) {
-  logger.info('getRegionIdAndAddress', { lon, lat, socket });
+  logger.info('getRegionIdAndAddress', { lon, lat  });
   const key = process.env.GGKEY;
   try {
     const geoData = await decoder(lon, lat, key);
