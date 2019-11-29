@@ -14,7 +14,7 @@ const cpSocketEventEmitter = {
   srvLoginOk: async (socket, result, user, token) => {
     logger.info(
       'srvNewUserWasCreated was emitted', {
-        socket, result, user, token,
+        result, user, token,
       },
     );
     socket.emit('srvLoginOk', {
