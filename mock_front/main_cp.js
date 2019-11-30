@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnAppUserDecline = document.getElementById('btnAppUserDecline');
   const btnCpUserApprove = document.getElementById('btnCpUserApprove');
   const btnCpUserDecline = document.getElementById('btnCpUserDecline');
+  const btnGiveMeUserList = document.getElementById('btnGiveMeUserList');
 
   const uid = getParams.uid;
   const token = localStorage.token;
@@ -81,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         socket.emit('cpPickedUpAlarm', getSocketObject(dd));
       }
+
+      btnGiveMeUserList.onclick = () => {
+        socket.emit('cpGiveMeUserList');
+      };
 
       btnAlarmGbrSent.onclick = () => {
         const dd = {

@@ -89,6 +89,8 @@ cpIOBus.on('connection', async (socket) => {
     .bind(cpSocketController, socket, cpIOBus);
   const cpCpUserDecline = cpSocketController.cpCpUserDecline
     .bind(cpSocketController, socket, cpIOBus);
+  const cpGiveMeUserList = cpSocketController.cpGiveMeUserList
+    .bind(cpSocketController, socket);
 
   socket.on('cpRegisterNewCpUser', cpRegisterNewCpUser);
   socket.on('cpSignIn', cpSignIn);
@@ -111,6 +113,7 @@ cpIOBus.on('connection', async (socket) => {
       socket.on('cpAppUserDecline', cpAppUserDecline);
       socket.on('cpCpUserApprove', cpCpUserApprove);
       socket.on('cpCpUserDecline', cpCpUserDecline);
+      socket.on('cpGiveMeUserList', cpGiveMeUserList);
       socket.on('disconnect', () => {
         openCpIoSockets.splice(openCpIoSockets.indexOf(conObject), 1);
         cpEventEmitter.srvNewUserDisconnected(cpIOBus, id);

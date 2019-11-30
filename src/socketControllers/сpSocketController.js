@@ -204,6 +204,7 @@ const cpSocketController = {
       cpSocketEmitter.srvErrMessage(socket, 40, err.message);
     }
   },
+
   cpAlarmDecline: async (cpIo, socket, data) => {
     logger.info('cpAlarmDecline', data);
     try {
@@ -223,6 +224,12 @@ const cpSocketController = {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 50, err.message);
     }
+  },
+
+  cpGiveMeUserList: async (socket) => {
+    logger.info('cpGiveMeUserList');
+    cpSocketEmitter.srvSendAllCpUserListForOneCpUser(socket);
+    cpSocketEmitter.srvSendAllAppUserListForOneCpUser(socket);
   },
 };
 
