@@ -50,7 +50,7 @@ const controller = {
     logger.info('getPaymentForm', { id });
     try {
       if (!id) throw new Error('User id (id) required in URL');
-      const pt = `${__dirname}/../views/payments/payments.html`;
+      const pt = `${__dirname}/../views/payments.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, { id, apiUrl });
