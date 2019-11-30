@@ -6,6 +6,10 @@ const { Alarm, Track } = models;
 
 const appSocketEventEmitter = {
 
+  // srvHearBeatResponse: (socket) => {
+  //   socket.emit('srvHearBeatResponse', { message: 'ok' });
+  // },
+
   srvErrMessage: (socket, code, message) => {
     socket.emit('srvErrMessage', { message, code });
   },

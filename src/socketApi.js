@@ -39,6 +39,9 @@ appIOBus.on('connection', async (socket) => {
     const appNewAlarm = appSocketController
       .appNewAlarm
       .bind(appSocketController, cpIOBus, socket, user);
+    const appHeartBeat = appSocketController
+      .appHeartBeat
+      .bind(appSocketController, socket, user);
     // const appAddNewPointInAlarmTrack = appSocketController
     //   .appAddNewPointInAlarmTrack
     //   .bind(appSocketController, cpIOBus, socket, user);
@@ -51,6 +54,7 @@ appIOBus.on('connection', async (socket) => {
     socket.on('appNewAlarm', appNewAlarm);
     // socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
     socket.on('appCancelAlarm', appCancelAlarm);
+    socket.on('heartBeat', appHeartBeat);
     socket.on('disconnect', appSocketController.disconnect);
   } else {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
@@ -120,7 +124,7 @@ cpIOBus.on('connection', async (socket) => {
       cpEventEmitter.srvSendAllAppUserListForOneCpUser(socket);
       cpEventEmitter.srvNewUserConnected(cpIOBus, id);
     } catch (error) {
-      logger.error('error: ', error);
+      logger.error('error: ', error.message);
       cpEventEmitter.srvErrMessage(socket, 500, error.message);
     }
   } else {

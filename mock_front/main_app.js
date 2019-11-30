@@ -6,9 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const loginButton = document.getElementById('login');
-  const newTrack = document.getElementById('newTrack');
+  const heartBeatSend = document.getElementById('heartBeatSend');
   const trackAddPoint = document.getElementById('trackAddPoint');
-  const stopTrack = document.getElementById('stopTrack');
   const newAlarm = document.getElementById('newAlarm');
   const appAddNewPointInAlarmTrack = document.getElementById('appAddNewPointInAlarmTrack');
   const appCancelAlarm = document.getElementById('appCancelAlarm');
@@ -93,27 +92,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       },
 
-        stopTrack.onclick = () => {
-          console.log('appStopTrack');
-          socket.emit('appStopTrack', {
+        heartBeatSend.onclick = () => {
+          console.log('heartBeatSend');
+          socket.emit('heartBeat', {
             payload: null
           });
         },
 
-        newTrack.onclick = () => {
-          console.log('appNewTrack');
-          socket.emit('appNewTrack', {
-            payload: [23.2345, 34.34235]
+
+        newAlarm.onclick = () => {
+          console.log('appNewAlarm');
+          socket.emit('appNewAlarm', {
+            token: 'string',
+            payload: [55.762325, 52.417567]
           });
         }
-
-      newAlarm.onclick = () => {
-        console.log('appNewAlarm');
-        socket.emit('appNewAlarm', {
-          token: 'string',
-          payload: [55.762325, 52.417567]
-        });
-      }
 
       appAddNewPointInAlarmTrack.onclick = () => {
         console.log('appAddNewPointInAlarmTrack');
@@ -121,12 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
           token: 'string',
           payload: [22.3333, 45.22334],
         });
-    }
-      
-    appCancelAlarm.onclick = () => {
+      }
+
+      appCancelAlarm.onclick = () => {
         console.log('appCancelAlarm');
         socket.emit('appCancelAlarm');
-    }
+      }
 
       socket.on('srvErrMessage', function (data) {
         console.log('srvErrMessage: ', data);
@@ -139,19 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvAcceptNewTrack', function (data) {
         console.log('srvAcceptNewTrack: ', data);
       });
-      
+
       socket.on('srvAcceptTrackAddNewPoint', function (data) {
         console.log('srvAcceptTrackAddNewPoint: ');
       });
-      
+
       socket.on('arvAcceptAppStopTrack', function (data) {
         console.log('srvAcceptAppStopTrack: ');
       });
-      
+
       socket.on('srvAcceptNewAlarm', function (data) {
         console.log('srvAcceptNewAlarm: ', data);
       });
-      
+
       socket.on('srvAcceptAddNewPointInAlarmTrack', function (data) {
         console.log('srvAcceptAddNewPointInAlarmTrack: ');
       });
@@ -159,11 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvAcceptCancelAlarm', function (data) {
         console.log('srvAcceptCancelAlarm: ');
       });
-      
+
       socket.on('srvAcceptAddNewPosition', function (data) {
         console.log('srvAcceptAddNewPosition: ');
       });
-      
+
       socket.on('logger', (data) => {
         console.log('logger: ', data);
       });

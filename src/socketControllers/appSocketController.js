@@ -109,6 +109,11 @@ const socketController = {
     }
   },
 
+  appHeartBeat: (socket, user) => {
+    // appSocketEventEmitter.srvHearBeatResponse(socket);
+    logger.info('appHeartBeat from user', { id: user.id });
+  },
+
   disconnect: (data) => {
     logger.info('disconnected: ', data);
   },
