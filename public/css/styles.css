@@ -289,14 +289,13 @@
   box-sizing: border-box; }
 
 .container {
-  background-color: #000;
+  background-color: #111;
   height: -webkit-calc(100vh - 20px);
   height: calc(100vh - 20px);
   width: 100%;
   margin: 0;
   padding-left: 60px;
-  padding-right: 60px;
-  overflow-y: hidden; }
+  padding-right: 60px; }
 
 .header-help {
   display: -webkit-box;
@@ -323,7 +322,7 @@
       font-weight: normal;
       font-family: "FuturicaLt", san-serif;
       font-size: 38px;
-      color: #fff; }
+      color: #ddd; }
 
 @font-face {
   font-family: FuturicaLt;
@@ -333,7 +332,7 @@
   .container {
     height: 100vh;
     padding: 0 5px 0 5px;
-    background-color: #000; }
+    background-color: #111; }
   .header-help .help {
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -930,68 +929,88 @@ body {
   .answer-section {
     width: 100%; } }
 
-.container-main-help {
+body {
+  background-color: #111; }
+
+.main-help {
+  background-color: #111;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: justify; }
+
+.container-main {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  overflow: hidden; }
-
-.main-help {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
   flex-direction: column;
-  height: 100%;
-  padding-top: 50px; }
-  .main-help p {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    border-top: 1px solid #ffffff;
-    padding: 9px 0 9px 0;
+  background-color: #111; }
+  .container-main h1 {
+    font-family: "FuturicaLt", san-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ddd;
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 15px; }
+  .container-main #main-header {
+    text-align: center; }
+  .container-main h2 {
     font-family: "FuturicaLt", san-serif;
     font-size: 25px;
-    color: #fff;
-    margin: 0; }
-  .main-help input {
-    border-top: 1px solid #ffffff;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
+    font-weight: bold;
+    color: #ddd; }
+  .container-main h3 {
     font-family: "FuturicaLt", san-serif;
-    background-color: #000;
-    padding: 9px 0 9px 0;
-    outline: none;
-    color: #fff; }
-    .main-help input ::-webkit-input-placeholder {
-      color: #fff; }
-    .main-help input ::-moz-placeholder {
-      color: #fff; }
-    .main-help input :-ms-input-placeholder {
-      color: #fff; }
-    .main-help input ::-ms-input-placeholder {
-      color: #fff; }
-    .main-help input ::placeholder {
-      color: #fff; }
+    font-size: 23px;
+    font-weight: bold;
+    color: #ddd; }
+  .container-main h4 {
+    font-family: "FuturicaLt", san-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ddd;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 5px; }
+  .container-main p {
+    margin-bottom: 5px;
+    font-family: "FuturicaLt", san-serif;
+    font-size: 18px;
+    font-weight: normal;
+    color: #ddd; }
+
+@font-face {
+  font-family: FuturicaLt;
+  src: url(../font/calibril.ttf); }
 
 @media (min-width: 320px) and (max-width: 480px) {
-  .main-help {
-    background-color: #000;
-    padding-top: 10px; }
-    .main-help p {
-      font-size: 16px; } }
+  .container-agreement {
+    padding-left: 10px;
+    padding-right: 10px; }
+    .container-agreement h1 {
+      font-family: "FuturicaLt", san-serif;
+      font-size: 25px;
+      font-weight: normal;
+      text-align: left; }
+    .container-agreement h2 {
+      font-size: 18px;
+      font-weight: normal; }
+    .container-agreement h3 {
+      font-size: 16px;
+      font-weight: bold; }
+    .container-agreement h4 {
+      font-family: "FuturicaLt", san-serif;
+      font-size: 16px;
+      font-weight: bold; }
+    .container-agreement p {
+      font-size: 14px;
+      font-weight: lighter; } }
 
 .header-redaction {
   display: -webkit-box;
