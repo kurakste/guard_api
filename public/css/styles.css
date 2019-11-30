@@ -934,8 +934,8 @@ body {
 
 .main-help {
   background-color: #111;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
   text-align: justify; }
 
 .container-main {
