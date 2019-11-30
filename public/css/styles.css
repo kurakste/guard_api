@@ -490,6 +490,9 @@
       .account-main .prof-settings div a {
         font-size: 16px !important; } }
 
+body {
+  background-color: #111; }
+
 .container-agreement {
   background-color: #111;
   padding-left: 60px;
