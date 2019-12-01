@@ -48,7 +48,6 @@ const controller = {
         {
           apiUrl,
           alarms: formatedAlarms,
-          emptyMessage: "empty",
         });
       ctx.response.body = body;
     } catch (err) {
