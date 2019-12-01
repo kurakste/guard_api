@@ -27,7 +27,7 @@ const controller = {
     const { params } = ctx;
     const { id } = params;
     logger.info('getHistoryPage', { id });
-    const alarmsObjects = await Alarm.findAll({ UserId: id });
+    const alarmsObjects = await Alarm.findAll({ where: { UserId: id } });
     const alarmsArray = alarmsObjects.map(el => el.dataValues);
     const alarms = alarmsArray.map(el => {
       const output = { ...el };
@@ -44,7 +44,12 @@ const controller = {
       const pt = `${__dirname}/../views/history.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
-      const body = Mustache.render(template, { apiUrl, alarms: formatedAlarms });
+      const body = Mustache.render(template,
+        {
+          apiUrl,
+          alarms: formatedAlarms,
+          emptyMessage: "empty",
+        });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
