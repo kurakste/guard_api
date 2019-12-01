@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const cpSocketEmitter = require('../cpSocketEventEmitter');
+const cpSocketEmitter = require('../socketEventEmitters/cpEventEmitters');
 const models = require('../../models');
 const logger = require('../helpers/logger');
 

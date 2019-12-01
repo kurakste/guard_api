@@ -6,8 +6,8 @@ const paymentService = require('../services/payment.service');
 const {
   Alarm, Gbr, Track, sequelize,
 } = models;
-const cpSocketEventEmitter = require('../cpSocketEventEmitter');
-const appSocketEventEmitter = require('../appSocketEventEmitter');
+const cpSocketEventEmitter = require('../socketEventEmitters/cpEventEmitters');
+const appSocketEventEmitter = require('../socketEventEmitters/appEventEmitters');
 
 const socketController = {
 
