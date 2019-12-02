@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lastNameInput = document.getElementById('lastName');
   const telInput = document.getElementById('tel');
   const emailInput = document.getElementById('email');
+  const alarmIdInput = document.getElementById('alarmIdInput');
   const passwordInput = document.getElementById('password');
   const registerButton = document.getElementById('register');
   const loginButton = document.getElementById('login');
@@ -63,10 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('cpPing', getSocketObject({ data: 'payload' }));
       }
 
-      const alarmId = 54;
+      const alarmId = alarmIdInput.value;
 
       btnCpPickedUpAlarm.onclick = () => {
-        console.log('cpPickedUpAlarm');
+        const alarmId = alarmIdInput.value;
+        console.log('cpPickedUpAlarm', alarmId);
         const dd = {
           id: alarmId,
           UserId: 2,
@@ -88,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       btnAlarmGbrSent.onclick = () => {
+        const alarmId = alarmIdInput.value;
+        console.log('btnAlarmGbrSent', alarmId);
         const dd = {
           id: alarmId,
           UserId: 2,
@@ -105,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       },
 
         btnClosed.onclick = () => {
+          const alarmId = alarmIdInput.value;
+          console.log('alarmId', alarmId);
           const dd = {
             id: alarmId,
             UserId: 2,
@@ -123,6 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       btnDecline.onclick = () => {
+
+        const alarmId = alarmIdInput.value;
+        console.log('btnDecline', alarmId);
         const dd = {
           id: alarmId,
           UserId: 2,
@@ -157,26 +166,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       btnAppUserApprove.onclick = () => {
-        console.log('btnAppUserApprove',document.getElementById('uid').value);
+        console.log('btnAppUserApprove', document.getElementById('uid').value);
         const user = {
           id: document.getElementById('uid').value,
         };
 
         socket.emit('cpAppUserApprove', {
-          token:null,
+          token: null,
           payload: user,
-        }); 
+        });
       };
-      
+
       btnAppUserDecline.onclick = () => {
         const user = {
           id: document.getElementById('uid').value,
         }
 
         socket.emit('cpAppUserDecline', {
-          token:null,
+          token: null,
           payload: user,
-        }); 
+        });
       };
 
       btnCpUserApprove.onclick = () => {
@@ -185,20 +194,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         socket.emit('cpCpUserApprove', {
-          token:null,
+          token: null,
           payload: user,
-        }); 
+        });
       };
-      
+
       btnCpUserDecline.onclick = () => {
         const user = {
           id: document.getElementById('uid').value,
         }
 
         socket.emit('cpCpUserDecline', {
-          token:null,
+          token: null,
           payload: user,
-        }); 
+        });
       };
 
       loginButton.onclick = () => {
@@ -276,11 +285,11 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvSendAllAppUserList', (data) => {
         console.log('srvSendAllAppUserList: ', data);
       });
-      
+
       socket.on('srvUpdateOneCpUser', (data) => {
         console.log('srvUpdateOneCpUser: ', data);
       });
-      
+
       socket.on('logger', (data) => {
         console.log('logger: ', data);
       });

@@ -79,9 +79,9 @@ cpIOBus.on('connection', async (socket) => {
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent
     .bind(cpSocketController, cpIOBus, socket);
   const cpAlarmClosed = cpSocketController.cpAlarmClosed
-    .bind(cpSocketController, cpIOBus, socket);
+    .bind(cpSocketController, cpIOBus, socket, connectedUsers);
   const cpAlarmDecline = cpSocketController.cpAlarmDecline
-    .bind(cpSocketController, cpIOBus, socket);
+    .bind(cpSocketController, cpIOBus, socket, connectedUsers);
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
     .bind(cpSocketController, cpIOBus, socket);

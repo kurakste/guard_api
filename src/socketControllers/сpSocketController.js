@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cpSocketEmitter = require('../socketEventEmitters/cpEventEmitters');
+const sppSocketEmitter = require('../socketEventEmitters/appEventEmitters');
 const models = require('../../models');
 const logger = require('../helpers/logger');
 
@@ -184,7 +185,7 @@ const cpSocketController = {
       cpSocketEmitter.srvErrMessage(socket, 30, err.message);
     }
   },
-  cpAlarmClosed: async (cpIo, socket, data) => {
+  cpAlarmClosed: async (cpIo, socket, appAllUsersArray, data) => {
     logger.info('cpAlarmClosed', data);
     try {
       const { payload } = data;
@@ -205,7 +206,7 @@ const cpSocketController = {
     }
   },
 
-  cpAlarmDecline: async (cpIo, socket, data) => {
+  cpAlarmDecline: async (cpIo, socket, appAllUsersArray, data) => {
     logger.info('cpAlarmDecline', data);
     try {
       const { payload } = data;
@@ -220,6 +221,8 @@ const cpSocketController = {
       alarmUpdated.status = 30;
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
+      const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Тревога была отклонена оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 50, err.message);
@@ -234,3 +237,9 @@ const cpSocketController = {
 };
 
 module.exports = cpSocketController;
+
+function getSocketByUserId(arrayOfUser, userId) {
+  const item = (arrayOfUser || []).find(el => el.userId === userId);
+  if (item && item.socket) return item.socket;
+  return false;
+}

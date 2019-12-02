@@ -89,7 +89,7 @@ const socketController = {
       if (isPaid) {
         appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята в обработку. Ожидайте.');
       } else {
-        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.'); 
+        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.');
       }
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
