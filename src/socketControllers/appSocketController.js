@@ -86,7 +86,11 @@ const socketController = {
       newAlarmWithGbr.User.password = null;
       appSocketEventEmitter.srvAcceptNewAlarm(socket, newAlarmWithGbr.dataValues);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
-      appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята в обработку. Ожидайте.');
+      if (isPaid) {
+        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята в обработку. Ожидайте.');
+      } else {
+        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.'); 
+      }
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
