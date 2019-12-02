@@ -90,7 +90,7 @@ const userService = {
       .compare(password, passwordFromDb);
     logger.info('login result: ', { loginResult });
     if (!loginResult) throw new IncorrectUsernameOrPasswordError();
-    if (!user.active) throw new NotActiveUserError();
+    // if (!user.active) throw new NotActiveUserError();
     const userForSend = { ...user };
     if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
     const token = jwt.sign(
