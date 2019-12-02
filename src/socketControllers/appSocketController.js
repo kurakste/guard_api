@@ -64,7 +64,11 @@ const socketController = {
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
       const [lat, lon] = payload;
       const [regionId, address] = await getRegionIdAndAddress(lat, lon, socket);
-      const isPaid = await paymentService.payForSecurityCall(user.id);
+      let isPaid = false;
+      if (regionId !== 0) {
+        // if region id is 0 - we have no one GBR in the region and don't have to get money.
+        isPaid = await paymentService.payForSecurityCall(user.id);
+      }
       const alarmData = {
         UserId: user.id,
         status: 0,
@@ -88,8 +92,10 @@ const socketController = {
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
       if (isPaid) {
         appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята в обработку. Ожидайте.');
-      } else {
+      } else if (regionId !== 0) {
         appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.');
+      } else {
+        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, в этом регионе нет наших ГБР. Мы сейчас с вами свяжемся и решим что делать.');
       }
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
