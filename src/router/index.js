@@ -25,6 +25,7 @@ router.post('/payment-notification', paymentController.postPaymentNotification);
 router.get('/agreement', staticController.getAgreementPage);
 router.get('/account/:id', staticController.getAccountPage);
 router.get('/history/:id', staticController.getHistoryPage); // -
+router.get('/my-track/:id', staticController.getMyTrackPage); // -
 router.get('/help/:id', staticController.getHelpPage);
 router.get('/edit-profile-page/:id', staticController.getProfileEditPage);
 router.get('/test', paymentController.getTest);
