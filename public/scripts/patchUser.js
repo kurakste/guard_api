@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', main);
+//const apiUrl = 'http://localhost:3030/user';
+const apiUrl = 'https://api2.kurakste.ru/user';
 
 function main() {
   console.log('loaded ok');
@@ -27,7 +29,7 @@ async function mnameChange() {
 
 async function updateData(val, fieldName) {
   const uid = parseInt(userId.value);
-  const url = `http://localhost:3030/user/${uid}`;
+  const url = `${apiUrl}/${uid}`;
   const data = {};
   data[fieldName] = val;
   const bodyData = JSON.stringify(data);
@@ -35,7 +37,7 @@ async function updateData(val, fieldName) {
   const setting = {
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     method: 'PATCH',
     body: bodyData,
