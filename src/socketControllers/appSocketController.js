@@ -50,10 +50,16 @@ const socketController = {
     }
   },
 
+
   appNewAlarm: async (cpIo, socket, user, data) => {
     try {
       logger.info('appNewAlarm', { data });
       const { payload } = data;
+      const { isSubscribeActive } = user;
+      if (!isSubscribeActive) {
+        appSocketEventEmitter.sendUserMessage(socket, 'Для того, что бы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
+        return null;
+      }
       const isOpen = await hasThisUserOpenAlarm(user.id);
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
       const [lat, lon] = payload;
@@ -80,10 +86,12 @@ const socketController = {
       newAlarmWithGbr.User.password = null;
       appSocketEventEmitter.srvAcceptNewAlarm(socket, newAlarmWithGbr.dataValues);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
+      appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята в обработку. Ожидайте.');
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
       logger.error(err.message);
     }
+    return null;
   },
 
   appCancelAlarm: async (cpIo, socket, user) => {

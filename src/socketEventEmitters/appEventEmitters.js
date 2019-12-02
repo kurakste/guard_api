@@ -28,6 +28,11 @@ const appSocketEventEmitter = {
     socket.emit('srvAcceptCancelAlarm');
   },
 
+  sendUserMessage: (socket, message) => {
+    socket.emit('srvSendAppState', {
+      serviceStatus: message,
+    });
+  },
 
   srvSendAppState: async (socket, user) => {
     const { role, id } = user;
