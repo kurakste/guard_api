@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
+  <title>Kia</title>
+  <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="container-header">
+      <div class="header-call">
+        <div class="help">
+          <h1>История маршрутов</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container-main-call">
+      <div class="answer-section">
+        {{#tracks}}
+        <button class="accordion">{{createdAt}}
+          <br>
+          {{address}} <img class="rotate"
+            src="{{apiUrl}}/assets/dropdown.svg">
+        </button>
+        <div class="panel">
+          <form><button style="margin-bottom: 10px;">Отправить на почту</button></form>
+            
+          <p>{{notes}}</p>
+        </div>
+        {{/tracks}}
+      </div>
+    </div>
+    <script src="{{apiUrl}}/scripts/script.js"></script>
+  </div>
+</body>
+
+</html>

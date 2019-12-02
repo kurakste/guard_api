@@ -4,7 +4,7 @@ const fs = require('fs');
 const logger = require('../helpers/logger');
 const models = require('../../models');
 
-const { Alarm, User } = models;
+const { Alarm, User, Track } = models;
 
 const apiUrl = process.env.API_URL;
 
@@ -55,6 +55,35 @@ const controller = {
     }
     return ctx;
   },
+
+  getMyTrackPage: async (ctx) => {
+    const { params } = ctx;
+    const { id } = params;
+    logger.info('getMyTrackPage', { id });
+    const trackObjects = await Track.findAll({ where: { UserId: id } });
+    const trackArray = trackObjects.map(el => el.dataValues);
+    
+    const formatedTracks = trackArray.map(el => {
+      const out = { ...el };
+      out.createdAt = el.createdAt.toLocaleDateString();
+      return out;
+    });
+    try {
+      const pt = `${__dirname}/../views/tracks.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template,
+        {
+          apiUrl,
+          tracks: formatedTracks,
+        });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+  
   getAccountPage: async (ctx) => {
     const { params } = ctx;
     const { id } = params;
