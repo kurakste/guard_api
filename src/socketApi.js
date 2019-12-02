@@ -22,6 +22,7 @@ const appIOBus = io.of('/app-clients');
 const toSocketTransport = new ToSocketTransport({ appIo: appIOBus });
 logger.add(toSocketTransport);
 
+const connectedUsers = [];
 
 appIOBus.on('connection', async (socket) => {
   const params = urlParser(socket.request.url);
@@ -29,8 +30,10 @@ appIOBus.on('connection', async (socket) => {
   logger.info('New app user connected with params:', { params });
   const authResult = await auth(token, socket);
   const { res, user } = authResult;
+  const userId = user.id;
   if (res) {
-    logger.info('New app login successful', { id: user.id });
+    connectedUsers.push({ userId, socket });
+    logger.info(`App user with ${userId} connected. ${connectedUsers.length} users online.`);
 
     appEventEmitter.srvSendAppState(socket, user);
     const addNewPosition = appSocketController
@@ -42,6 +45,9 @@ appIOBus.on('connection', async (socket) => {
     const appHeartBeat = appSocketController
       .appHeartBeat
       .bind(appSocketController, socket, user);
+    const appDisconnect = appSocketController
+      .disconnect
+      .bind(appSocketController, userId, connectedUsers);
     // const appAddNewPointInAlarmTrack = appSocketController
     //   .appAddNewPointInAlarmTrack
     //   .bind(appSocketController, cpIOBus, socket, user);
@@ -55,7 +61,7 @@ appIOBus.on('connection', async (socket) => {
     // socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
     socket.on('appCancelAlarm', appCancelAlarm);
     socket.on('heartBeat', appHeartBeat);
-    socket.on('disconnect', appSocketController.disconnect);
+    socket.on('disconnect', appDisconnect);
   } else {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
   }

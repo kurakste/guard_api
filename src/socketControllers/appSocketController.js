@@ -114,8 +114,11 @@ const socketController = {
     logger.info('appHeartBeat from user', { id: user.id });
   },
 
-  disconnect: (data) => {
-    logger.info('disconnected: ', data);
+  disconnect: (userId, connectedUsers) => {
+    // const { socket } = connectedUsers.find(el => el.userId === userId);
+    const indx = connectedUsers.findIndex(el => el.userId === userId);
+    connectedUsers.splice(indx, 1);
+    logger.info(`User ${userId} disconnected. I see ${connectedUsers.length} in system`);
   },
 };
 
