@@ -200,6 +200,8 @@ const cpSocketController = {
       alarmUpdated.status = 40;
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
+      const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Тревога была успешно закрыта оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 40, err.message);
