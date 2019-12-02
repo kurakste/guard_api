@@ -37,9 +37,9 @@ const appSocketEventEmitter = {
       if (user.role === 35) {
         message = (user.isSubscribeActive)
           ? 'Приложение готово к работе'
-          : userRoleWithMessage[user.role];
+          : userRoleWithMessage[user.role].message;
       } else {
-        message = userRoleWithMessage[user.role];
+        message = userRoleWithMessage[user.role].message;
       }
       socket.emit('srvSendAppState', {
         user, serviceStatus: message,
