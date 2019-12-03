@@ -14,7 +14,7 @@ const NotificationURL = process.env.NOTIFICATION_URL;
 const terminalKey = process.env.TERMINAL_KEY;
 const initUrl = 'https://securepay.tinkoff.ru/v2/Init';
 const recurrentUrl = 'https://securepay.tinkoff.ru/v2/Charge';
-const failUrl = `${apiUrl}/error.html`;
+const failUrl = `${apiUrl}/error`;
 const terminalPassword = process.env.TERMINAL_PASSWORD;
 
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
