@@ -216,7 +216,6 @@ async function getRebillId(userId) {
 }
 
 async function makeInitPayment(uid, sum, type, subscriptionId) {
-  console.log('=================>', subscriptionId);
   logger.info(`makeInitPayment is fired with userId: ${uid}, sum: ${sum}`);
   const uidAsStr = `${uid}`;
   const orderId = await addBillRecord(uid, sum, type, 'tinkoff', subscriptionId);
@@ -230,9 +229,12 @@ async function makeInitPayment(uid, sum, type, subscriptionId) {
   };
   postParams.Token = getHash(postParams);
   const res = await axios.post(initUrl, postParams);
-  if (!res.data.Success) throw Error('Payment API Error.');
-  if (!res.data.PaymentURL) throw Error('Payment API Error.');
-  console.log('=========================>', res.data);
+  if (!res.data.Success) {
+    const { Message, Details } = res.data;
+    const msg = `Payment API Error. Message: ${Message}. Details: ${Details}`;
+    throw Error(msg);
+  }
+  if (!res.data.PaymentURL) throw Error('Payment API Error. PaymentURL is empty');
   return res.data.PaymentURL;
 }
 
@@ -249,7 +251,6 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
     logger.error(`makeRecurrentPayment: userId: ${uid} has no rebillId`);
     return false;
   }
-  console.log(' --------------- rebill id is: ', rebillId);
   const orderId = await addBillRecord(uid, sum, optype, 'tinkoff', subscriptionId);
 
   const postParams = {
@@ -264,7 +265,6 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
   postParams.Token = hash;
   const res = await axios.post(initUrl, postParams);
 
-  console.log('res  =========================>', res.data);
   if (res.data.Success) {
     if (!res.data.PaymentURL) throw Error('Payment API Error.');
     const { PaymentId } = res.data;
@@ -279,7 +279,6 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
     postRecurrentParam.Token = hash2;
     const res2 = await axios.post(recurrentUrl, postRecurrentParam);
     logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
-    console.log('res 2 =========================>', res2.data);
     if (res2 && res2.data) {
       const { Success } = res2.data;
       // if (Success)

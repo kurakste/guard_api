@@ -34,12 +34,10 @@ const subscriptionService = {
 
   getOneYear: async () => {
     const cost = await subscriptionCost(subscriptionIds.year);
-    console.log('-----------------------------here we are ');
     if (!cost) {
       throw new Error(`Subscription cost 0 
         for subscription id: ${subscriptionIds.year}`);
     }
-    console.log('----------', [cost, subscriptionIds.year]);
     return [cost, subscriptionIds.year];
   },
 
@@ -52,7 +50,6 @@ async function subscriptionCost(subscriptionId) {
     const subscription = await Subscription.findOne({
       where: { fixId: subscriptionId },
     });
-    console.log('--------------', subscription);
     if (!subscription) {
       logger.error('subscriptionCost doesn\'t find subscription data.', { subscriptionId });
       return false;

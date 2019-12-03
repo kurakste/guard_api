@@ -147,7 +147,6 @@ const userController = {
     logger.info('patchUser: ', { id, body });
     const { firstName, lastName, middleName } = body;
     try {
-      console.log('--------------->', typeof body, id, firstName, lastName, middleName);
       const user = await userService.patchUser(id, firstName, lastName, middleName);
       user.password = null;
       const output = apiResponseObject(true, null, user);

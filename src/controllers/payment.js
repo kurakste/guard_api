@@ -37,11 +37,16 @@ const controller = {
   },
 
   payOneYear: async (ctx) => {
-    const { body } = ctx.request;
-    const { id } = body;
-    const [subscriptionCost, subscriptionId] = await subscriptionService.getOneYear;
-    const resUrl = await paymentService.paySubscription(id, subscriptionCost, subscriptionId);
-    return ctx.response.redirect(resUrl);
+    try {
+      const { body } = ctx.request;
+      const { id } = body;
+      const [subscriptionCost, subscriptionId] = await subscriptionService.getOneYear();
+      const resUrl = await paymentService.paySubscription(id, subscriptionCost, subscriptionId);
+      return ctx.response.redirect(resUrl);
+    } catch (err) {
+      logger.error('payOneYear: ', err);
+      return null;
+    }
   },
 
   getPaymentPage: async (ctx) => {

@@ -58,7 +58,6 @@ const cpSocketController = {
   cpAppUserDecline: async (socket, cpIo, data) => {
     const { payload } = data;
     const user = payload;
-    console.log('---------------->', data);
     logger.info('srvDeclineAppUser', user);
     const { id } = user;
     try {

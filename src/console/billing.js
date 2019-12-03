@@ -10,7 +10,6 @@ async function doBilling() {
   const users = await User.findAll({
     where: { role: 35, isSubscribeActive: true },
   });
-  console.log('=+++++++++++++++++++++++++');
 
   const a = users.map(el => updateIsSubscribeActiveStatus(
     el.id,
@@ -38,7 +37,6 @@ async function updateIsSubscribeActiveStatus(userId, subscriptionId, subscriptio
     user.isSubscribeActive = false;
     await user.save();
   }
-  console.log(subscriptionId, subscriptionStartsAt, lifeTime, daysPass, daysLeft);
   // TODO: Add automatic subscription's extension.
 
 }
