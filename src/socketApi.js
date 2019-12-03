@@ -30,7 +30,7 @@ appIOBus.on('connection', async (socket) => {
   logger.info('New app user connected with params:', { params });
   const authResult = await auth(token, socket);
   const { res, user } = authResult;
-  const userId = user.id;
+  const userId = (user) ? user.id : null;
   if (res) {
     connectedUsers.push({ userId, socket });
     logger.info(`App user with ${userId} connected. ${connectedUsers.length} users online.`);
