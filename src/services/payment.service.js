@@ -32,14 +32,14 @@ const paymentService = {
       logger.info(`paySubscription rebillSet: ${rebillSet}`);
       let returnUrl = null;
       if (!rebillSet) {
-        returnUrl = makeInitPayment(uid, sum, 'subscriptionPayment', subscriptionId);
+        returnUrl = await makeInitPayment(uid, sum, 'subscriptionPayment', subscriptionId);
       } else {
         const result = await makeRecurrentPayment(uid, sum, 'subscriptionPayment', subscriptionId);
         returnUrl = result ? `${apiUrl}/success` : `${apiUrl}/error`;
       }
       return returnUrl;
     } catch (error) {
-      logger.error(error.message);
+      logger.error(`paymentService: ${error.message}`);
       return failUrl;
     }
   },
