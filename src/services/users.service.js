@@ -113,7 +113,7 @@ const userService = {
     };
 
     const checkUserInDb = await User.findOne({ where: { email: user.email } });
-    if (checkUserInDb) throw new Error('User with this email already exist.');
+    if (checkUserInDb) throw new Error('Пользователь с такой почтой уже зарегистрирован в системе. Воспользуйтесь восстановлением пароля или обратитесь в службу поддержки.');
 
     const result = await User.create(user);
     const newUser = result.dataValues;
