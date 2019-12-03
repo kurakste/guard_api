@@ -10,7 +10,6 @@ const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middleware/auth');
 const logger = require('./helpers/logger');
 const ToSocketTransport = require('./helpers/loggerToSocket');
-const sendInfoMessageForAppById = require('./services/appUsersMessages.service');
 
 const appSock = new Koa();
 appSock.use(cors());
@@ -63,7 +62,6 @@ appIOBus.on('connection', async (socket) => {
     socket.on('appCancelAlarm', appCancelAlarm);
     socket.on('heartBeat', appHeartBeat);
     socket.on('disconnect', appDisconnect);
-    sendInfoMessageForAppById(userId, 'С возвращением!', 'Рады вас снова видеть');
   } else {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
   }
