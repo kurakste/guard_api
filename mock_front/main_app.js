@@ -156,6 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvAcceptAddNewPosition', function (data) {
         console.log('srvAcceptAddNewPosition: ');
       });
+      
+      socket.on('srvAlertMessage', function (data) {
+        console.log('srvAlertMessage: ', data);
+      });
 
       socket.on('logger', (data) => {
         console.log('logger: ', data);

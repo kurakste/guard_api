@@ -10,6 +10,7 @@ const appSocketController = require('./socketControllers/appSocketController');
 const auth = require('./middleware/auth');
 const logger = require('./helpers/logger');
 const ToSocketTransport = require('./helpers/loggerToSocket');
+const sendInfoMessageForAppById = require('./services/appUsersMessages.service');
 
 const appSock = new Koa();
 appSock.use(cors());
@@ -62,6 +63,7 @@ appIOBus.on('connection', async (socket) => {
     socket.on('appCancelAlarm', appCancelAlarm);
     socket.on('heartBeat', appHeartBeat);
     socket.on('disconnect', appDisconnect);
+    sendInfoMessageForAppById(userId, 'С возвращением!', 'Рады вас снова видеть');
   } else {
     appEventEmitter.srvErrMessage(socket, 302, 'Auth error. Check your token.');
   }
@@ -145,4 +147,4 @@ server.listen(3333, () => {
   logger.info('Application is starting on port 3333');
 });
 
-module.exports = { cpIOBus, appIOBus };
+module.exports = { cpIOBus, appIOBus, connectedUsers };
