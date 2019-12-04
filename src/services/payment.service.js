@@ -278,7 +278,7 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
     const hash2 = getHash(postRecurrentParam);
     postRecurrentParam.Token = hash2;
     const res2 = await axios.post(recurrentUrl, postRecurrentParam);
-    logger.error(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
+    logger.info(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
     if (res2 && res2.data) {
       const { Success } = res2.data;
       // if (Success)
