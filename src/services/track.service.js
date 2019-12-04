@@ -26,7 +26,7 @@ module.exports = {
 const getTrackFromDb = async (userId, date) => {
   logger.indexOf('getTrackFromDb: ', { userId, date });
   const uid = parseInt(userId, 10);
-  const nd = date.replace('/', '.');
+  const nd = date.replace(/\//g, '.');
   const pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
   const dtStart = new Date(nd.replace(pattern, '$3-$2-$1'));
   const dtEnd = new Date(nd.replace(pattern, '$3-$2-$1'));
