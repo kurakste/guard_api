@@ -202,6 +202,17 @@ const controller = {
     return ctx;
   },
 
+  getTrackSentSuccessPage: async (ctx) => {
+    try {
+      const pt = `${__dirname}/../views/trackSentSuccess.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+  },
 };
 
 module.exports = controller;

@@ -36,6 +36,7 @@ router.get('/unsubscribe/:id', paymentController.getUnsubscribePage);
 router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/success-unsubscribe', staticController.getUnsubscribeSuccessPage);
 router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
+router.get('/track-sent-success', staticController.getTrackSentSuccessPage);
 router.post('/send-track/:userId/:date', trackController.sendTrackToUser);
 // -------------
 
