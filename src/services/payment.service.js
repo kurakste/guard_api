@@ -3,6 +3,8 @@ const axios = require('axios');
 const crypto = require('crypto');
 const models = require('../../models');
 const userService = require('../services/users.service');
+const { connectedAppUsers } = require('../socketApi');
+
 
 const logger = require('../helpers/logger');
 
@@ -53,6 +55,7 @@ const paymentService = {
       if (bill.operationType === 'subscriptionPayment') {
         await userService.updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
       }
+      sendMessageForUser(bill.UserId, 'платежи', 'ваш платеж прошел успешно.');
       // await updateBallanceById(bill.UserId);
     }
   },
@@ -100,7 +103,14 @@ const paymentService = {
 };
 
 // ========================= helpers ===========================================
-
+function sendMessageForUser(userId, title, message) {
+  const user = connectedAppUsers.find(el => el.userId === userId);
+  if (!user) logger.error('sendMessageForUser user not found', { userId, title, message });
+  const { socket } = user.socket;
+  socket.emit('srvAlertMessage', {
+    title, message,
+  });
+}
 async function getUserIdByOrderId(orderId) {
   const order = await Bill.findByPk(orderId);
   if (!order) throw new Error(`Order with id: ${orderId} not found.`);

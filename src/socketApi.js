@@ -22,7 +22,7 @@ const appIOBus = io.of('/app-clients');
 const toSocketTransport = new ToSocketTransport({ appIo: appIOBus });
 logger.add(toSocketTransport);
 
-const connectedUsers = [];
+const connectedAppUsers = [];
 
 appIOBus.on('connection', async (socket) => {
   const params = urlParser(socket.request.url);
@@ -32,8 +32,8 @@ appIOBus.on('connection', async (socket) => {
   const { res, user } = authResult;
   const userId = (user) ? user.id : null;
   if (res) {
-    connectedUsers.push({ userId, socket });
-    logger.info(`App user with ${userId} connected. ${connectedUsers.length} users online.`);
+    connectedAppUsers.push({ userId, socket });
+    logger.info(`App user with ${userId} connected. ${connectedAppUsers.length} users online.`);
 
     appEventEmitter.srvSendAppState(socket, user);
     const addNewPosition = appSocketController
@@ -47,7 +47,7 @@ appIOBus.on('connection', async (socket) => {
       .bind(appSocketController, socket, user);
     const appDisconnect = appSocketController
       .disconnect
-      .bind(appSocketController, userId, connectedUsers);
+      .bind(appSocketController, userId, connectedAppUsers);
     // const appAddNewPointInAlarmTrack = appSocketController
     //   .appAddNewPointInAlarmTrack
     //   .bind(appSocketController, cpIOBus, socket, user);
@@ -79,9 +79,9 @@ cpIOBus.on('connection', async (socket) => {
   const cpAlarmGbrSent = cpSocketController.cpAlarmGbrSent
     .bind(cpSocketController, cpIOBus, socket);
   const cpAlarmClosed = cpSocketController.cpAlarmClosed
-    .bind(cpSocketController, cpIOBus, socket, connectedUsers);
+    .bind(cpSocketController, cpIOBus, socket, connectedAppUsers);
   const cpAlarmDecline = cpSocketController.cpAlarmDecline
-    .bind(cpSocketController, cpIOBus, socket, connectedUsers);
+    .bind(cpSocketController, cpIOBus, socket, connectedAppUsers);
   const cpRegisterNewCpUser = cpSocketController
     .cpRegisterNewCpUser
     .bind(cpSocketController, cpIOBus, socket);
@@ -145,4 +145,4 @@ server.listen(3333, () => {
   logger.info('Application is starting on port 3333');
 });
 
-module.exports = { cpIOBus, appIOBus, connectedUsers };
+module.exports = { cpIOBus, appIOBus, connectedUsers: connectedAppUsers };
