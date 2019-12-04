@@ -7,7 +7,7 @@ const { User, sequelize } = models;
 
 module.exports = {
   getTrackByUserIdAndDate: async (userId, date) => {
-    logger.indexOf('getTrackByUserIdAndDate: ', { userId, date });
+    logger.info('getTrackByUserIdAndDate: ', { userId, date });
     const track = await getTrackFromDb(userId, date);
     if (!track) return false;
     const user = await User.findByPk(userId);
@@ -24,7 +24,7 @@ module.exports = {
 };
 
 const getTrackFromDb = async (userId, date) => {
-  logger.indexOf('getTrackFromDb: ', { userId, date });
+  logger.info('getTrackFromDb: ', { userId, date });
   const uid = parseInt(userId, 10);
   const nd = date.replace(/\//g, '.');
   const pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
