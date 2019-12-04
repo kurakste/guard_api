@@ -28,9 +28,9 @@ const appSocketEventEmitter = {
     socket.emit('srvAcceptCancelAlarm');
   },
 
-  sendUserMessage: (socket, message) => {
-    socket.emit('srvSendAppState', {
-      serviceStatus: message,
+  sendUserMessage: (socket, title, message) => {
+    socket.emit('srvAlertMessage', {
+      title, message,
     });
   },
 

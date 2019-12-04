@@ -91,11 +91,11 @@ const socketController = {
       appSocketEventEmitter.srvAcceptNewAlarm(socket, newAlarmWithGbr.dataValues);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
       if (isPaid) {
-        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята в обработку. Ожидайте.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Статус тревоги.', 'Тревога принята в обработку. Ожидайте.');
       } else if (regionId !== 0) {
-        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Статус тревоги.', 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.');
       } else {
-        appSocketEventEmitter.sendUserMessage(socket, 'Тревога принята, в этом регионе нет наших ГБР. Мы сейчас с вами свяжемся и решим что делать.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Статус тревоги.', 'Тревога принята, в этом регионе нет наших ГБР. Мы сейчас с вами свяжемся и решим что делать.');
       }
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
