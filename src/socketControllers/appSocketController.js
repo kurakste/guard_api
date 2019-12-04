@@ -113,7 +113,7 @@ const socketController = {
         openAlarm.closedAt = Date.now();
         openAlarm.status = 45;
         openAlarm.notes = 'Closed by user';
-        openAlarm.save();
+        await openAlarm.save();
         cpSocketEventEmitter.srvUpdateAlarm(cpIo, openAlarm.dataValues);
         appSocketEventEmitter.srvAcceptCancelAlarm(socket);
         appSocketEventEmitter.sendUserMessage(socket, 'информация', 'Вы успешно отменили тревогу.');
