@@ -62,7 +62,6 @@ const controller = {
     logger.info('getMyTrackPage', { id });
     const trackObjects = await Track.findAll({ where: { UserId: id } });
     const trackArray = trackObjects.map(el => el.dataValues);
-    
     const formatedTracks = trackArray.map(el => {
       const out = { ...el };
       out.createdAt = el.createdAt.toLocaleDateString();
@@ -76,6 +75,7 @@ const controller = {
         {
           apiUrl,
           tracks: formatedTracks,
+          userId: id,
         });
       ctx.response.body = body;
     } catch (err) {
@@ -83,7 +83,6 @@ const controller = {
     }
     return ctx;
   },
-  
   getAccountPage: async (ctx) => {
     const { params } = ctx;
     const { id } = params;

@@ -29,7 +29,13 @@
             src="{{apiUrl}}/assets/dropdown.svg">
         </button>
         <div class="panel">
-          <form><button style="margin-bottom: 10px;">Отправить на почту</button></form>
+          <form 
+            method="POST"
+            action={{apiUrl}}/send-track/{{userId}}/{{createdAt}}
+
+           >
+           <button type="submit" style="margin-bottom: 10px;">Отправить на почту</button>
+          </form>
             
           <p>{{notes}}</p>
         </div>

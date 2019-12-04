@@ -5,6 +5,7 @@ const rootController = require('../controllers/root');
 const userController = require('../controllers/users');
 const paymentController = require('../controllers/payment');
 const staticController = require('../controllers/static');
+const trackController = require('../controllers/track');
 
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
@@ -35,6 +36,7 @@ router.get('/unsubscribe/:id', paymentController.getUnsubscribePage);
 router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/success-unsubscribe', staticController.getUnsubscribeSuccessPage);
 router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
+router.post('/send-track/:userId/:date', trackController.sendTrackToUser);
 // -------------
 
 module.exports = router;

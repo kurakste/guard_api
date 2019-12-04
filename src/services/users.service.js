@@ -8,7 +8,7 @@ const EmailNotFound = require('./errors/EmailNotFound');
 const IncorrectUsernameOrPasswordError = require('./errors/IncorrectUsernameOrPasswordError');
 const { User } = require('../../models');
 const getCode = require('../helpers/getCode');
-const sendCodeToEmail = require('../helpers/sendCodeToEmail');
+const { sendCodeToEmail } = require('./email.services');
 const logger = require('../helpers/logger');
 
 // const checkAndStoreFiles = require('../helpers/checkAndStore');
