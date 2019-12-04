@@ -1,10 +1,10 @@
-// const Sequelize = require('sequelize');
-// const models = require('../../models');
+const Sequelize = require('sequelize');
+const models = require('../../models');
 const userRoleWithMessage = require('./userRoleWithMessage');
 const logger = require('../helpers/logger');
 
-// const { Op } = Sequelize;
-// const { Alarm, Track } = models;
+const { Op } = Sequelize;
+const { Alarm } = models;
 
 const appSocketEventEmitter = {
 
@@ -46,8 +46,10 @@ const appSocketEventEmitter = {
       } else {
         message = userRoleWithMessage[user.role].message;
       }
+      const alarm = await getOpenAlarm(user);
+      if (alarm) message = 'У вас открыта тревога. Ее обрабатывают операторы.';
       socket.emit('srvSendAppState', {
-        user, serviceStatus: message,
+        user, serviceStatus: message, openAlarm: alarm,
       });
     } else {
       logger.error(`srvSendAppState: user with id: ${id} is not valid app user`);
@@ -67,18 +69,18 @@ const appSocketEventEmitter = {
 //   return out;
 // }
 
-// async function getOpenAlarm(user) {
-//   const alarm = await Alarm.findOne({
-//     where: {
-//       UserId: user.id,
-//       status: {
-//         [Op.lt]: 10,
-//       },
-//     },
-//   });
-//   const out = alarm ? alarm.dataValues : null;
-//   return out;
-// }
+async function getOpenAlarm(user) {
+  const alarm = await Alarm.findOne({
+    where: {
+      UserId: user.id,
+      status: {
+        [Op.lt]: 10,
+      },
+    },
+  });
+  const out = alarm ? alarm.dataValues : null;
+  return out;
+}
 
 // async function getAlarmHistory(user) {
 //   const alarms = await Alarm.findAll({
