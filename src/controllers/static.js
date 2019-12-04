@@ -64,7 +64,9 @@ const controller = {
     const trackArray = trackObjects.map(el => el.dataValues);
     const formatedTracks = trackArray.map(el => {
       const out = { ...el };
-      out.createdAt = el.createdAt.toLocaleDateString();
+      const dateStr = el.createdAt.toLocaleDateString();
+      dateStr.replace('/', '.'); // some system use / to separate date
+      out.createdAt = dateStr;
       return out;
     });
     try {

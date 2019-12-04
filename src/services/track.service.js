@@ -24,6 +24,7 @@ module.exports = {
 };
 
 const getTrackFromDb = async (userId, date) => {
+  logger.indexOf('getTrackFromDb: ', { userId, date });
   const uid = parseInt(userId, 10);
   const nd = date.replace('/', '.');
   const pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
