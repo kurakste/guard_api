@@ -25,9 +25,10 @@ module.exports = {
 
 const getTrackFromDb = async (userId, date) => {
   const uid = parseInt(userId, 10);
+  const nd = date.replace('/', '.');
   const pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-  const dtStart = new Date(date.replace(pattern, '$3-$2-$1'));
-  const dtEnd = new Date(date.replace(pattern, '$3-$2-$1'));
+  const dtStart = new Date(nd.replace(pattern, '$3-$2-$1'));
+  const dtEnd = new Date(nd.replace(pattern, '$3-$2-$1'));
   dtEnd.setDate(dtStart.getDate() + 1);
   const qs = `
   SELECT * FROM "Tracks" AS "Track" 
