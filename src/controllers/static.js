@@ -203,6 +203,7 @@ const controller = {
   },
 
   getTrackSentSuccessPage: async (ctx) => {
+    logger.info('getTrackSentSuccessPage');
     try {
       const pt = `${__dirname}/../views/trackSentSuccess.html`;
       const template = fs.readFileSync(pt).toString('utf8');

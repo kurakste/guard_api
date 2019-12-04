@@ -1,10 +1,13 @@
 const models = require('../../models');
 const { sendTrackToEmail } = require('./email.services.js');
 
+const logger = '../helpers/logger.js';
+
 const { User, sequelize } = models;
 
 module.exports = {
   getTrackByUserIdAndDate: async (userId, date) => {
+    logger.indexOf('getTrackByUserIdAndDate: ', { userId, date });
     const track = await getTrackFromDb(userId, date);
     if (!track) return false;
     const user = await User.findByPk(userId);

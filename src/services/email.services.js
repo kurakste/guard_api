@@ -29,6 +29,7 @@ async function sendCodeToEmail(code, email) {
 }
 
 async function sendTrackToEmail(email, track) {
+  logger.indexOf('sendTrackToEmail: ', { email, track });
   await transporter.sendMail({
     from: '<kurakste@yandex.ru>', // sender address
     to: email, // list of receivers
