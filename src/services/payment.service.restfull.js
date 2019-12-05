@@ -108,6 +108,10 @@ const paymentService = {
 
 // ========================= helpers ===========================================
 function sendMessageForUser(userId, title, message) {
+  if (!connectedAppUsers) {
+    logger.error('sendMessageForUser', { connectedAppUsers, userId, title, message })
+    return false;
+  }
   const user = connectedAppUsers.find(el => el.userId === userId);
   if (!user) {
     logger.error('sendMessageForUser user not found', { userId, title, message });
