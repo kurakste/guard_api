@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Mustache = require('mustache');
 const fs = require('fs');
-const paymentService = require('../services/payment.service');
+const paymentService = require('../services/payment.service.restfull');
 const subscriptionService = require('../subscriptions/subscription.service');
 const logger = require('../helpers/logger');
 
