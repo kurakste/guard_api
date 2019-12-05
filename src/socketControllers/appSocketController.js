@@ -57,7 +57,8 @@ const socketController = {
       const { payload } = data;
       const { isSubscribeActive } = user;
       if (!isSubscribeActive) {
-        appSocketEventEmitter.sendUserMessage(socket, 'Для того, что бы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
+        await appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Для того, что бы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
+        await appSocketEventEmitter.srvSendAppState();
         return null;
       }
       const isOpen = await hasThisUserOpenAlarm(user.id);
@@ -91,11 +92,11 @@ const socketController = {
       appSocketEventEmitter.srvAcceptNewAlarm(socket, newAlarmWithGbr.dataValues);
       cpSocketEventEmitter.srvCreateNewAlarm(cpIo, newAlarmWithGbr.dataValues);
       if (isPaid) {
-        appSocketEventEmitter.sendUserMessage(socket, 'информация', 'Тревога принята в обработку. Ожидайте.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Тревога принята в обработку. Ожидайте.');
       } else if (regionId !== 0) {
-        appSocketEventEmitter.sendUserMessage(socket, 'информация', 'Тревога принята, но мы не получили оплату. Сейчас с вами свяжется оператор и мы решим как поступить.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Тревога принята, но мы не получили оплату. Сейчас с Вами свяжется оператор и мы решим как поступить.');
       } else {
-        appSocketEventEmitter.sendUserMessage(socket, 'информация', 'Тревога принята, в этом регионе нет наших ГБР. Мы сейчас с вами свяжемся и решим что делать.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Тревога принята, в этом регионе нет наших ГБР. Мы сейчас с Вами свяжемся и решим, что делать.');
       }
     } catch (err) {
       appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
