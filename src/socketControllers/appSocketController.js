@@ -58,7 +58,7 @@ const socketController = {
       const { isSubscribeActive } = user;
       if (!isSubscribeActive) {
         await appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Для того, что бы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
-        await appSocketEventEmitter.srvSendAppState();
+        await appSocketEventEmitter.srvSendAppState(socket, user);
         return null;
       }
       const isOpen = await hasThisUserOpenAlarm(user.id);
