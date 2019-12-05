@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { sendTrackToEmail } = require('./email.services.js');
 
-const logger = '../helpers/logger.js';
+const logger = require('../helpers/logger.js');
 
 const { User, sequelize } = models;
 
