@@ -18,6 +18,7 @@ router.delete('/user/:id', userController.deleteUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.get('/get-payment-page/:id', paymentController.getPaymentPage);
+router.get('/get-payment-page', paymentController.getNotRegisteredPage);
 router.post('/pay-monthly-subscription', paymentController.payMonthly);
 router.post('/pay-three-month', paymentController.payThreeMonth);
 router.post('/pay-six-month', paymentController.paySixMonth);
@@ -25,10 +26,15 @@ router.post('/pay-one-year', paymentController.payOneYear);
 router.post('/payment-notification', paymentController.postPaymentNotification);
 router.get('/agreement', staticController.getAgreementPage);
 router.get('/account/:id', staticController.getAccountPage);
+router.get('/account', staticController.getNotRegisteredPage);
 router.get('/history/:id', staticController.getHistoryPage); // -
+router.get('/history', staticController.getNotRegisteredPage);
 router.get('/my-track/:id', staticController.getMyTrackPage); // -
+router.get('/my-track', staticController.getNotRegisteredPage);
 router.get('/help/:id', staticController.getHelpPage);
+router.get('/help', staticController.getHelpPage);
 router.get('/edit-profile-page/:id', staticController.getProfileEditPage);
+router.get('/edit-profile-page', staticController.getProfileEditPage);
 router.get('/test', paymentController.getTest);
 router.get('/success', staticController.getPaymentSuccessPage);
 router.get('/error', staticController.getPaymentErrorPage);
@@ -37,6 +43,7 @@ router.post('/unsubscribe-done', paymentController.postUnsubscribe);
 router.get('/success-unsubscribe', staticController.getUnsubscribeSuccessPage);
 router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
 router.get('/track-sent-success', staticController.getTrackSentSuccessPage);
+router.get('/not-registered', staticController.getNotRegisteredPage);
 router.post('/send-track/:userId/:date', trackController.sendTrackToUser);
 // -------------
 

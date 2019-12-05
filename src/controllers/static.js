@@ -26,8 +26,10 @@ const controller = {
   getHistoryPage: async (ctx) => {
     const { params } = ctx;
     const { id } = params;
-    logger.info('getHistoryPage', { id });
-    const alarmsObjects = await Alarm.findAll({ where: { UserId: id } });
+    const parsedId = parseInt(id, 10);
+    if (Number.isNaN(parsedId) || parsedId === 0) return ctx.redirect('/not-registered');
+    logger.info('getHistoryPage', { parsedId });
+    const alarmsObjects = await Alarm.findAll({ where: { UserId: parsedId } });
     const alarmsArray = alarmsObjects.map(el => el.dataValues);
     const alarms = alarmsArray.map(el => {
       const output = { ...el };
@@ -139,10 +141,27 @@ const controller = {
     return ctx;
   },
 
+  getNotRegisteredPage: async (ctx) => {
+    logger.info('getNotRegisteredPage');
+    try {
+      const pt = `${__dirname}/../views/notRegistered.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
   getPaymentErrorPage: async (ctx) => {
     const { params } = ctx;
     const { id } = params;
+    const parsedId = parseInt(id, 10);
+    console.log('----------', parsedId);
     logger.info('getHelpPage', { id });
+    if (Number.isNaN(parsedId) || parsedId === 0) return ctx.redirect('/not-registered');
 
     try {
       const pt = `${__dirname}/../views/paymentError.html`;
