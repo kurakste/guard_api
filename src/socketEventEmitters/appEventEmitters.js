@@ -35,6 +35,7 @@ const appSocketEventEmitter = {
   },
 
   srvSendAppState: async (socket, user) => {
+    console.log('+++++++++++', user);
     const { role, id } = user;
     const appUser = (role === 35 || role === 33 || role === 31);
     let message = '';
