@@ -160,7 +160,7 @@ const cpSocketController = {
       logger.info('cpPickedUpAlarm: ', alarmUpdated.dataValues);
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, user.id);
-      console.log('------------', user.id);
+      console.log('------------', user);
       if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Оператор взял в обработку вашу тревогу');
     } catch (err) {
       logger.error(err.message);
