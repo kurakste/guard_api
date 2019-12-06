@@ -202,7 +202,7 @@ const cpSocketController = {
       });
       alarmUpdated.closedAt = new Date();
       alarmUpdated.status = 40;
-      alarmUpdated.save();
+      await alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
       if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Тревога была успешно закрыта оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
@@ -226,7 +226,7 @@ const cpSocketController = {
       });
       alarmUpdated.declineAt = new Date();
       alarmUpdated.status = 30;
-      alarmUpdated.save();
+      await alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
       if (userSocket) {
