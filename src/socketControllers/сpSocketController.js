@@ -155,7 +155,7 @@ const cpSocketController = {
       alarmUpdated.oid = user.id;
       alarmUpdated.status = 10;
       alarmUpdated.pickedUpAt = new Date();
-      alarmUpdated.save();
+      await alarmUpdated.save();
 
       logger.info('cpPickedUpAlarm: ', alarmUpdated.dataValues);
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
@@ -180,7 +180,7 @@ const cpSocketController = {
       });
       alarmUpdated.groupSendAt = new Date();
       alarmUpdated.status = 20;
-      alarmUpdated.save();
+      await alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
       if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Группа быстрого реагирования отправлена.');

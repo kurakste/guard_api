@@ -74,7 +74,7 @@ async function getOpenAlarm(user) {
     where: {
       UserId: user.id,
       status: {
-        [Op.lt]: 10,
+        [Op.lt]: 30,
       },
     },
   });
