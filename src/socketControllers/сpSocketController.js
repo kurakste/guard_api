@@ -224,6 +224,7 @@ const cpSocketController = {
           { model: Gbr, through: 'GbrsToAlarms' },
         ],
       });
+      alarmUpdated.closedAt = new Date();
       alarmUpdated.declineAt = new Date();
       alarmUpdated.status = 30;
       await alarmUpdated.save();
