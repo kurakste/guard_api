@@ -141,7 +141,7 @@ const cpSocketController = {
     }
   },
 
-  cpPickedUpAlarm: async (cpIo, socket, user, data) => {
+  cpPickedUpAlarm: async (cpIo, socket, user, appAllUsersArray, data) => {
     logger.info('cpPickedUpAlarm: ', user);
     try {
       const { payload } = data;
@@ -159,12 +159,14 @@ const cpSocketController = {
 
       logger.info('cpPickedUpAlarm: ', alarmUpdated.dataValues);
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
+      const userSocket = getSocketByUserId(appAllUsersArray, user.id);
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Оператор взял в обработку вашу тревогу');
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 20, err.message);
     }
   },
-  cpAlarmGbrSent: async (cpIo, socket, data) => {
+  cpAlarmGbrSent: async (cpIo, socket, appAllUsersArray, data) => {
     logger.info('cpAlarmGbrSent: ');
     try {
       const { payload } = data;
@@ -179,6 +181,8 @@ const cpSocketController = {
       alarmUpdated.status = 20;
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
+      const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Группа быстрого реагирования отправлена.');
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 30, err.message);
@@ -200,7 +204,7 @@ const cpSocketController = {
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
-      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Тревога была успешно закрыта оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Тревога была успешно закрыта оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 40, err.message);
@@ -223,7 +227,7 @@ const cpSocketController = {
       alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
-      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Тревога была отклонена оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, ' Сообщение от сервера', 'Тревога была отклонена оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 50, err.message);
