@@ -109,7 +109,10 @@ const paymentService = {
 // ========================= helpers ===========================================
 function sendMessageForUser(userId, title, message) {
   if (!connectedAppUsers) {
-    logger.error('sendMessageForUser', { connectedAppUsers, userId, title, message })
+    logger.error('sendMessageForUser: ',
+      {
+        userArray: connectedAppUsers, userId, title, message,
+      })
     return false;
   }
   const user = connectedAppUsers.find(el => el.userId === userId);

@@ -1,0 +1,184 @@
+p {
+  font-family: "FuturicaLt", san-serif;
+  color: #DDD;
+  font-size: 14px; }
+
+p.title {
+  font-size: 20px; }
+
+p.offer-header {
+  font-weight: bold;
+  font-size: 16px; }
+
+p.offer-price {
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 10px; }
+
+p.offer-body {
+  width: 100%;
+  text-align: left; }
+
+.decorated {
+  text-decoration: underline; }
+
+span.promo {
+  font-size: 14;
+  color: green;
+  text-decoration: underline;
+  background-color: white; }
+
+.container-main {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: start !important;
+  -webkit-justify-content: flex-start !important;
+  justify-content: flex-start !important;
+  background-color: #111; }
+  .container-main .main-buy {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 90%;
+    border-right: 3px solid #ffffff;
+    border-bottom: 3px solid #ffffff;
+    border-top: 3px solid #ffffff;
+    -webkit-border-radius: 0 20px 20px 0;
+    border-radius: 0 20px 20px 0; }
+    .container-main .main-buy .text-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      width: 80%; }
+      .container-main .main-buy .text-div .button-div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        width: 115%;
+        padding-top: 30px; }
+        .container-main .main-buy .text-div .button-div form button {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -webkit-flex-direction: column;
+          flex-direction: column;
+          -webkit-box-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          background-color: #111;
+          border: 1px solid #DDD;
+          -webkit-border-radius: 8px;
+          border-radius: 8px;
+          padding: 5px 20px; }
+        .container-main .main-buy .text-div .button-div form button:last-child {
+          -webkit-flex-basis: 50%;
+          flex-basis: 50%; }
+
+@media (min-width: 480px) and (max-width: 1390px) {
+  .container-main .main-buy {
+    width: 90%; }
+  .container-main .text-div {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding-bottom: 0;
+    padding-top: 20px; }
+    .container-main .text-div .button-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      padding-top: 10px;
+      width: 120%;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-flex-shrink: 1;
+      flex-shrink: 1;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap; }
+      .container-main .text-div .button-div form {
+        display: -webkit-box !important;
+        display: -webkit-flex !important;
+        display: flex !important;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        padding-bottom: 10px; }
+      .container-main .text-div .button-div button {
+        padding: 5px 10px !important;
+        width: 200px !important;
+        height: 80% !important; } }
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .container-main .main-buy {
+    width: 100%; }
+    .container-main .main-buy .text-div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      padding-bottom: 0;
+      padding-top: 20px; }
+      .container-main .main-buy .text-div .button-div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        padding-top: 10px;
+        width: 200%; }
+        .container-main .main-buy .text-div .button-div form {
+          display: -webkit-box !important;
+          display: -webkit-flex !important;
+          display: flex !important;
+          -webkit-box-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          padding-bottom: 10px; }
+        .container-main .main-buy .text-div .button-div button {
+          padding: 5px 10px !important;
+          width: auto !important;
+          height: auto !important; } }
