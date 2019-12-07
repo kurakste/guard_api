@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Mustache = require('mustache');
 const fs = require('fs');
-const paymentService = require('../services/payment.service.restfull');
+const paymentService = require('../services/payment.service');
 const subscriptionService = require('../subscriptions/subscription.service');
 const logger = require('../helpers/logger');
 
@@ -70,20 +70,20 @@ const controller = {
    * For more information see: https://oplata.tinkoff.ru/landing/develop/documentation/autopayment\
    *
    */
-  postPaymentNotification: async (ctx) => {
-    const { body } = ctx.request;
-    const { Success, OrderId, RebillId } = body;
-    logger.info('get payment status', { body });
+  // postPaymentNotification: async (ctx) => {
+  //   const { body } = ctx.request;
+  //   const { Success, OrderId, RebillId } = body;
+  //   logger.info('get payment status', { body });
 
-    await paymentService.setPaymentStatus(Success, OrderId);
-    if (RebillId) {
-      // This is first recurrent payment(init method) we has to save RebuildId
-      // for this user.
-      // For more information see: https://oplata.tinkoff.ru/landing/develop/documentation/autopayment
-      await paymentService.storeRebillIdForUser(OrderId, RebillId);
-    }
-    ctx.response.body = 'OK';
-  },
+  //   await paymentService.setPaymentStatus(Success, OrderId);
+  //   if (RebillId) {
+  //     // This is first recurrent payment(init method) we has to save RebuildId
+  //     // for this user.
+  //     // For more information see: https://oplata.tinkoff.ru/landing/develop/documentation/autopayment
+  //     await paymentService.storeRebillIdForUser(OrderId, RebillId);
+  //   }
+  //   ctx.response.body = 'OK';
+  // },
 
   getUnsubscribePage: async (ctx) => {
     const { params } = ctx;

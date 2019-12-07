@@ -6,6 +6,7 @@ const userController = require('../controllers/users');
 const paymentController = require('../controllers/payment');
 const staticController = require('../controllers/static');
 const trackController = require('../controllers/track');
+const notificationController = require('../controllers/notification');
 
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
@@ -23,7 +24,7 @@ router.post('/pay-monthly-subscription', paymentController.payMonthly);
 router.post('/pay-three-month', paymentController.payThreeMonth);
 router.post('/pay-six-month', paymentController.paySixMonth);
 router.post('/pay-one-year', paymentController.payOneYear);
-router.post('/payment-notification', paymentController.postPaymentNotification);
+router.post('/payment-notification', notificationController.postPaymentNotification);
 router.get('/agreement', staticController.getAgreementPage);
 router.get('/account/:id', staticController.getAccountPage);
 router.get('/account', staticController.getNotRegisteredPage);
