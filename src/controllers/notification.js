@@ -83,9 +83,9 @@ function sendMessageForUser(userId, title, message) {
     return false;
   }
   const { socket } = user;
-  socket.emit('srvAlertMessage', {
-    title, message,
-  });
+  // socket.emit('srvAlertMessage', {
+  //   title, message,
+  // });
   srvSendAppState(socket, { id: userId, role: 35 });
   return true;
 }
