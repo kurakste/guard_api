@@ -86,7 +86,7 @@ function sendMessageForUser(userId, title, message) {
   // socket.emit('srvAlertMessage', {
   //   title, message,
   // });
-  srvSendAppState(socket, { id: userId, role: 35 });
+  srvSendAppState(socket, { id: userId, role: 35, isSubscribeActive: true });
   return true;
 }
 
