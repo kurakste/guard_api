@@ -99,7 +99,7 @@ async function srvSendAppState(socket, user) {
   let message = '';
   if (appUser) {
     if (user.role === 35) {
-      message = (userFromDb.isSubscribeActive)
+      message = (user.isSubscribeActive)
         ? 'Приложение готово к работе'
         : userRoleWithMessage[user.role].message;
     } else {
