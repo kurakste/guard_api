@@ -235,10 +235,10 @@ const cpSocketController = {
           .sendUserMessage(
             userSocket,
             ' Сообщение от сервера',
-            'Тревога была отклонена оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7'
+            'Тревога была отклонена оператором. Если у вас остались вопросы - свяжитесь с нами: 8-800-201-495-7',
           );
       }
-      if (userSocket) sppSocketEmitter.srvSendAppState(userSocket, { id: alarmUpdated.UserId, role: 35 });
+      if (userSocket) sppSocketEmitter.srvSendAppState(userSocket, { id: alarmUpdated.UserId, role: 35, isSubscribeActive: true });
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 50, err.message);
