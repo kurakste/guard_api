@@ -53,7 +53,7 @@ const socketController = {
 
   appNewAlarm: async (cpIo, socket, user, data) => {
     try {
-      logger.info('appNewAlarm', { data });
+      logger.info('appNewAlarm', { data, user });
       const { payload } = data;
       const { isSubscribeActive } = user;
       if (!isSubscribeActive) {
@@ -174,6 +174,7 @@ async function getRegionIdAndAddress(lon, lat, socket) {
 }
 
 async function getOpenAlarmObject(userId) {
+  logger.info('getOpenAlarmObject', { userId });
   const alarms = await Alarm.findAll({
     where: {
       UserId: userId, closedAt: null,

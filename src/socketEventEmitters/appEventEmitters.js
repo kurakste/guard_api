@@ -13,10 +13,12 @@ const appSocketEventEmitter = {
   // },
 
   srvErrMessage: (socket, code, message) => {
+    logger.info('srvErrMessage', code, message);
     socket.emit('srvErrMessage', { message, code });
   },
 
   srvAcceptAddNewPosition: (socket) => {
+    logger.info('srvAcceptAddNewPosition');
     socket.emit('srvAcceptAddNewPosition');
   },
 
@@ -25,17 +27,19 @@ const appSocketEventEmitter = {
   },
 
   srvAcceptCancelAlarm: (socket) => {
+    logger.info('srvAcceptCancelAlarm');
     socket.emit('srvAcceptCancelAlarm');
   },
 
   sendUserMessage: (socket, title, message) => {
+    logger.info('srvErrMessage', title, message);
     socket.emit('srvAlertMessage', {
       title, message,
     });
   },
 
   srvSendAppState: async (socket, user) => {
-    console.log('+++++++++++', user);
+    logger.info('srvErrMessage', user);
     const { role, id } = user;
     const appUser = (role === 35 || role === 33 || role === 31);
     let message = '';
