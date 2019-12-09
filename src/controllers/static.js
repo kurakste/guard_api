@@ -62,6 +62,8 @@ const controller = {
     const { params } = ctx;
     const { id } = params;
     logger.info('getMyTrackPage', { id });
+    const parsedId = parseInt(id, 10);
+    if (Number.isNaN(parsedId) || parsedId === 0) return ctx.redirect('/not-registered');
     const trackObjects = await Track.findAll({ where: { UserId: id } });
     const trackArray = trackObjects.map(el => el.dataValues);
     const formatedTracks = trackArray.map(el => {
@@ -91,6 +93,8 @@ const controller = {
     const { params } = ctx;
     const { id } = params;
     logger.info('getAccountPage', { id });
+    const parsedId = parseInt(id, 10);
+    if (Number.isNaN(parsedId) || parsedId === 0) return ctx.redirect('/not-registered');
 
     try {
       const user = await User.findByPk(id);
@@ -112,7 +116,7 @@ const controller = {
     const { params } = ctx;
     const { id } = params;
     logger.info('getHelpPage', { id });
-
+    
     try {
       const pt = `${__dirname}/../views/help.html`;
       const template = fs.readFileSync(pt).toString('utf8');
