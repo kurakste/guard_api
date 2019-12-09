@@ -25,7 +25,7 @@ const userController = {
       restoreToken, code, email, password,
     } = body;
     try {
-      await userService.restorePasswordStepTwo(restoreToken, code, email, password);
+      await userService.restorePasswordStepTwo(restoreToken, parseInt(code, 10), email, password);
       const output = apiResponseObject(true, null, { mgs: 'work done' }, 0);
       ctx.body = output;
       return ctx;
