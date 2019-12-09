@@ -122,7 +122,7 @@ const socketController = {
         await openAlarm.save();
         cpSocketEventEmitter.srvUpdateAlarm(cpIo, openAlarm.dataValues);
         appSocketEventEmitter.srvAcceptCancelAlarm(socket);
-        appSocketEventEmitter.sendUserMessage(socket, 'информация', 'Вы успешно отменили тревогу.');
+        appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Вы успешно отменили тревогу.');
         appSocketEventEmitter.srvSendAppState(socket, user);
       } else {
         const msg = 'Open alarm not found.';
