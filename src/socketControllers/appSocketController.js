@@ -8,6 +8,7 @@ const {
 } = models;
 const cpSocketEventEmitter = require('../socketEventEmitters/cpEventEmitters');
 const appSocketEventEmitter = require('../socketEventEmitters/appEventEmitters');
+const userService = require('../services/users.service');
 
 const socketController = {
 
@@ -55,7 +56,11 @@ const socketController = {
     try {
       logger.info('appNewAlarm', { data, user });
       const { payload } = data;
-      const { isSubscribeActive } = user;
+
+      const { id } = user;
+      const updatedUserObject = await userService.getUser(id);
+      const { isSubscribeActive } = updatedUserObject;
+
       if (!isSubscribeActive) {
         await appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Для того, что бы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
         await appSocketEventEmitter.srvSendAppState(socket, user);
@@ -209,3 +214,5 @@ async function addPointToOpenedAlarm(userId, point) {
   await alarm.save();
   return true;
 }
+
+
