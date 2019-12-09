@@ -38,7 +38,7 @@ const cpSocketController = {
     }
   },
 
-  cpAppUserApprove: async (socket, cpIo, data) => {
+  cpAppUserApprove: async (socket, cpIo, appAllUsersArray, data) => {
     const { payload } = data;
     const user = payload;
     logger.info('cpAppUserApprove', user);
@@ -49,13 +49,23 @@ const cpSocketController = {
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
       cpIo.emit('srvApproveAppUser', newUser);
+      const userSocket = getSocketByUserId(appAllUsersArray, id);
+      if (userSocket) {
+        sppSocketEmitter
+          .sendUserMessage(
+            userSocket,
+            'Сообщение от сервера',
+            'Ваши учетные данные были подтверждены.',
+          );
+        sppSocketEmitter.srvSendAppState(userSocket, newUser);
+      }
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);
     }
   },
 
-  cpAppUserDecline: async (socket, cpIo, data) => {
+  cpAppUserDecline: async (socket, cpIo, appAllUsersArray, data) => {
     const { payload } = data;
     const user = payload;
     logger.info('srvDeclineAppUser', user);
@@ -66,6 +76,16 @@ const cpSocketController = {
       const updatedUser = await User.findByPk(id);
       const newUser = updatedUser.dataValues;
       cpIo.emit('srvDeclineCpUser', newUser);
+      const userSocket = getSocketByUserId(appAllUsersArray, id);
+      if (userSocket) {
+        sppSocketEmitter
+          .sendUserMessage(
+            userSocket,
+            'Сообщение от сервера',
+            'Ваши учетные данные были отклонены. Обратитесь в службу поддержки.',
+          );
+        sppSocketEmitter.srvSendAppState(userSocket, newUser);
+      }
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 11, err.message);

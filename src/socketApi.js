@@ -88,9 +88,9 @@ cpIOBus.on('connection', async (socket) => {
   const cpSignIn = cpSocketController.cpSignIn
     .bind(cpSocketController, socket);
   const cpAppUserApprove = cpSocketController.cpAppUserApprove
-    .bind(cpSocketController, socket, cpIOBus);
+    .bind(cpSocketController, socket, cpIOBus, connectedAppUsers);
   const cpAppUserDecline = cpSocketController.cpAppUserDecline
-    .bind(cpSocketController, socket, cpIOBus);
+    .bind(cpSocketController, socket, cpIOBus, connectedAppUsers);
   const cpCpUserApprove = cpSocketController.cpCpUserApprove
     .bind(cpSocketController, socket, cpIOBus);
   const cpCpUserDecline = cpSocketController.cpCpUserDecline
