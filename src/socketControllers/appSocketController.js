@@ -168,7 +168,8 @@ async function getRegionIdAndAddress(lon, lat, socket) {
       streetNumber,
     } = geoData;
     const address = `${country}, ${postalCode}, ${lev1}, ${lev2}, ${lev3}, ${route}, ${streetNumber}`;
-    const gbrs = await Gbr.findAll({ where: { regionName: lev1 } });
+    const reg = (lev2 === 'Moskva') ? 'Moskva' : lev1;
+    const gbrs = await Gbr.findAll({ where: { regionName: reg } });
     if (!gbrs.length) return [0, address]; // gbrs not found in this region;
     return [gbrs[0].regionId, address]; // All gbrs with one regionName must have common region id;
   } catch (err) {
