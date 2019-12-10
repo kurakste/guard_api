@@ -55,7 +55,7 @@ const paymentService = {
       if (bill.operationType === 'subscriptionPayment') {
         await userService.updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
       }
-      // sendMessageForUser(bill.UserId, 'платежи', 'ваш платеж прошел успешно.');
+      // sendMessageForUser(bill.UserId, 'платежи', 'Ваш платеж прошел успешно.');
       // await updateBallanceById(bill.UserId);
     }
   },

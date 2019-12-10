@@ -181,7 +181,7 @@ const cpSocketController = {
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
       console.log('------------', alarmUpdated.UserId);
-      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Оператор взял в обработку вашу тревогу');
+      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Оператор взял в обработку Вашу тревогу');
     } catch (err) {
       logger.error(err.message);
       cpSocketEmitter.srvErrMessage(socket, 20, err.message);

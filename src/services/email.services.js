@@ -21,7 +21,7 @@ async function sendCodeToEmail(code, email) {
   await transporter.sendMail({
     from: '<kurakste@yandex.ru>', // sender address
     to: email, // list of receivers
-    subject: 'Восстановление пароля.', // Subject line
+    subject: 'Восстановление пароля ЯВБезопасности.', // Subject line
     html: `<p>Ваш код восстановления пароля: ${code}.</p>`,
   });
 
