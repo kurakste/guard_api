@@ -225,8 +225,21 @@ const cpSocketController = {
       await alarmUpdated.save();
       cpSocketEmitter.srvUpdateAlarm(cpIo, alarmUpdated);
       const userSocket = getSocketByUserId(appAllUsersArray, alarmUpdated.UserId);
-      if (userSocket) sppSocketEmitter.sendUserMessage(userSocket, 'Сообщение сервера.', 'Тревога была успешно закрыта оператором. Если у Вас остались вопросы - свяжитесь с нами: 8-800-201-495-7');
-      if (userSocket) sppSocketEmitter.srvSendAppState(userSocket, { id: alarmUpdated.UserId, role: 35, isSubscribeActive: true });
+      if (userSocket) {
+        sppSocketEmitter.sendUserMessage(
+          userSocket,
+          'Сообщение сервера.',
+          'Тревога была успешно закрыта оператором. Если у Вас остались вопросы - свяжитесь с нами: 8-800-201-495-7',
+        );
+      }
+      if (userSocket) {
+        sppSocketEmitter.srvSendAppState(
+          userSocket,
+          {
+            id: alarmUpdated.UserId, role: 35, isSubscribeActive: true,
+          },
+        );
+      }
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 40, err.message);
@@ -258,7 +271,12 @@ const cpSocketController = {
             'Тревога была отклонена оператором. Если у Вас остались вопросы - свяжитесь с нами: 8-800-201-495-7',
           );
       }
-      if (userSocket) sppSocketEmitter.srvSendAppState(userSocket, { id: alarmUpdated.UserId, role: 35, isSubscribeActive: true });
+      if (userSocket) {
+        sppSocketEmitter.srvSendAppState(
+          userSocket,
+          { id: alarmUpdated.UserId, role: 35, isSubscribeActive: true },
+        );
+      }
     } catch (err) {
       logger.error(err);
       cpSocketEmitter.srvErrMessage(socket, 50, err.message);
