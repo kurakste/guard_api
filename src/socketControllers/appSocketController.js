@@ -214,5 +214,3 @@ async function addPointToOpenedAlarm(userId, point) {
   await alarm.save();
   return true;
 }
-
-
