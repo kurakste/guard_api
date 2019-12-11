@@ -20,6 +20,8 @@ const notificationController = {
       // For more information see: https://oplata.tinkoff.ru/landing/develop/documentation/autopayment
       await storeRebillIdForUser(OrderId, RebillId);
     }
+    ctx.response = 'OK';
+    return ctx;
   },
 };
 
@@ -27,15 +29,19 @@ module.exports = notificationController;
 
 async function setPaymentStatus(status, orderId) {
   console.log('setPaymentStatus: ', { status, orderId });
-  const bill = await Bill.findByPk(orderId);
-  if (!bill) throw Error(`Bill with id: ${orderId} not found`);
-  if (bill) {
-    bill.isPaymentFinished = status;
-    await bill.save();
-    if (bill.operationType === 'subscriptionPayment') {
-      await updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
-      sendMessageForUser(bill.UserId, 'Платежи', 'Ваша подписка была успешно оплачена.');
+  try {
+    const bill = await Bill.findByPk(orderId);
+    if (!bill) throw Error(`Bill with id: ${orderId} not found`);
+    if (bill) {
+      bill.isPaymentFinished = status;
+      await bill.save();
+      if (bill.operationType === 'subscriptionPayment') {
+        await updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
+        sendMessageForUser(bill.UserId, 'Платежи', 'Ваша подписка была успешно оплачена.');
+      }
     }
+  } catch (error) {
+    logger.error('setPaymentStatus: ', { msg: error.message });
   }
 }
 
