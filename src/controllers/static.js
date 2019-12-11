@@ -116,7 +116,6 @@ const controller = {
     const { params } = ctx;
     const { id } = params;
     logger.info('getHelpPage', { id });
-    
     try {
       const pt = `${__dirname}/../views/help.html`;
       const template = fs.readFileSync(pt).toString('utf8');
