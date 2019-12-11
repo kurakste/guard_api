@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     middleName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
+    devId: DataTypes.STRING,
     tel: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
     role: DataTypes.INTEGER,
@@ -19,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     isSubscribeActive: DataTypes.BOOLEAN,
     subscriptionId: DataTypes.INTEGER,
     subscriptionStartsAt: DataTypes.DATE,
+    master: DataTypes.BOOLEAN,
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Alarm);

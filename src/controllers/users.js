@@ -82,7 +82,7 @@ const userController = {
     logger.info('postNewAppUser: ', { bodyForLog });
     // TODO: What about validation? Use sequelize? Write new function for it?
     const {
-      firstName, lastName, middleName, email, tel, password, img, pasImg1, pasImg2,
+      firstName, lastName, middleName, email, devId, tel, password, img, pasImg1, pasImg2,
     } = body;
     // img will be sent in this string format: 'image/jpeg;base64,/9j/4AQS...'
 
@@ -93,6 +93,7 @@ const userController = {
           lastName,
           middleName,
           email,
+          devId,
           tel,
           password,
           img.split(',')[1],

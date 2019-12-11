@@ -104,17 +104,27 @@ const userService = {
 
   addNewUser: async (
     firstName, lastName, middleName,
-    email, tel, password, img, pasImg1, pasImg2,
+    email, devId, tel, password, img, pasImg1, pasImg2,
   ) => {
     if ((!password)) throw new Error('Password can\'t be blank.');
     const cryptPassword = await bcrypt.hash(password, 10);
     const user = {
-      firstName, lastName, middleName, email, tel, password: cryptPassword, role: 31, active: false, notes: '',
+      firstName, lastName, middleName, email, devId, tel, password: cryptPassword, role: 31, active: false, notes: '',
     };
 
-    const checkUserInDb = await User.findOne({ where: { email: user.email } });
-    if (checkUserInDb) throw new Error('Пользователь с такой почтой уже зарегистрирован в системе. Воспользуйтесь восстановлением пароля в окне регистрация или обратитесь в службу поддержки.');
-
+    const isUserRegistered = await User.findOne({ where: { email, devId } });
+    if (isUserRegistered) throw new Error('Данное устройство уже зарегистрировано с таким e-mail. Если забыли пароль - нажмите ссылку восстановить пароль.');
+    const usersWithThisEmail = await User.findAll({ where: { email } });
+    console.log('===============>', usersWithThisEmail.length);
+    let master = true;
+    if (usersWithThisEmail.length > 0) {
+      const masterUser = usersWithThisEmail.find(el => el.master);
+      if (!masterUser) throw new Error('Не могу зарегистрировать пользователя на этот E-mail. Отсутствует мастер-пользователь. Обратитесь в службу поддержки.');
+      master = false;
+      const coolSubscription = masterUser.subscriptionId === 3 || masterUser.subscriptionId === 4;
+      if (usersWithThisEmail.length <= 2 && !coolSubscription) throw new Error('Не могу зарегистрировать пользователя на этот E-mail. Уже есть зарегистрированные устройства на этого пользователя. Выберите подписку на 6 или 12 месяцев.');
+      if (usersWithThisEmail.length > 2) throw new Error('Не могу зарегистрировать пользователя на этот E-mail. Уже зарегистрировано три устройства.');
+    }
     const result = await User.create(user);
     const newUser = result.dataValues;
     try {
@@ -123,6 +133,7 @@ const userService = {
       const pasImg1Path = checkAndStoreBase64toImgFile(newUser.id, pasImg1, 'pasImg1');
       const pasImg2Path = checkAndStoreBase64toImgFile(newUser.id, pasImg2, 'pasImg2');
       await User.update({
+        master,
         img: imgPath,
         pasImg1: pasImg1Path,
         pasImg2: pasImg2Path,
