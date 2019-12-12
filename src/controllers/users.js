@@ -42,7 +42,6 @@ const userController = {
     const { email, password, devId } = body;
     logger.info('postSignIn: ', body);
     const verifiedDevId = (devId === undefined) ? null : devId;
-    console.log(`devId: ${verifiedDevId}`);
     try {
       const [userForSend, token] = await userService.userSignIn(email, password, verifiedDevId);
       const output = apiResponseObject(true, null, {
@@ -132,7 +131,6 @@ const userController = {
     const { params } = ctx;
     const { id, devId } = params;
     const verifiedDevId = (devId === undefined) ? null : devId;
-    console.log(`devId: ${verifiedDevId}`);
     logger.info('deleteUser: ', { params });
     try {
       const result = await userService.deleteUser(id, verifiedDevId);

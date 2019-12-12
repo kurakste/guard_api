@@ -12,7 +12,6 @@ const notificationController = {
     const { body } = ctx.request;
     const { Success, OrderId, RebillId } = body;
     logger.info('postPaymentNotification', { body });
-    console.log('notificationController: postPaymentNotification her we are', connectedUsers.length);
     try {
       await setPaymentStatus(Success, OrderId);
       if (RebillId) {
@@ -35,7 +34,7 @@ const notificationController = {
 module.exports = notificationController;
 
 async function setPaymentStatus(status, orderId) {
-  console.log('setPaymentStatus: ', { status, orderId });
+  logger.info('setPaymentStatus: ', { status, orderId });
   try {
     const bill = await Bill.findByPk(orderId);
     if (!bill) throw Error(`Bill with id: ${orderId} not found`);

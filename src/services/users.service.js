@@ -80,7 +80,6 @@ const userService = {
   },
 
   userSignIn: async (email, password, devId) => {
-    console.log('-------------', { email, devId });
     const userFromDbObj = await User.findOne({
       where: { email, devId, role: [35, 31, 33] },
     });
@@ -116,7 +115,6 @@ const userService = {
     const isUserRegistered = await User.findOne({ where: { email, devId } });
     if (isUserRegistered) throw new Error('Данное устройство уже зарегистрировано с таким e-mail. Если забыли пароль - нажмите ссылку восстановить пароль.');
     const usersWithThisEmail = await User.findAll({ where: { email } });
-    console.log('===============>', usersWithThisEmail.length);
     let master = true;
     if (usersWithThisEmail.length > 0) {
       const masterUser = usersWithThisEmail.find(el => el.master);
