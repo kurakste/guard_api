@@ -130,10 +130,12 @@ const userController = {
 
   deleteUser: async (ctx) => {
     const { params } = ctx;
-    const { id } = params;
+    const { id, devId } = params;
+    const verifiedDevId = (devId === undefined) ? null : devId;
+    console.log(`devId: ${verifiedDevId}`);
     logger.info('deleteUser: ', { params });
     try {
-      const result = await userService.deleteUser(id);
+      const result = await userService.deleteUser(id, verifiedDevId);
       const output = apiResponseObject(result, '', '');
       ctx.body = JSON.stringify(output, null, '\t');
     } catch (err) {
@@ -148,9 +150,13 @@ const userController = {
     const { params } = ctx;
     const { id } = params;
     logger.info('patchUser: ', { id, body });
-    const { firstName, lastName, middleName } = body;
+    const {
+      devId, firstName, lastName, middleName,
+    } = body;
+    const verifiedDevId = (devId === undefined) ? null : devId;
+
     try {
-      const user = await userService.patchUser(id, firstName, lastName, middleName);
+      const user = await userService.patchUser(id, verifiedDevId, firstName, lastName, middleName);
       user.password = null;
       const output = apiResponseObject(true, null, user);
       ctx.body = JSON.stringify(output);

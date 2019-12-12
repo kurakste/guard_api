@@ -21,22 +21,22 @@ const userService = {
     return user;
   },
 
-  patchUser: async (id, firstName, lastName, middleName) => {
+  patchUser: async (id, devId, firstName, lastName, middleName) => {
     const updateObj = {};
     if (firstName) updateObj.firstName = firstName;
     if (lastName) updateObj.lastName = lastName;
     if (middleName) updateObj.middleName = middleName;
     const [res, users] = await User.update(
       updateObj,
-      { returning: true, where: { id } },
+      { returning: true, where: { id, devId } },
     );
     // const user = userFromDb.dataValues;
     if (!res) throw new Error('User not found');
     return users[0].dataValues;
   },
 
-  deleteUser: async (id) => {
-    const result = await User.destroy({ where: { id } });
+  deleteUser: async (id, devId) => {
+    const result = await User.destroy({ where: { id, devId } });
     return !!result;
   },
 
