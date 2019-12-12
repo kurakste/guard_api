@@ -40,9 +40,9 @@ const userService = {
     return !!result;
   },
 
-  getRestorePasswordTokenAndSendCodeToUsersEmail: async (email) => {
+  getRestorePasswordTokenAndSendCodeToUsersEmail: async (email, devId) => {
     const userFromDbObj = await User.findOne({
-      where: { email },
+      where: { email, devId },
     });
     if (!userFromDbObj) throw new EmailNotFound();
     const code = getCode();
@@ -63,15 +63,15 @@ const userService = {
     return restoreToken;
   },
 
-  restorePasswordStepTwo: async (restoreToken, code, email, password) => {
+  restorePasswordStepTwo: async (restoreToken, code, email, password, devId) => {
     if (!process.env.JWT_KEY) throw new Error('JWT key not exist');
     const decoded = jwt.verify(restoreToken, process.env.JWT_KEY);
     const decodedCode = decoded.code;
-    if (!(decodedCode === code)) throw new Error('Wrong code');
+    if (!(decodedCode === code)) throw new Error('Неверный код восстановления.');
     const userFromDbObj = await User.findOne({
-      where: { email },
+      where: { email, devId },
     });
-    if (!userFromDbObj) throw new Error('wrong email');
+    if (!userFromDbObj) throw new Error('Либо не верный E-mail либо вы пытаетесь восстановить пароль с нового устройства.');
     if (!password) throw new Error('Password required.');
     const cryptPassword = await bcrypt.hash(password, 10);
     userFromDbObj.password = cryptPassword;
@@ -80,6 +80,7 @@ const userService = {
   },
 
   userSignIn: async (email, password, devId) => {
+    console.log('-------------', { email, devId });
     const userFromDbObj = await User.findOne({
       where: { email, devId, role: [35, 31, 33] },
     });
