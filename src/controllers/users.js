@@ -39,10 +39,12 @@ const userController = {
 
   postSignIn: async (ctx) => {
     const { body } = ctx.request;
-    const { email, password } = body;
+    const { email, password, devId } = body;
     logger.info('postSignIn: ', body);
+    const verifiedDevId = (devId === undefined) ? null : devId;
+    console.log(`devId: ${verifiedDevId}`);
     try {
-      const [userForSend, token] = await userService.userSignIn(email, password);
+      const [userForSend, token] = await userService.userSignIn(email, password, verifiedDevId);
       const output = apiResponseObject(true, null, {
         user: userForSend,
         token,

@@ -79,9 +79,9 @@ const userService = {
     return null;
   },
 
-  userSignIn: async (email, password) => {
+  userSignIn: async (email, password, devId) => {
     const userFromDbObj = await User.findOne({
-      where: { email, role: [35, 31, 33] },
+      where: { email, devId, role: [35, 31, 33] },
     });
     if (!userFromDbObj) throw new IncorrectUsernameOrPasswordError();
     const user = { ...userFromDbObj.dataValues };
