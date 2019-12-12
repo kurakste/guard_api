@@ -160,11 +160,11 @@ const controller = {
 
   getPaymentErrorPage: async (ctx) => {
     const { params } = ctx;
-    const { id } = params;
-    const parsedId = parseInt(id, 10);
-    console.log('----------', parsedId);
-    logger.info('getHelpPage', { id });
-    if (Number.isNaN(parsedId) || parsedId === 0) return ctx.redirect('/not-registered');
+    //  const { id } = params;
+    //  const parsedId = parseInt(id, 10);
+    //  console.log('----------', parsedId);
+    logger.info('getPaymentErrorPage');
+    // if (Number.isNaN(parsedId) || parsedId === 0) return ctx.redirect('/not-registered');
 
     try {
       const pt = `${__dirname}/../views/paymentError.html`;
