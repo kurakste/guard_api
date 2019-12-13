@@ -3,8 +3,6 @@ const axios = require('axios');
 const crypto = require('crypto');
 const models = require('../../models');
 const userService = require('../services/users.service');
-// const { connectedAppUsers } = require('../socketApi');
-
 
 const logger = require('../helpers/logger');
 
@@ -58,8 +56,6 @@ const paymentService = {
       if (bill.operationType === 'subscriptionPayment') {
         await userService.updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
       }
-      // sendMessageForUser(bill.UserId, 'платежи', 'Ваш платеж прошел успешно.');
-      // await updateBallanceById(bill.UserId);
     }
   },
 
@@ -81,7 +77,6 @@ const paymentService = {
   },
 
   payForSecurityCall: async (userId) => {
-    // securityCallCast
     const recurrentAvailable = isRecurrentPaymentAvailable(userId);
     if (!recurrentAvailable) {
       logger.error(`payForSecurityCall: user(${userId} trying to pay with out rebillID)`);
@@ -106,14 +101,6 @@ const paymentService = {
 };
 
 // ========================= helpers ===========================================
-// function sendMessageForUser(userId, title, message) {
-//   const user = connectedAppUsers.find(el => el.userId === userId);
-//   if (!user) logger.error('sendMessageForUser user not found', { userId, title, message });
-//   const { socket } = user.socket;
-//   socket.emit('srvAlertMessage', {
-//     title, message,
-//   });
-// }
 
 async function isUserMaster(uid) {
   const user = await User.findByPk(uid);
@@ -137,7 +124,6 @@ async function addBillRecord(userId, sum, operationType, comment, subscriptionId
     subscriptionId,
   });
   await billRecord.save();
-  // TODO - update balance in user!!!
   const out = billRecord.id;
   return out;
 }
@@ -176,32 +162,6 @@ function compare(a, b) {
   }
   return 0;
 }
-
-// async function updateBallanceById(id) {
-//   const sum = await Bill.sum('sum', { where: { UserId: id, isPaymentFinished: true } });
-//   const user = await User.findByPk(id);
-//   user.lowBallance = (sum < 0);
-//   user.balance = sum;
-//   await user.save();
-//   logger.info('done updateBallanceById for id: ', id);
-//   return null;
-// }
-/**
- *
- * @param {*} userId
- * @param {*} rebillId // need for recurrent payment:
- * https://oplata.tinkoff.ru/landing/develop/documentation/
- */
-// async function storeRebillId(userId, rebillId) {
-//   logger.info(`storeRebillId fired with id: ${userId} and rebillId: ${rebillId}`);
-//   if (!rebillId) throw new Error('Rebuild required.');
-//   await User.update(
-//     { rebillId },
-//     {
-//       where: { id: userId },
-//     },
-//   );
-// }
 
 async function clearRebillId(userId) {
   logger.info(`clearRebillId fired with id: ${userId}`);
@@ -282,6 +242,7 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
     OrderId: orderId,
     CustomerKey: uidAsStr,
   };
+
   getHash(postParams);
   const hash = getHash(postParams);
   postParams.Token = hash;
@@ -303,7 +264,6 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
     logger.info(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
     if (res2 && res2.data) {
       const { Success } = res2.data;
-      // if (Success)
       await paymentService.setPaymentStatus(Success, orderId);
       return Success;
     }

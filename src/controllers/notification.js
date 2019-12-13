@@ -52,15 +52,21 @@ async function setPaymentStatus(status, orderId) {
 }
 
 async function storeRebillIdForUser(OrderId, rebillId) {
-  const userId = await getUserIdByOrderId(OrderId);
-  const user = await User.findByPk(userId);
-  if (!user) {
-    throw new Error(
-      `User with id: ${userId} not found. Check integrity of database. `,
+  try {
+    const userId = await getUserIdByOrderId(OrderId);
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new Error(
+        `User with id: ${userId} not found. Check integrity of database. `,
+      );
+    }
+    await User.update(
+      { rebillId },
+      { where: { email: user.email } },
     );
+  } catch (error) {
+    logger.error('getUserIdByOrderId: ', { msg: error.message });
   }
-  user.rebillId = rebillId;
-  await user.save();
   return true;
 }
 
@@ -76,11 +82,16 @@ async function updateSubscriptionStatus(userId, subscriptionId) {
     logger.error('Not found user in updateSubscriptionStatus', { userId });
     return false;
   }
-  user.subscriptionId = subscriptionId;
-  user.isSubscribeActive = true;
-  user.subscriptionStartsAt = Date.now();
-  await user.save();
-  return true;
+  try {
+    await User.update(
+      { subscriptionId, isSubscribeActive: true, subscriptionStartsAt: Date.now() },
+      { where: { email: user.email } },
+    );
+    return true;
+  } catch (err) {
+    logger.error('updateSubscriptionStatus', { userId, subscriptionId });
+    return false;
+  }
 }
 
 function sendMessageForUser(userId, title, message) {
