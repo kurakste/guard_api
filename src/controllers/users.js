@@ -9,7 +9,8 @@ const userController = {
     const { email, devId } = body;
     logger.info('postRestorePasswordStepOne: ', { body });
     try {
-      const restoreToken = await userService.getRestorePasswordTokenAndSendCodeToUsersEmail(email, devId);
+      const restoreToken = await userService
+        .getRestorePasswordTokenAndSendCodeToUsersEmail(email, devId);
       ctx.body = apiResponseObject(true, null, { restoreToken });
     } catch (err) {
       const output = apiResponseObject(false, err.message, null, err.code);
@@ -25,7 +26,8 @@ const userController = {
       restoreToken, code, email, password, devId,
     } = body;
     try {
-      await userService.restorePasswordStepTwo(restoreToken, parseInt(code, 10), email, password, devId);
+      await userService
+        .restorePasswordStepTwo(restoreToken, parseInt(code, 10), email, password, devId);
       const output = apiResponseObject(true, null, { mgs: 'work done' }, 0);
       ctx.body = output;
       return ctx;
