@@ -65,25 +65,6 @@ const controller = {
     }
     return ctx;
   },
-  /**
-   * Payment notification from bank.
-   * For more information see: https://oplata.tinkoff.ru/landing/develop/documentation/autopayment\
-   *
-   */
-  // postPaymentNotification: async (ctx) => {
-  //   const { body } = ctx.request;
-  //   const { Success, OrderId, RebillId } = body;
-  //   logger.info('get payment status', { body });
-
-  //   await paymentService.setPaymentStatus(Success, OrderId);
-  //   if (RebillId) {
-  //     // This is first recurrent payment(init method) we has to save RebuildId
-  //     // for this user.
-  //     // For more information see: https://oplata.tinkoff.ru/landing/develop/documentation/autopayment
-  //     await paymentService.storeRebillIdForUser(OrderId, RebillId);
-  //   }
-  //   ctx.response.body = 'OK';
-  // },
 
   getUnsubscribePage: async (ctx) => {
     const { params } = ctx;

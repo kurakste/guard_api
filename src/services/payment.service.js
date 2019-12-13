@@ -2,7 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 const crypto = require('crypto');
 const models = require('../../models');
-const userService = require('../services/users.service');
+// const userService = require('../services/users.service');
 
 const logger = require('../helpers/logger');
 
@@ -47,30 +47,30 @@ const paymentService = {
     }
   },
 
-  setPaymentStatus: async (status, orderId) => {
-    const bill = await Bill.findByPk(orderId);
-    if (!bill) throw Error(`Bill with id: ${orderId} not found`);
-    if (bill) {
-      bill.isPaymentFinished = status;
-      await bill.save();
-      if (bill.operationType === 'subscriptionPayment') {
-        await userService.updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
-      }
-    }
-  },
+  // setPaymentStatus: async (status, orderId) => {
+  //   const bill = await Bill.findByPk(orderId);
+  //   if (!bill) throw Error(`Bill with id: ${orderId} not found`);
+  //   if (bill) {
+  //     bill.isPaymentFinished = status;
+  //     await bill.save();
+  //     if (bill.operationType === 'subscriptionPayment') {
+  //       await userService.updateSubscriptionStatus(bill.UserId, bill.subscriptionId);
+  //     }
+  //   }
+  // },
 
-  storeRebillIdForUser: async (OrderId, rebillId) => {
-    const userId = await getUserIdByOrderId(OrderId);
-    const user = await User.findByPk(userId);
-    if (!user) {
-      throw new Error(
-        `User with id: ${userId} not found. Check integrity of database. `,
-      );
-    }
-    user.rebillId = rebillId;
-    await user.save();
-    return true;
-  },
+  //   storeRebillIdForUser: async (OrderId, rebillId) => {
+  //   const userId = await getUserIdByOrderId(OrderId);
+  //   const user = await User.findByPk(userId);
+  //   if (!user) {
+  //     throw new Error(
+  //       `User with id: ${userId} not found. Check integrity of database. `,
+  //     );
+  //   }
+  //   user.rebillId = rebillId;
+  //   await user.save();
+  //   return true;
+  // },
 
   test: async () => {
     // clearRebillId(uid);
@@ -108,11 +108,11 @@ async function isUserMaster(uid) {
   return user.master;
 }
 
-async function getUserIdByOrderId(orderId) {
-  const order = await Bill.findByPk(orderId);
-  if (!order) throw new Error(`Order with id: ${orderId} not found.`);
-  return order.UserId;
-}
+// async function getUserIdByOrderId(orderId) {
+//   const order = await Bill.findByPk(orderId);
+//   if (!order) throw new Error(`Order with id: ${orderId} not found.`);
+//   return order.UserId;
+// }
 
 async function addBillRecord(userId, sum, operationType, comment, subscriptionId) {
   const billRecord = await Bill.build({
@@ -261,13 +261,16 @@ async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
     const hash2 = getHash(postRecurrentParam);
     postRecurrentParam.Token = hash2;
     const res2 = await axios.post(recurrentUrl, postRecurrentParam);
+    const { Success } = res2.data;
     logger.info(`makeRecurrentPayment success with user: ${uid} & sum: ${sum}`);
-    if (res2 && res2.data) {
-      const { Success } = res2.data;
-      await paymentService.setPaymentStatus(Success, orderId);
-      return Success;
-    }
-    return false;
+    // if (res2 && res2.data) {
+    //   const { Success } = res2.data;
+    //   await paymentService.setPaymentStatus(Success, orderId);
+    //   return Success;
+    // }
+    // return false;
+
+    return Success;
   }
 
   logger.error(`Payment API Error. with user: ${uid} & sum: ${sum}`);
