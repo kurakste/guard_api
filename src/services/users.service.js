@@ -116,8 +116,10 @@ const userService = {
     if (isUserRegistered) throw new Error('Данное устройство уже зарегистрировано с таким e-mail. Если забыли пароль - нажмите ссылку восстановить пароль.');
     const usersWithThisEmail = await User.findAll({ where: { email } });
     let master = true;
+    let masterUser = null;
     if (usersWithThisEmail.length > 0) {
-      const masterUser = usersWithThisEmail.find(el => el.master);
+      masterUser = usersWithThisEmail.find(el => el.master);
+      // console.log('--------------', masterUser.subscriptionId);
       if (!masterUser) throw new Error('Не могу зарегистрировать пользователя на этот E-mail. Отсутствует мастер-пользователь. Обратитесь в службу поддержки.');
       master = false;
       const coolSubscription = masterUser.subscriptionId === 3 || masterUser.subscriptionId === 4;
@@ -136,6 +138,11 @@ const userService = {
         img: imgPath,
         pasImg1: pasImg1Path,
         pasImg2: pasImg2Path,
+        rebillId: (masterUser) ? masterUser.rebillId : null,
+        isSubscribeActive: (masterUser) ? masterUser.isSubscribeActive : null,
+        subscriptionId: (masterUser) ? masterUser.subscriptionId : null,
+        subscriptionStartsAt: (masterUser) ? masterUser.subscriptionStartsAt : null,
+
       }, { where: { id: newUser.id } });
       const finalUserObj = await User.findByPk(newUser.id);
       const finalUser = finalUserObj.dataValues;

@@ -83,7 +83,6 @@ const userController = {
     bodyForLog.pasImg2 = null;
 
     logger.info('postNewAppUser: ', { bodyForLog });
-    // TODO: What about validation? Use sequelize? Write new function for it?
     const {
       firstName, lastName, middleName, email, devId, tel, password, img, pasImg1, pasImg2,
     } = body;
