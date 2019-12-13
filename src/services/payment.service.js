@@ -30,6 +30,9 @@ const paymentService = {
     try {
       if (!uid) throw new Error('User id (uid) required');
       logger.info('paySubscription', { uid });
+
+      if (!isUserMaster(uid)) throw new Error('Этот экаунт не может производить оплаты.');
+
       const rebillSet = await isRecurrentPaymentAvailable(uid);
       logger.info(`paySubscription rebillSet: ${rebillSet}`);
       let returnUrl = null;
@@ -111,6 +114,12 @@ const paymentService = {
 //     title, message,
 //   });
 // }
+
+async function isUserMaster(uid) {
+  const user = await User.findByPk(uid);
+  if (!user) throw new Error(`User with id: ${uid} not fond in isUserMaster() function`);
+  return user.master;
+}
 
 async function getUserIdByOrderId(orderId) {
   const order = await Bill.findByPk(orderId);
@@ -197,10 +206,12 @@ function compare(a, b) {
 async function clearRebillId(userId) {
   logger.info(`clearRebillId fired with id: ${userId}`);
   try {
+    const user = await User.findByPk(userId);
+    if (!user) throw new Error(`clearRebillId: User with id: ${userId} not found in Db.`);
     await User.update(
       { rebillId: null },
       {
-        where: { id: userId },
+        where: { email: user.email },
       },
     );
   } catch (err) {
