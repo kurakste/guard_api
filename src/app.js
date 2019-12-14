@@ -6,6 +6,7 @@ const cors = require('@koa/cors');
 const dotenv = require('dotenv');
 const router = require('./router');
 const logger = require('./helpers/logger');
+const htmlLogger = require('./htmlLogger');
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ app.use(koaBody({
   formidable: {
     keepExtensions: true,
     uploadDir: './uploads',
-  }, // This is where the files would come
+  },
   multipart: true,
   urlencoded: true,
 }));
@@ -47,6 +48,7 @@ app.use(statServer({
 }));
 app.use(cors());
 app.use(json());
+app.use(htmlLogger);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
