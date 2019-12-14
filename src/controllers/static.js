@@ -99,12 +99,12 @@ const controller = {
 
     try {
       const user = await User.findByPk(id);
-      const { img, balance } = user;
+      const { img } = user;
       const pt = `${__dirname}/../views/account.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, {
-        apiUrl, img, id, balance, user,
+        apiUrl, img, id, user,
       });
       ctx.response.body = body;
     } catch (err) {
