@@ -43,7 +43,7 @@ const userController = {
     const { body } = ctx.request;
     const { email, password, devId } = body;
     logger.info('postSignIn: ', body);
-    const verifiedDevId = (devId === undefined) ? null : devId;
+    const verifiedDevId = (devId === undefined || devId === '') ? null : devId;
     try {
       const [userForSend, token] = await userService.userSignIn(email, password, verifiedDevId);
       const output = apiResponseObject(true, null, {
