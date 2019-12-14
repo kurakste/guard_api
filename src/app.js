@@ -23,10 +23,6 @@ app.use(koaBody({
   urlencoded: true,
 }));
 app.use(statServer({
-  rootDir: 'public/img',
-  rootPath: '/img',
-}));
-app.use(statServer({
   rootDir: 'public/css',
   rootPath: '/css',
 }));
@@ -46,9 +42,13 @@ app.use(statServer({
   rootDir: 'public/scripts',
   rootPath: '/scripts',
 }));
+app.use(htmlLogger);
+app.use(statServer({
+  rootDir: 'public/img',
+  rootPath: '/img',
+}));
 app.use(cors());
 app.use(json());
-app.use(htmlLogger);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
