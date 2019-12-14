@@ -71,7 +71,7 @@ const socketController = {
       const { isSubscribeActive } = updatedUserObject;
 
       if (!isSubscribeActive) {
-        await appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Для того, что бы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
+        await appSocketEventEmitter.sendUserMessage(socket, 'Информация', 'Для того, чтобы вызов экстренных служб работал нужно выбрать подписку и оплатить ее.');
         await appSocketEventEmitter.srvSendAppState(socket, user);
         return null;
       }
