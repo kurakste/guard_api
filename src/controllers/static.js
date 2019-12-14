@@ -89,6 +89,7 @@ const controller = {
     }
     return ctx;
   },
+
   getAccountPage: async (ctx) => {
     const { params } = ctx;
     const { id } = params;
@@ -127,6 +128,7 @@ const controller = {
     }
     return ctx;
   },
+
   getPaymentSuccessPage: async (ctx) => {
     const { params } = ctx;
     const { id } = params;

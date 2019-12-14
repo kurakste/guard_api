@@ -173,6 +173,20 @@ const userService = {
     await user.save();
     return true;
   },
+
+  isUserMaster: async (userId) => {
+    try {
+      const user = await User.findByPk(userId);
+      if (!user) {
+        logger.error('Not found user in isUserMaster', { userId });
+        return false;
+      }
+      return user.master;
+    } catch (error) {
+      logger.error('isUserMaster: ', { message: error.message });
+      return false;
+    }
+  },
 };
 
 module.exports = userService;

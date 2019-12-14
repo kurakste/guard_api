@@ -2,6 +2,7 @@ require('dotenv').config();
 const Mustache = require('mustache');
 const fs = require('fs');
 const paymentService = require('../services/payment.service');
+const userService = require('../services/users.service');
 const subscriptionService = require('../subscriptions/subscription.service');
 const logger = require('../helpers/logger');
 
@@ -53,12 +54,15 @@ const controller = {
     const { params } = ctx;
     const { id } = params;
     logger.info('getPaymentForm', { id });
+    const master = await userService.isUserMaster(id);
+    const pt = (master)
+      ? `${__dirname}/../views/payments.html`
+      : `${__dirname}/../views/notMasterAccount.html`;
     try {
       if (!id) throw new Error('User id (id) required in URL');
-      const pt = `${__dirname}/../views/payments.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
-      const body = Mustache.render(template, { id, apiUrl });
+      const body = Mustache.render(template, { id, apiUrl, master });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);
