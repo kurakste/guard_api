@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('from on load');
   let lastalarm;
-
+  const newAppError = document.getElementById('newAppError');
   const destSelector = document.getElementsByName('dest');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -90,23 +90,29 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('addNewPosition', {
           payload: [23.2345, 34.34235]
         });
-      },
+      };
 
-        heartBeatSend.onclick = () => {
-          console.log('heartBeatSend');
-          socket.emit('heartBeat', {
-            payload: null
-          });
-        },
+      heartBeatSend.onclick = () => {
+        console.log('heartBeatSend');
+        socket.emit('heartBeat', {
+          payload: null
+        });
+      };
 
+      newAppError.onclick = () => {
+        socket.emit('appError', {
+          message: 'Test error',
+          data: { data: 'test error data' }
+        });
+      };
 
-        newAlarm.onclick = () => {
-          console.log('appNewAlarm');
-          socket.emit('appNewAlarm', {
-            token: 'string',
-            payload: [55.762325, 52.417567]
-          });
-        }
+      newAlarm.onclick = () => {
+        console.log('appNewAlarm');
+        socket.emit('appNewAlarm', {
+          token: 'string',
+          payload: [55.762325, 52.417567]
+        });
+      }
 
       appAddNewPointInAlarmTrack.onclick = () => {
         console.log('appAddNewPointInAlarmTrack');
@@ -156,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.on('srvAcceptAddNewPosition', function (data) {
         console.log('srvAcceptAddNewPosition: ');
       });
-      
+
       socket.on('srvAlertMessage', function (data) {
         console.log('srvAlertMessage: ', data);
       });

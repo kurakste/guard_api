@@ -12,6 +12,15 @@ const userService = require('../services/users.service');
 
 const socketController = {
 
+  getErrorMessageFromApp: async (income) => {
+    try {
+      const { message, data } = income;
+      logger.error('getErrorMessageFromApp', { message, data });
+    } catch (err) {
+      logger('error in getErrorMessageFromApp', { message: err.message });
+    }
+  },
+
   addNewPosition: async (cpIo, socket, user, data) => {
     // logger.info('addNewPosition', { user: user.id });
     const { payload } = data;

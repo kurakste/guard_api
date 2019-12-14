@@ -60,6 +60,7 @@ appIOBus.on('connection', async (socket) => {
     socket.on('appNewAlarm', appNewAlarm);
     // socket.on('appAddNewPointInAlarmTrack', appAddNewPointInAlarmTrack);
     socket.on('appCancelAlarm', appCancelAlarm);
+    socket.on('appError', appSocketController.getErrorMessageFromApp);
     socket.on('heartBeat', appHeartBeat);
     socket.on('disconnect', appDisconnect);
   } else {
