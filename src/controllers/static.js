@@ -160,12 +160,29 @@ const controller = {
     return ctx;
   },
 
+
   getPaymentErrorPage: async (ctx) => {
     const { params } = ctx;
     logger.info('getPaymentErrorPage', { params });
 
     try {
       const pt = `${__dirname}/../views/paymentError.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
+  getPaymentPageForDemo: async (ctx) => {
+    const { params } = ctx;
+    logger.info('getPaymentPageForDemo', { params });
+
+    try {
+      const pt = `${__dirname}/../views/payments_for_demo.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, { apiUrl });

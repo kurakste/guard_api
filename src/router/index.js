@@ -19,7 +19,7 @@ router.delete('/user/:id/:devId', userController.deleteUser);
 router.post('/user-new-ap', userController.postNewAppUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.get('/get-payment-page/:id', paymentController.getPaymentPage);
-router.get('/get-payment-page', staticController.getNotRegisteredPage);
+router.get('/get-payment-page', staticController.getPaymentPageForDemo);
 router.post('/pay-monthly-subscription', paymentController.payMonthly);
 router.post('/pay-three-month', paymentController.payThreeMonth);
 router.post('/pay-six-month', paymentController.paySixMonth);
