@@ -120,6 +120,42 @@ const userController = {
     }
   },
 
+  postNewCpUser: async (ctx) => {
+    const { body } = ctx.request;
+    const bodyForLog = { ...body };
+    bodyForLog.img = null;
+    bodyForLog.pasImg1 = null;
+    bodyForLog.pasImg2 = null;
+
+    logger.info('postNewCppUser: ', { bodyForLog });
+    const {
+      firstName, lastName, middleName, email, tel, password,
+    } = body;
+    // img will be sent in this string format: 'image/jpeg;base64,/9j/4AQS...'
+
+    try {
+      const finalUser = await userService
+        .addNewCpUser(
+          firstName,
+          lastName,
+          middleName,
+          email,
+          tel,
+          password,
+        );
+      ctx.body = apiResponseObject(
+        true,
+        '',
+        JSON.stringify(finalUser, null, '\t'),
+      );
+      cpIOBus.emit('srvNewUserWasCreated', finalUser);
+    } catch (err) {
+      const output = apiResponseObject(false, err.message, null);
+      ctx.body = output;
+      logger.error(err.message);
+    }
+  },
+
   getNewAppUsers: async (ctx) => {
     logger.info('getNewAppUsers: ');
     try {

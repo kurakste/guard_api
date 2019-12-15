@@ -17,6 +17,7 @@ router.get('/user/:id', userController.getUser);
 router.patch('/user/:id', userController.patchUser);
 router.delete('/user/:id/:devId', userController.deleteUser);
 router.post('/user-new-ap', userController.postNewAppUser);
+router.post('/user-new-cp', userController.postNewCpUser);
 router.get('/users/new-app-users', userController.getNewAppUsers);
 router.get('/get-payment-page/:id', paymentController.getPaymentPage);
 router.get('/get-payment-page', staticController.getPaymentPageForDemo);

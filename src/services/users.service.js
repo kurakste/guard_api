@@ -81,7 +81,7 @@ const userService = {
 
   userSignIn: async (email, password, devId) => {
     const userFromDbObj = await User.findOne({
-      where: { email, devId, role: [35, 36, 31, 33] },
+      where: { email, devId, role: [35, 36, 31, 32, 33] },
     });
     if (!userFromDbObj) throw new IncorrectUsernameOrPasswordError();
     const user = { ...userFromDbObj.dataValues };
@@ -153,6 +153,25 @@ const userService = {
       if (newUser) await User.destroy({ where: { id: newUser.id } });
       throw new Error(err.message);
     }
+  },
+
+  addNewCpUser: async (
+    firstName, lastName, middleName,
+    email, tel, password) => {
+    if ((!password)) throw new Error('Password can\'t be blank.');
+    const cryptPassword = await bcrypt.hash(password, 10);
+    const user = {
+      firstName, lastName, middleName, email, tel, password: cryptPassword, role: 32, active: false, notes: '',
+    };
+
+    const isUserRegistered = await User.findOne({ where: { email } });
+    if (isUserRegistered) throw new Error('Такой пользователь уже зарегистрирован в системе. ');
+
+    const result = await User.create(user);
+    const newUser = { ...result.dataValues };
+    delete newUser.password;
+
+    return newUser;
   },
 
   getNewAppUsers: async () => {
