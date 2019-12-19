@@ -1,6 +1,6 @@
-const logger = require('../../helpers/logger');
+const logger = require('../../../../helpers/logger');
 const srvSendAppState = require('./srvSendAppState');
-const { connectedUsers } = require('../../socketApi');
+const { connectedUsers } = require('../../../../socketApi');
 
 function sendMessageForUser(userId, title, message) {
   logger.info('sendMessageForUser', { userId, title, message });

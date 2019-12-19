@@ -1,6 +1,6 @@
-const logger = require('../../helpers/logger');
-const setPaymentStatus = require('./setPaymentStatus');
-const storeRebillIdForUser = require('./storeRebillIdForUser');
+const logger = require('../../../helpers/logger');
+const setPaymentStatus = require('../services/setPaymentStatus');
+const storeRebillIdForUser = require('../services/storeRebillIdForUser');
 
 const notificationController = {
   postPaymentNotification: async (ctx) => {

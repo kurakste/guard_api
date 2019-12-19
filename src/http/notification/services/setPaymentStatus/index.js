@@ -1,7 +1,7 @@
-const logger = require('../../helpers/logger');
-const models = require('../../../models');
+const logger = require('../../../../helpers/logger');
+const models = require('../../../../../models');
 const updateSubscriptionStatus = require('./updateSubscriptionStatus');
-const sendMessageForUser = require('./sendMessageForUser.js');
+const sendMessageForUser = require('./sendMessageForUser');
 
 const { Bill } = models;
 

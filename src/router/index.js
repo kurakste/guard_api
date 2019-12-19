@@ -6,7 +6,7 @@ const userController = require('../controllers/users');
 const paymentController = require('../controllers/payment');
 const staticController = require('../controllers/static');
 const trackController = require('../controllers/track');
-const notificationController = require('../controllers/notification');
+const notificationController = require('../http/notification/controller');
 
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------

@@ -1,5 +1,5 @@
-const models = require('../../../models');
-const logger = require('../../helpers/logger');
+const models = require('../../../../../models');
+const logger = require('../../../../helpers/logger');
 
 const { Bill, User } = models;
 
