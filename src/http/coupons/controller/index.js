@@ -1,17 +1,36 @@
+const fs = require('fs');
+const Mustache = require('mustache');
 const logger = require('../../../helpers/logger');
 const activateCoupon = require('../services/activateCoupon');
 
+const apiUrl = process.env.API_URL;
+if (!apiUrl) throw new Error('API_URL is required.');
+
 const couponsController = {
   getCouponActivationPage: async (ctx) => {
-    logger.info('getCouponActivationPage', { ctx });
+    const { query } = ctx.request;
+    const { id } = query;
+
+    logger.info('getCouponActivationPage', { id });
+    try {
+      const pt = `${__dirname}/../../../views/couponActivatePage.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl, id });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
   },
 
   postActivateCoupons: async (ctx) => {
     const { body } = ctx.request;
     const { couponId, UserId } = body;
     logger.info('postActivateCoupons', { couponId, UserId });
-    const res = await activateCoupon(couponId, UserId);
-    console.log('=========> ', res);
+    const resUrl = await activateCoupon(couponId, UserId);
+    console.log('=========> ', resUrl);
+    return ctx.response.redirect(resUrl);
   },
 };
 

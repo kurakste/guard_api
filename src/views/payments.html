@@ -72,6 +72,12 @@
                   <p class="offer-body">*Стоимость за 30 минут сопровождения 2-х охранников-телохранителей 2890 руб. (сумма будет автоматически снята при нажатии кнопки тревога).</p>
                 </button>
               </form>
+              <form action="{{apiUrl}}/get-coupon-page" method="get">
+                <input type="hidden" name="id" id="id" value="{{id}}">
+                <button>
+                  <p class="offer-header">Активировать купон</p>
+                </button>
+              </form>
             </div>
           </div>
         </div>

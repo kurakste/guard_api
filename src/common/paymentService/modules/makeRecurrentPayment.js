@@ -18,15 +18,16 @@ if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.'
  * @param {*} sum amount of money
  * @param {*} type Operation type: 1) replenishment, 2) paymentForCall
  */
-async function makeRecurrentPayment(uid, sum, optype, subscriptionId) {
+async function makeRecurrentPayment(uid, sum, optype, subscriptionId, couponId) {
   logger.info(`makeRecurrentPayment is fired with userId: ${uid}, sum: ${sum}`);
   const uidAsStr = `${uid}`;
   const rebillId = await getRebillId(uid);
+  const comment = couponId || 'tinkoff';
   if (!rebillId) {
     logger.error(`makeRecurrentPayment: userId: ${uid} has no rebillId`);
     return false;
   }
-  const orderId = await addBillRecord(uid, sum, optype, 'tinkoff', subscriptionId);
+  const orderId = await addBillRecord(uid, sum, optype, comment, subscriptionId);
 
   const postParams = {
     Amount: sum * 100,

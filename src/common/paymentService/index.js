@@ -37,7 +37,7 @@ const paymentService = {
     }
   },
 
-  payForCoupon: async (uid, subscriptionId) => {
+  payForCoupon: async (uid, subscriptionId, couponId) => {
     try {
       if (!uid) throw new Error('User id (uid) required');
       logger.info('payForCoupon', { uid, subscriptionId });
@@ -48,9 +48,9 @@ const paymentService = {
       logger.info(`payForCoupon rebillSet: ${rebillSet}`);
       let returnUrl = null;
       if (!rebillSet) {
-        returnUrl = await makeInitPayment(uid, 1, 'couponPayment', subscriptionId);
+        returnUrl = await makeInitPayment(uid, 1, 'couponPayment', subscriptionId, couponId);
       } else {
-        const result = await makeRecurrentPayment(uid, 1, 'couponPayment', subscriptionId);
+        const result = await makeRecurrentPayment(uid, 1, 'couponPayment', subscriptionId, couponId);
         returnUrl = result ? `${apiUrl}/success` : `${apiUrl}/error`;
       }
       return returnUrl;

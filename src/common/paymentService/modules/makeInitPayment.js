@@ -11,10 +11,11 @@ const initUrl = 'https://securepay.tinkoff.ru/v2/Init';
 if (!terminalKey) throw new Error('TERMINAL_KEY must be defined in env.');
 if (!NotificationURL) throw new Error('NOTIFICATION_URL must be defined in env.');
 
-async function makeInitPayment(uid, sum, type, subscriptionId) {
+async function makeInitPayment(uid, sum, type, subscriptionId, couponId) {
   logger.info(`makeInitPayment is fired with userId: ${uid}, sum: ${sum}`);
+  const comment = couponId || 'tinkoff';
   const uidAsStr = `${uid}`;
-  const orderId = await addBillRecord(uid, sum, type, 'tinkoff', subscriptionId);
+  const orderId = await addBillRecord(uid, sum, type, comment, subscriptionId);
   const postParams = {
     Amount: sum * 100,
     TerminalKey: terminalKey,
