@@ -1,7 +1,7 @@
 const decoder = require('google-geo-decoder');
 const models = require('../../models');
 const logger = require('../helpers/logger');
-const paymentService = require('../services/payment.service');
+const paymentService = require('../common/paymentService');
 
 const {
   Alarm, Gbr, Track, sequelize,

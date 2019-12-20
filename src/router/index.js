@@ -7,6 +7,7 @@ const paymentController = require('../controllers/payment');
 const staticController = require('../controllers/static');
 const trackController = require('../controllers/track');
 const notificationController = require('../http/notification/controller');
+const couponController = require('../http/coupons/controller');
 
 router.get('/', rootController.root);
 // ------------ user/users ---------------------------------
@@ -47,6 +48,8 @@ router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
 router.get('/track-sent-success', staticController.getTrackSentSuccessPage);
 router.get('/not-registered', staticController.getNotRegisteredPage);
 router.post('/send-track/:userId/:date', trackController.sendTrackToUser);
+router.post('/coupon-activate', couponController.postActivateCoupons);
+
 // -------------
 
 module.exports = router;
