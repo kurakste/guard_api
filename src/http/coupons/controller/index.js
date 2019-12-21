@@ -13,10 +13,38 @@ const couponsController = {
 
     logger.info('getCouponActivationPage', { id });
     try {
-      const pt = `${__dirname}/../../../views/couponActivatePage.html`;
+      const pt = `${__dirname}/../views/couponActivatePage.html`;
       const template = fs.readFileSync(pt).toString('utf8');
       Mustache.parse(template);
       const body = Mustache.render(template, { apiUrl, id });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
+  getCouponNotFound: async (ctx) => {
+    logger.info('getCouponNotFound');
+    try {
+      const pt = `${__dirname}/../views/couponErrorNotFound.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
+      ctx.response.body = body;
+    } catch (err) {
+      logger.error(err.message);
+    }
+    return ctx;
+  },
+
+  getCouponDone: async (ctx) => {
+    logger.info('getCouponDone');
+    try {
+      const pt = `${__dirname}/../views/couponErrorDone.html`;
+      const template = fs.readFileSync(pt).toString('utf8');
+      Mustache.parse(template);
+      const body = Mustache.render(template, { apiUrl });
       ctx.response.body = body;
     } catch (err) {
       logger.error(err.message);

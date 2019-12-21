@@ -10,7 +10,6 @@ const notificationController = require('../http/notification/controller');
 const couponController = require('../http/coupons/controller');
 
 router.get('/', rootController.root);
-// ------------ user/users ---------------------------------
 router.post('/sign-in', userController.postSignIn);
 router.post('/restore-password-step-one', userController.postRestorePasswordStepOne);
 router.post('/restore-password-step-two', userController.postRestorePasswordStepTwo);
@@ -50,7 +49,7 @@ router.get('/not-registered', staticController.getNotRegisteredPage);
 router.post('/send-track/:userId/:date', trackController.sendTrackToUser);
 router.get('/get-coupon-page/:id', couponController.getCouponActivationPage);
 router.post('/coupon-activate', couponController.postActivateCoupons);
-
-// -------------
+router.get('/coupon-not-found', couponController.getCouponNotFound);
+router.get('/coupon-done', couponController.getCouponDone);
 
 module.exports = router;
