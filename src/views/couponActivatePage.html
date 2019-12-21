@@ -8,19 +8,23 @@
     <title></title>
     <link rel="stylesheet" href="{{apiUrl}}/css/styles_v1.css">
   </head>
-  <body>
+  <body style = "font-family: 'FuturicaLt', san-serif;">
     <div class="container-buy">
       <div class="container-redaction">
         <div class="header-redaction">
           <div class="help">
-            <h1>Активировать купон</h1>
+            <h1 style="margin-top: 20px;">Активировать купон</h1>
           </div>
         </div>
       </div>
       <div class="container-main-redaction">
-        <div class="redaction-main">
-          <p style="color: #ddd;"> 
-            Здесь будет подробное пояснение как активировать купон.
+        <div class="redaction-main" style="width: 80%" >
+          <p style="color: #ddd; text-align: justify; width: 100%">
+            Купон даёт право бесплатного пользования выбранным тарифом на 
+            1, 3, 6 или 12 месяцев. Чтобы Вы могли вызвать ГБР (группу быстрого
+             реагирования) во время нажатия тревоги, нам необходимо привязать 
+             Вашу банковскую карту.  Для этого внесите 1 рубль, чтобы во время 
+             тревоги списалась плата за выезд ГБР с этой карты.
           </p>
           <form action="{{apiUrl}}/coupon-activate" method="post"> 
             <input type="hidden" name="UserId" id="UserId" value="{{id}}" />
