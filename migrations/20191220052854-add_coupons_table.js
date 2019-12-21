@@ -12,7 +12,8 @@ module.exports = {
     },
 
     couponId: {
-      allowNull: true,
+      unique: true,
+      allowNull: false,
       type: Sequelize.STRING
     },
 
