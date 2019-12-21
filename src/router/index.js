@@ -48,7 +48,7 @@ router.get('/fail-unsubscribe', staticController.getUnsubscribeErrorPage);
 router.get('/track-sent-success', staticController.getTrackSentSuccessPage);
 router.get('/not-registered', staticController.getNotRegisteredPage);
 router.post('/send-track/:userId/:date', trackController.sendTrackToUser);
-router.get('/get-coupon-page', couponController.getCouponActivationPage);
+router.get('/get-coupon-page/:id', couponController.getCouponActivationPage);
 router.post('/coupon-activate', couponController.postActivateCoupons);
 
 // -------------

@@ -8,8 +8,8 @@ if (!apiUrl) throw new Error('API_URL is required.');
 
 const couponsController = {
   getCouponActivationPage: async (ctx) => {
-    const { query } = ctx.request;
-    const { id } = query;
+    const { params } = ctx;
+    const { id } = params;
 
     logger.info('getCouponActivationPage', { id });
     try {
