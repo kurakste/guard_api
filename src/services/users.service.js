@@ -3,15 +3,12 @@ const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const { isBase64Image } = require('isbase64image');
 
-// const NotActiveUserError = require('./errors/NotActiveUserError');
 const EmailNotFound = require('./errors/EmailNotFound');
 const IncorrectUsernameOrPasswordError = require('./errors/IncorrectUsernameOrPasswordError');
 const { User } = require('../../models');
 const getCode = require('../helpers/getCode');
 const { sendCodeToEmail } = require('./email.services');
 const logger = require('../helpers/logger');
-
-// const checkAndStoreFiles = require('../helpers/checkAndStore');
 
 const userService = {
   getUser: async (id) => {
@@ -119,7 +116,6 @@ const userService = {
     let masterUser = null;
     if (usersWithThisEmail.length > 0) {
       masterUser = usersWithThisEmail.find(el => el.master);
-      // console.log('--------------', masterUser.subscriptionId);
       if (!masterUser) throw new Error('Не могу зарегистрировать пользователя на этот E-mail. Отсутствует мастер-пользователь. Обратитесь в службу поддержки.');
       master = false;
       const coolSubscription = masterUser.subscriptionId === 3 || masterUser.subscriptionId === 4;
@@ -129,7 +125,6 @@ const userService = {
     const result = await User.create(user);
     const newUser = result.dataValues;
     try {
-      // const pathObj = await checkAndStoreFiles(newUser.id, files);
       const imgPath = checkAndStoreBase64toImgFile(newUser.id, img, 'img');
       const pasImg1Path = checkAndStoreBase64toImgFile(newUser.id, pasImg1, 'pasImg1');
       const pasImg2Path = checkAndStoreBase64toImgFile(newUser.id, pasImg2, 'pasImg2');

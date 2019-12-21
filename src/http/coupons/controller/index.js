@@ -29,7 +29,6 @@ const couponsController = {
     const { couponId, UserId } = body;
     logger.info('postActivateCoupons', { couponId, UserId });
     const resUrl = await activateCoupon(couponId, UserId);
-    console.log('=========> ', resUrl);
     return ctx.response.redirect(resUrl);
   },
 };
