@@ -1,8 +1,7 @@
 const logger = require('../../../../helpers/logger');
 const models = require('../../../../../models');
-const userRoleWithMessage = require('../../../../socketEventEmitters/userRoleWithMessage');
+const userRoleWithMessage = require('../../../../common/socketEventEmitters/userRoleWithMessage');
 const getOpenAlarm = require('./getOpenAlarm');
-
 
 const { User } = models;
 

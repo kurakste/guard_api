@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const models = require('../../models');
+const models = require('../../../models');
 const userRoleWithMessage = require('./userRoleWithMessage');
-const logger = require('../helpers/logger');
+const logger = require('../../helpers/logger');
 
 const { Op } = Sequelize;
 const { Alarm } = models;

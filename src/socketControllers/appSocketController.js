@@ -6,8 +6,8 @@ const paymentService = require('../common/paymentService');
 const {
   Alarm, Gbr, Track, sequelize,
 } = models;
-const cpSocketEventEmitter = require('../socketEventEmitters/cpEventEmitters');
-const appSocketEventEmitter = require('../socketEventEmitters/appEventEmitters');
+const cpSocketEventEmitter = require('../common/socketEventEmitters/cpEventEmitters');
+const appSocketEventEmitter = require('../common/socketEventEmitters/appEventEmitters');
 const userService = require('../services/users.service');
 
 const socketController = {
@@ -78,11 +78,15 @@ const socketController = {
       const isOpen = await hasThisUserOpenAlarm(user.id);
       if (isOpen) throw new Error(`Can't open one more alarm for user: ${user.id}`);
       const [lat, lon] = payload;
-      const [regionId, address] = await getRegionIdAndAddress(lat, lon, socket);
+      const [zip, address] = await getIdAndAddress(lat, lon);
+      const [gbrs, res] = await sequelize.query(`select * from "Gbrs" where zips @> '[${zip}]'`);
+      console.log('------------------------>', gbrs, res);
       let isPaid = false;
-      if (regionId !== 0) {
+      let regionId = 0;
+      if (gbrs.length !== 0) {
         // if region id is 0 - we have no one GBR in the region and don't have to get money.
         isPaid = await paymentService.payForSecurityCall(user.id);
+        regionId = gbrs[0].regionId;
       }
       const alarmData = {
         UserId: user.id,
@@ -161,9 +165,7 @@ const socketController = {
 module.exports = socketController;
 
 // ====================== helpers =================================================
-
-async function getRegionIdAndAddress(lon, lat, socket) {
-  logger.info('getRegionIdAndAddress', { lon, lat });
+async function getIdAndAddress(lon, lat) {
   const key = process.env.GGKEY;
   try {
     const geoData = await decoder(lon, lat, key);
@@ -177,12 +179,10 @@ async function getRegionIdAndAddress(lon, lat, socket) {
       streetNumber,
     } = geoData;
     const address = `${country}, ${postalCode}, ${lev1}, ${lev2}, ${lev3}, ${route}, ${streetNumber}`;
-    const reg = (lev2 === 'Moskva') ? 'Moskva' : lev1;
-    const gbrs = await Gbr.findAll({ where: { regionName: reg } });
-    if (!gbrs.length) return [0, address]; // gbrs not found in this region;
-    return [gbrs[0].regionId, address]; // All gbrs with one regionName must have common region id;
+    const code = postalCode.substring(0, 3);
+    return [code, address];
   } catch (err) {
-    appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
+    // appSocketEventEmitter.srvErrMessage(socket, 500, err.message);
     logger.error(err.message);
   }
   return [0, 0];

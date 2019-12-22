@@ -1,5 +1,5 @@
-const logger = require('../helpers/logger');
-const models = require('../../models');
+const logger = require('../../helpers/logger');
+const models = require('../../../models');
 
 const { Alarm, Gbr, User } = models;
 
