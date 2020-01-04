@@ -82,7 +82,7 @@ const socketController = {
       const [gbrs, res] = await sequelize.query(`select * from "Gbrs" where zips @> '[${zip}]'`);
       console.log('------------------------>', gbrs, res);
       let isPaid = false;
-      let regionId = 0;
+      let regionId = 999;
       if (gbrs.length !== 0) {
         // if region id is 0 - we have no one GBR in the region and don't have to get money.
         isPaid = await paymentService.payForSecurityCall(user.id);
