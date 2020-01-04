@@ -92,6 +92,8 @@ const userController = {
       firstName, lastName, middleName, email, devId, tel, password, img, pasImg1, pasImg2,
     } = body;
     // img will be sent in this string format: 'image/jpeg;base64,/9j/4AQS...'
+    const pImg1 = (pasImg1) ? pasImg1.split(',')[1] : null;
+    const pImg2 = (pasImg2) ? pasImg2.split(',')[1] : null;
 
     try {
       const finalUser = await userService
@@ -104,8 +106,8 @@ const userController = {
           tel,
           password,
           img.split(',')[1],
-          pasImg1.split(',')[1],
-          pasImg2.split(',')[1],
+          pImg1,
+          pImg2,
         );
       ctx.body = apiResponseObject(
         true,
