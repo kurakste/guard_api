@@ -7,6 +7,6 @@ logs
 #config
 uploads
 mock_front/track.html
-config/config.json
+#config/config.json
 log
 docker-compose.yml
