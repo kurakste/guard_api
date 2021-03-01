@@ -4,7 +4,7 @@ data
 public/img
 dump
 logs
-config
+#config
 uploads
 mock_front/track.html
 config/config.json
